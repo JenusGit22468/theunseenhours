@@ -1,1 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The Unseen Hours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1208 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10001;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            color: #FFA500;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10002;
+            backdrop-filter: blur(20px);
+        }
+
+        .home-button:hover {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            padding: 80px 5vw 40px;
+            text-align: center;
+            background: transparent;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            color: white;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            color: #FFA500;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 300;
+            line-height: 1.5;
+            max-width: 800px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Story Section */
+        .story-section {
+            color: white;
+            text-align: left;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .story-text {
+            font-size: clamp(1.2rem, 2.8vw, 2rem);
+            line-height: 1.8;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .story-highlight {
+            display: block;
+            font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+            font-weight: 400;
+            color: #FFA500;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        /* Team Intro Section */
+        .team-intro-section {
+            color: white;
+        }
+
+        .team-intro-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #FFA500;
+        }
+
+        .team-intro-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.7;
+            max-width: 900px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .team-intro-highlight {
+            font-size: clamp(1.3rem, 3vw, 2.2rem);
+            font-weight: 500;
+            color: #FFA500;
+            margin: 2rem 0;
+        }
+
+        /* Team Member Sections */
+        .member-section {
+            color: white;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+            min-height: 100vh;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            padding: 80px 5vw;
+        }
+
+        .member-section:nth-child(even) {
+            background: transparent;
+        }
+
+        .member-content {
+            z-index: 1;
+        }
+
+        .member-image {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            border-radius: 20px;
+            object-fit: cover;
+            object-position: center top;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            z-index: 1;
+        }
+
+        .member-image:hover {
+            transform: scale(1.05);
+        }
+
+        .member-header h3 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: #FFA500;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .member-bio {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 165, 0, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 12s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            20%, 80% {
+                opacity: 0.8;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile responsiveness - FIXED LAYOUT */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 8vw 40px;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .member-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Reset desktop alternating layout on mobile */
+            .member-section:nth-child(even) .member-content {
+                order: unset;
+            }
+
+            .member-section:nth-child(even) .member-image {
+                order: unset;
+            }
+
+            /* MOBILE ORDER: Name, Title, Picture, Bio */
+            .member-header {
+                order: 1;
+                margin-bottom: 2rem;
+            }
+
+            .member-image {
+                order: 2;
+                max-width: 350px;
+                height: 450px;
+                margin: 0 auto 2rem auto;
+            }
+
+            .member-bio {
+                order: 3;
+            }
+
+            .story-section {
+                text-align: center;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 165, 0, 0.6);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(to top, rgba(255, 165, 0, 0.2), transparent);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 165, 0, 0.4);
+            background: linear-gradient(135deg, #FF8C00 0%, #FFA500 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-title">ABOUT US</h1>
+            <p class="hero-subtitle">
+                Founded as a registered student organization at Michigan State University, we believe that some of the most powerful moments in life happen where no one is looking.
+            </p>
+            <div class="scroll-indicator" id="scrollIndicator">
+                ↓ Discover our story
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="section story-section">
+            <div class="story-text scroll-reveal">
+                <span class="story-highlight">The quiet victories.</span>
+                <span class="story-highlight">The silent battles.</span>
+                <span class="story-highlight">The unseen acts of resilience, love, and creation.</span>
+            </div>
+            <p class="story-text scroll-reveal">
+                We were built on the idea that these moments deserve to be recognized, not just the ones the world applauds.
+            </p>
+        </section>
+
+        <!-- Team Intro Section -->
+        <section class="section team-intro-section">
+            <h2 class="team-intro-title scroll-reveal">Meet the Team</h2>
+            <p class="team-intro-text scroll-reveal">
+                <strong>The Unseen Hours was built on a simple belief: the battles we fight in silence deserve to be heard.</strong>
+            </p>
+            <p class="team-intro-text scroll-reveal">
+                <strong>Recovery. Growth. Healing. Late nights. Quiet wins. Setbacks you kept pushing through. Every unseen moment matters.</strong>
+            </p>
+            <p class="team-intro-highlight scroll-reveal">
+                <strong>Here, your story matters. You matter.</strong>
+            </p>
+            <p class="team-intro-text scroll-reveal">
+                <strong>Meet the people behind this idea and join a community built to honor every story.</strong>
+            </p>
+        </section>
+
+        <!-- Jenus Section -->
+        <section class="section member-section">
+            <div class="member-content scroll-reveal-left">
+                <div class="member-header">
+                    <h3>JENUS SHRESTHA</h3>
+                    <div class="member-role">FOUNDER & PRESIDENT</div>
+                </div>
+                <div class="member-bio">
+                    <p>
+                        Jenus founded <strong>The Unseen Hours</strong> with the fundamental belief that the work people do when no one is watching matters just as much as what the world celebrates. This philosophy was shaped by Jenus's experiences witnessing friends, family members, and patients struggle through difficult moments without recognition, revealing how often society overlooks the quiet, behind-the-scenes efforts that define resilience.
+                    </p>
+                    <br>
+                    <p>
+                        As a Pre-Med student at Michigan State University's Lyman Briggs College, Jenus combines scientific training with a deep sense of empathy. His academic background and personal observations in both clinical and everyday settings inform a unique perspective on healing, growth, and the emotional strength built during life's most invisible challenges.
+                    </p>
+                    <br>
+                    <p>
+                        Through this platform, Jenus hopes to build a community that honors resilience in all its forms and reminds people that every step taken in silence carries power, meaning, and hope.
+                    </p>
+                </div>
+            </div>
+            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/37793838-d891-43e6-b74b-4fcffbc4ca5e/Professional+Headshot.jpg?format=2500w" alt="Jenus Shrestha" class="member-image scroll-reveal-right">
+        </section>
+
+        <!-- Carolynn Section -->
+        <section class="section member-section">
+            <div class="member-content scroll-reveal-right">
+                <div class="member-header">
+                    <h3>CAROLYNN CALIN</h3>
+                    <div class="member-role">VICE PRESIDENT</div>
+                </div>
+                <div class="member-bio">
+                    <p>
+                        Carolynn is a rising senior majoring in Biochemistry at Michigan State University's Lyman Briggs College. With a deep-rooted passion for community engagement and healthcare, Carolynn serves as a phlebotomist, where she finds purpose in directly caring for patients and connecting with individuals during vulnerable moments.
+                    </p>
+                    <br>
+                    <p>
+                        Her love for mentorship is equally central to her identity. As an Undergraduate Learning Assistant (ULA), Carolynn guides students not only through academic challenges but also empowers them with lessons that extend beyond the classroom—lessons in perseverance, resilience, and self-belief. She strives to cultivate confidence in those around her, recognizing that the most meaningful support often comes in quiet, everyday moments of encouragement.
+                    </p>
+                    <br>
+                    <p>
+                        Carolynn plans to attend medical school after graduation, where she hopes to continue serving others with empathy, compassion, and a deep appreciation for the quiet strength that defines many untold stories. Through her work with The Unseen Hours, she is committed to uplifting stories of resilience that unfold away from the spotlight, ensuring that no silent struggle or small victory goes unnoticed.
+                    </p>
+                </div>
+            </div>
+            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/b5b9c05d-f532-4bfa-9153-c75d7caa26e9/Photo.png?format=2500w" alt="Carolynn Calin" class="member-image scroll-reveal-left">
+        </section>
+
+        <!-- Aiden Section -->
+        <section class="section member-section">
+            <div class="member-content scroll-reveal-left">
+                <div class="member-header">
+                    <h3>AIDEN KOCHANOWSKI</h3>
+                    <div class="member-role">SECRETARY</div>
+                </div>
+                <div class="member-bio">
+                    <p>
+                        Aiden is a Pre-Physician Assistant student at Michigan State University whose journey exemplifies the heart of The Unseen Hours. Driven by a deep-seated passion for healthcare and a commitment to community service, Aiden understands the importance of uplifting and empowering individuals navigating their own quiet battles. Through hands-on experiences working in healthcare and community center settings, he has witnessed firsthand the strength and resilience required in moments that often go unseen.
+                    </p>
+                    <br>
+                    <p>
+                        By highlighting stories of resilience and advocating for those whose struggles occur behind closed doors, Aiden cares for the essence of The Unseen Hours—celebrating every silent victory.
+                    </p>
+                </div>
+            </div>
+            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/48d3c2f8-e1de-4e96-bd01-3ba923a20523/C35A1579.jpeg?format=2500w" alt="Aiden Kochanowski" class="member-image scroll-reveal-right">
+        </section>
+
+        <!-- Rafael Section -->
+        <section class="section member-section">
+            <div class="member-content scroll-reveal-right">
+                <div class="member-header">
+                    <h3>RAFAEL DELEON</h3>
+                    <div class="member-role">TREASURER</div>
+                </div>
+                <div class="member-bio">
+                    <p>
+                        Rafael is a Pre-Med student at Michigan State University with a strong interest in volunteer service, as well as financial systems and the role they play in building sustainable, mission-driven organizations. As the Treasurer of The Unseen Hours, Rafael ensures that all finances are thoughtfully managed to support the community's vision of amplifying the unseen efforts, quiet victories, and deeply personal journeys that define the heart of the club.
+                    </p>
+                    <br>
+                    <p>
+                        Rooted in a deep sense of emotional awareness, Rafael approaches finances not just as a logistical task but as a form of service. He believes that the behind-the-scenes work is often where the most meaningful progress takes place. Through his role, Rafael hopes to contribute to a foundation of transparency, trust, and growth, helping The Unseen Hours continue to honor stories that are too often overlooked.
+                    </p>
+                </div>
+            </div>
+            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/7a44a4d1-d81b-4f0b-947d-b26641128754/IMG_6373.jpg?format=2500w" alt="Rafael DeLeon" class="member-image scroll-reveal-left">
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="section cta-section">
+            <h2 class="cta-title scroll-reveal">Join Our E-Board</h2>
+            <p class="cta-text scroll-reveal">
+                Ready to make a difference in the lives of those fighting silent battles? We're always looking for passionate individuals who believe in the power of unseen moments and quiet triumphs. 
+            </p>
+            <p class="cta-text scroll-reveal">
+                If you're driven to create spaces where every story matters and every struggle is honored, we'd love to hear from you.
+            </p>
+            <a href="https://www.theunseenhours.org/contact" class="cta-button scroll-reveal">Apply for E-Board</a>
+        </section>
+    </div>
+
+    <script>
+        class AboutUsController {
+            constructor() {
+                this.scrollContainer = document.getElementById('scrollContainer');
+                this.progressFill = document.getElementById('progressFill');
+                this.scrollIndicator = document.getElementById('scrollIndicator');
+                this.sections = document.querySelectorAll('.section');
+                
+                this.bindEvents();
+                this.initializeObserver();
+            }
+
+            bindEvents() {
+                this.scrollContainer.addEventListener('scroll', () => {
+                    this.updateProgress();
+                    this.hideScrollIndicator();
+                });
+            }
+
+            updateProgress() {
+                const scrollTop = this.scrollContainer.scrollTop;
+                const scrollHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                this.progressFill.style.width = `${progress}%`;
+            }
+
+            hideScrollIndicator() {
+                if (this.scrollContainer.scrollTop > 100) {
+                    this.scrollIndicator.classList.add('hidden');
+                }
+            }
+
+            initializeObserver() {
+                const options = {
+                    root: this.scrollContainer,
+                    rootMargin: '-20% 0px -20% 0px',
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const elements = entry.target.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+                        
+                        if (entry.isIntersecting) {
+                            // Scrolling into view - animate in
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.add('active');
+                                }, index * 200);
+                            });
+                        } else {
+                            // Scrolling out of view - animate out
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.remove('active');
+                                }, index * 100);
+                            });
+                        }
+                    });
+                }, options);
+
+                this.sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+        }
+
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Initialize the about us controller
+        document.addEventListener('DOMContentLoaded', () => {
+            new AboutUsController();
+        });
+
+        // Auto-hide scroll indicator after 5 seconds
+        setTimeout(() => {
+            document.getElementById('scrollIndicator').classList.add('hidden');
+        }, 5000);
+    </script>
+</body>
+</html>
