@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission & Vision - The Unseen Hours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 0 5vw;
+            text-align: center;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            color: #FFA500;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            backdrop-filter: blur(20px);
+        }
+
+        .home-button:hover {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 70%, #2a1a0a 100%);
+            color: white;
+        }
+
+        .hero-quote {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 200;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 300;
+            opacity: 0;
+            font-style: italic;
+            color: rgba(255, 165, 0, 0.8);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            background: linear-gradient(135deg, #2a1a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            color: white;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: #FFA500;
+            letter-spacing: 0.05em;
+        }
+
+        .mission-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 900px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Principles Section */
+        .principles-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a1a0a 100%);
+            color: white;
+        }
+
+        .principles-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #FFA500;
+            letter-spacing: 0.05em;
+        }
+
+        .principles-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+        }
+
+        /* Values Sections */
+        .value-section {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a1a0a 100%);
+            color: white;
+        }
+
+        .value-section:nth-child(odd) {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a1a0a 50%, #0a0a0a 100%);
+        }
+
+        .value-name {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            color: #FFA500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .value-description {
+            font-size: clamp(1rem, 2.2vw, 1.6rem);
+            line-height: 1.7;
+            max-width: 800px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 165, 0, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            20%, 80% {
+                opacity: 0.8;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 165, 0, 0.6);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .section {
+                padding: 0 8vw;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Final section */
+        .final-section {
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #FFA500 100%);
+            color: white;
+        }
+
+        .final-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .final-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-quote">"The quiet hours shape us. The unseen work defines us."</h1>
+            <p class="hero-tagline">This is where those stories are finally heard.</p>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="section mission-section">
+            <h2 class="section-title scroll-reveal">MISSION STATEMENT</h2>
+            <p class="mission-text scroll-reveal">
+                We validate the invisible struggles and quiet triumphs that define our humanity. We create spaces where resilience is honored, silent battles are acknowledged, and personal growth is celebrated. By connecting people through shared experiences of recovery, perseverance, and transformation, we ensure that no journey of healing goes unrecognized and no one faces their unseen hours alone.
+            </p>
+        </section>
+
+        <!-- Seven Guiding Principles Section -->
+        <section class="section principles-section">
+            <h2 class="principles-title scroll-reveal">SEVEN GUIDING PRINCIPLES</h2>
+            <p class="principles-subtitle scroll-reveal">
+                These core values illuminate our path and guide every decision we make in service of our community.
+            </p>
+        </section>
+
+        <!-- Empathy -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-left">Empathy</h3>
+            <p class="value-description scroll-reveal-right">
+                We lead with deep understanding and compassion, recognizing that every person's journey is unique and valid. We commit to creating spaces where people feel truly seen and heard without judgment, acknowledging the full complexity of human struggles and triumphs that often occur outside the public eye.
+            </p>
+        </section>
+
+        <!-- Service -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-right">Service</h3>
+            <p class="value-description scroll-reveal-left">
+                Our organization exists to serve others, not ourselves. We dedicate our resources, time, and energy to supporting those navigating difficult paths and celebrating their progress, however small. True service means focusing on what our community members need, not what brings us recognition.
+            </p>
+        </section>
+
+        <!-- Integrity -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-left">Integrity</h3>
+            <p class="value-description scroll-reveal-right">
+                We operate with honesty and authenticity in all we do. This means honoring confidences, representing experiences accurately, and maintaining ethical boundaries. We believe that creating safe spaces requires unwavering commitment to moral principles, especially when no one is watching.
+            </p>
+        </section>
+
+        <!-- Growth -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-right">Growth</h3>
+            <p class="value-description scroll-reveal-left">
+                We embrace continuous evolution—both personal and organizational. We recognize that healing and development aren't linear processes and commit to supporting long-term transformation. By valuing small steps and incremental progress, we nurture sustainable change rather than quick fixes.
+            </p>
+        </section>
+
+        <!-- Collaboration -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-left">Collaboration</h3>
+            <p class="value-description scroll-reveal-right">
+                We believe in the power of connection and community. By bringing together diverse perspectives and experiences, we create stronger support networks and more effective resources. No single person has all the answers, but together we can build something greater than the sum of its parts.
+            </p>
+        </section>
+
+        <!-- Resilience -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-right">Resilience</h3>
+            <p class="value-description scroll-reveal-left">
+                We honor the human capacity to persevere through difficulty. Rather than focusing solely on end results, we celebrate the courage it takes to continue showing up day after day. We acknowledge that resilience takes many forms and can be found in both dramatic recoveries and quiet daily choices.
+            </p>
+        </section>
+
+        <!-- Impact -->
+        <section class="section value-section">
+            <h3 class="value-name scroll-reveal-left">Impact</h3>
+            <p class="value-description scroll-reveal-right">
+                We measure our success by the meaningful difference we make in people's lives, not by visibility or scale. Real impact often happens in small moments; a person feeling less alone, finding hope in darkness, or taking one step forward on their journey. These moments matter, and we are committed to creating more of them.
+            </p>
+        </section>
+
+        <!-- Final Section -->
+        <section class="section final-section">
+            <h2 class="final-title scroll-reveal">The Unseen Hours</h2>
+            <p class="final-text scroll-reveal">
+                Every quiet struggle matters. Every unseen triumph counts. Every journey of healing deserves recognition. This is our commitment to you.
+            </p>
+        </section>
+        <div class="scroll-indicator" id="scrollIndicator">
+            ↓ Scroll to explore our values
+        </div>
+    </div>
+
+    <script>
+        class ScrollStoryController {
+            constructor() {
+                this.scrollContainer = document.getElementById('scrollContainer');
+                this.progressFill = document.getElementById('progressFill');
+                this.scrollIndicator = document.getElementById('scrollIndicator');
+                this.sections = document.querySelectorAll('.section');
+                
+                this.bindEvents();
+                this.initializeObserver();
+            }
+
+            bindEvents() {
+                this.scrollContainer.addEventListener('scroll', () => {
+                    this.updateProgress();
+                    this.hideScrollIndicator();
+                });
+            }
+
+            updateProgress() {
+                const scrollTop = this.scrollContainer.scrollTop;
+                const scrollHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                this.progressFill.style.width = `${progress}%`;
+            }
+
+            hideScrollIndicator() {
+                if (this.scrollContainer.scrollTop > 100) {
+                    this.scrollIndicator.classList.add('hidden');
+                }
+            }
+
+            initializeObserver() {
+                const options = {
+                    root: this.scrollContainer,
+                    rootMargin: '-20% 0px -20% 0px',
+                    threshold: 0.1
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const elements = entry.target.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+                        
+                        if (entry.isIntersecting) {
+                            // Scrolling into view - animate in
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.add('active');
+                                }, index * 200);
+                            });
+                        } else {
+                            // Scrolling out of view - animate out
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.remove('active');
+                                }, index * 100);
+                            });
+                        }
+                    });
+                }, options);
+
+                this.sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+        }
+
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Initialize the scroll story controller
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollStoryController();
+        });
+
+        // Auto-hide scroll indicator after 5 seconds
+        setTimeout(() => {
+            document.getElementById('scrollIndicator').classList.add('hidden');
+        }, 5000);
+    </script>
+</body>
+</html>
