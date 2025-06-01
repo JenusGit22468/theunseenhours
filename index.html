@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
 <title>The Unseen Hours - Mental Health & Wellness Support</title>
 <style>
@@ -12,35 +12,27 @@
     box-sizing: border-box;
 }
 
-/* CRITICAL: Ensure black background throughout entire page */
 html {
-    background: #000 !important;
-    color: #fff !important;
-    height: 100% !important;
-    overflow-x: hidden !important;
+    background: #000;
+    color: #fff;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 body {
-    background: #000 !important;
-    color: #fff !important;
+    background: #000;
+    color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Google Sans', sans-serif;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow-x: hidden !important;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-/* Force black background on all containers */
-.main-app,
-.snap-container,
-.section {
-    background: #000 !important;
 }
 
 /* Welcome Screen */
@@ -50,7 +42,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: #000 !important;
+    background: #000;
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -193,7 +185,7 @@ body {
     bottom: 0;
     opacity: 0;
     transition: opacity 0.6s ease-out;
-    background: #000 !important;
+    background: #000;
 }
 
 .main-app.show {
@@ -209,7 +201,7 @@ body {
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-    background: #000 !important;
+    background: #000;
 }
 
 .snap-container::-webkit-scrollbar {
@@ -229,7 +221,7 @@ body {
     padding: 0;
     min-height: 100vh;
     height: 100vh;
-    background: #000 !important;
+    background: #000;
 }
 
 .section-content {
@@ -643,7 +635,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000 !important;
+    background: #000;
 }
 
 .hero-video {
@@ -730,9 +722,9 @@ body {
     transform: translateY(-2px);
 }
 
-/* Section 2: Mission - Force black background */
+/* Mission Section */
 .mission {
-    background: #000 !important;
+    background: #000;
 }
 
 .mission h2 {
@@ -811,14 +803,14 @@ body {
     background: rgba(255, 140, 0, 0.9);
 }
 
-/* All other sections - Force black background */
+/* All other sections */
 .offerings,
 .stories,
 .crisis-tools,
 .get-involved,
 .resources,
 .events {
-    background: #000 !important;
+    background: #000;
 }
 
 .offerings h2,
@@ -841,7 +833,7 @@ body {
     width: 100%;
 }
 
-/* New Highlights Grid Styles */
+/* Highlights Grid Styles */
 .highlights-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -999,7 +991,7 @@ body {
 
 /* Footer styles */
 .footer {
-    background: #000 !important;
+    background: #000;
     min-height: 60vh;
     display: flex;
     align-items: center;
@@ -1255,7 +1247,7 @@ body {
     color: #FFA500;
 }
 
-/* Enhanced Animation Classes - SIMPLIFIED (no exit animations) */
+/* Animation Classes */
 .fade-in {
     opacity: 0;
     transform: translateY(50px);
@@ -1326,17 +1318,12 @@ body {
     transform: translateY(0);
 }
 
-/* MOBILE-SPECIFIC OPTIMIZATIONS */
+/* MOBILE OPTIMIZATIONS */
 @media (max-width: 768px) {
-    /* Force black background on mobile too */
-    html, body, .main-app, .snap-container, .section {
-        background: #000 !important;
-    }
-
     /* Fix mobile viewport height issues */
     .section {
         min-height: 100vh;
-        height: auto !important; /* Allow sections to be taller than viewport */
+        height: auto;
         padding: 0;
     }
 
@@ -1360,8 +1347,8 @@ body {
 
     /* Special handling for footer to ensure it fits */
     .footer {
-        min-height: auto !important;
-        height: auto !important;
+        min-height: auto;
+        height: auto;
     }
 
     .footer .section-content {
@@ -2428,7 +2415,7 @@ function initializeAnimations() {
     });
 }
 
-// Animate elements in current section - SIMPLIFIED (no exit animations)
+// Animate elements in current section
 function animateCurrentSection() {
     const elements = animatedElements.get(currentSection);
     if (!elements) return;
@@ -2445,8 +2432,6 @@ function animateCurrentSection() {
         }, delay);
     });
 }
-
-// REMOVED: exitPreviousSection function - this was causing the black screen issue
 
 // Map initialization
 function initChapterMap() {
@@ -2844,7 +2829,7 @@ function handleFullscreenChange() {
     }
 }
 
-// Scroll handling - SIMPLIFIED (no exit animations)
+// Scroll handling
 function handleScroll() {
     const container = document.getElementById('snapContainer');
     const sections = document.querySelectorAll('.section');
@@ -2861,7 +2846,7 @@ function handleScroll() {
         updateProgressDots();
         updateVideoControlVisibility();
         
-        // Only animate the current section, no exit animations
+        // Animate the current section
         if (animatedElements.size > 0) {
             animateCurrentSection();
         }
