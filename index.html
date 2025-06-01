@@ -1,0 +1,2977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+<title>The Unseen Hours - Mental Health & Wellness Support</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CRITICAL: Ensure black background throughout entire page */
+html {
+    background: #000 !important;
+    color: #fff !important;
+    height: 100% !important;
+    overflow-x: hidden !important;
+}
+
+body {
+    background: #000 !important;
+    color: #fff !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Google Sans', sans-serif;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    -webkit-text-size-adjust: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Force black background on all containers */
+.main-app,
+.snap-container,
+.section {
+    background: #000 !important;
+}
+
+/* Welcome Screen */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000 !important;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    filter: blur(0px);
+    opacity: 1;
+    transition: filter 0.8s ease-out, opacity 0.8s ease-out;
+    overflow: hidden;
+}
+
+.welcome-screen.hide {
+    filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.typewriter {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Google Sans', sans-serif;
+    color: #fff;
+    text-align: center;
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 100%;
+}
+
+.typewriter h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: 1rem;
+}
+
+.typewriter h1 span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.typewriter h1 .line1 {
+    animation: typing 1.5s steps(10, end);
+    margin: 0 auto 0.5rem auto;
+    max-width: fit-content;
+    position: relative;
+}
+
+.typewriter h1 .line1::after {
+    content: '_';
+    position: absolute;
+    right: -2px;
+    animation: 
+        blink 0.8s infinite step-end,
+        hide-cursor 0s 1.5s forwards;
+}
+
+.typewriter h1 .line2 {
+    animation: typing 2s steps(17, end) 1.5s both;
+    margin: 0 auto;
+    max-width: fit-content;
+    position: relative;
+}
+
+.typewriter h1 .line2::after {
+    content: '_';
+    position: absolute;
+    right: -2px;
+    opacity: 0;
+    animation: 
+        show-cursor 0s 1.5s forwards,
+        blink 0.8s infinite step-end 1.5s,
+        hide-cursor 0s 5s forwards;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@keyframes show-cursor {
+    to { opacity: 1; }
+}
+
+@keyframes hide-cursor {
+    to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.typewriter p {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    animation: fadeIn 0.6s ease-out 4s forwards;
+}
+
+.continue-btn {
+    margin-top: 3rem;
+    padding: 1rem 3rem;
+    background: #FFA500;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease-out 5s forwards;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.continue-btn:hover {
+    background: #FF8C00;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 165, 0, 0.3);
+}
+
+/* Main App Container */
+.main-app {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease-out;
+    background: #000 !important;
+}
+
+.main-app.show {
+    opacity: 1;
+}
+
+/* Snap scroll container */
+.snap-container {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    background: #000 !important;
+}
+
+.snap-container::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+
+.section {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    padding: 0;
+    min-height: 100vh;
+    height: 100vh;
+    background: #000 !important;
+}
+
+.section-content {
+    width: 100%;
+    max-width: 1200px;
+    padding: 8rem 3rem 4rem 3rem;
+    margin: 0 auto;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: calc(100vh - 4rem);
+}
+
+/* Header Navigation */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10001;
+    padding: 1.5rem 3rem;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    display: block;
+    visibility: visible;
+}
+
+.header.scrolled {
+    background: rgba(0, 0, 0, 0.95);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10002;
+    pointer-events: auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    pointer-events: auto;
+    z-index: 10003;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.logo:hover {
+    color: #FFA500;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+    z-index: 10003;
+    pointer-events: auto;
+}
+
+.nav-item {
+    position: relative;
+    pointer-events: auto;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10004;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.nav-link:hover {
+    color: #FFA500;
+}
+
+/* Tools dropdown styles */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+    min-width: 500px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10005;
+    margin-top: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+.nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.dropdown-column {
+    text-align: center;
+}
+
+.dropdown-title {
+    color: #FFA500;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dropdown-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-links li {
+    margin-bottom: 0.5rem;
+}
+
+.dropdown-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.3rem 0;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dropdown-links a:hover {
+    color: #FFA500;
+}
+
+/* Mobile Menu Styles */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    pointer-events: auto;
+    z-index: 10004;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.98);
+    backdrop-filter: blur(20px);
+    z-index: 10006;
+    padding: 2rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-nav-item {
+    margin-bottom: 1.5rem;
+}
+
+.mobile-nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: block;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-link:hover {
+    color: #FFA500;
+}
+
+.mobile-tools-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 165, 0, 0.3);
+}
+
+.mobile-tools-title {
+    color: #FFA500;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.mobile-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.mobile-tool-category {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-tool-title {
+    color: #FFA500;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.mobile-tool-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-tool-links li {
+    margin-bottom: 0.8rem;
+}
+
+.mobile-tool-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    display: block;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-tool-links a:hover {
+    color: #FFA500;
+}
+
+/* Video Control Button */
+.video-control {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.video-control:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: scale(1.05);
+}
+
+.video-control.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.8);
+}
+
+#videoIcon {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#videoIcon.pause::before,
+#videoIcon.pause::after {
+    content: '';
+    position: absolute;
+    background: #fff;
+    width: 3px;
+    height: 16px;
+    border-radius: 1.5px;
+}
+
+#videoIcon.pause::before {
+    left: 4px;
+}
+
+#videoIcon.pause::after {
+    right: 4px;
+}
+
+#videoIcon.play::before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 8px 0 8px 12px;
+    border-color: transparent transparent transparent #fff;
+    left: 6px;
+}
+
+/* Progress dots indicator */
+.progress-dots {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 10px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dot.active {
+    background: #FFA500;
+    transform: scale(1.3);
+}
+
+/* Section 1: Hero */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000 !important;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, 
+        rgba(0,0,0,0.2) 0%, 
+        rgba(0,0,0,0.3) 50%, 
+        rgba(0,0,0,0.3) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero .section-content {
+    min-height: 100vh;
+    justify-content: center;
+    z-index: 3;
+}
+
+.hero h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+}
+
+.hero p {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 2rem;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+}
+
+.btn {
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0.5rem;
+    cursor: pointer;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary {
+    background: #FFA500;
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: #FF8C00;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 165, 0, 0.3);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #FFA500;
+    border: 2px solid #FFA500;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 165, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Section 2: Mission - Force black background */
+.mission {
+    background: #000 !important;
+}
+
+.mission h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 2rem;
+    color: #FFA500;
+}
+
+.mission-text {
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chapter-map {
+    width: 100%;
+    max-width: 800px;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    margin: 2rem auto;
+    display: block;
+    border: 2px solid rgba(0, 122, 255, 0.3);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 122, 255, 0.2);
+}
+
+#chapterMap {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+}
+
+.map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.map-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.map-btn:hover {
+    background: #FFA500;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.fullscreen-btn {
+    background: rgba(255, 165, 0, 0.9);
+    color: white;
+}
+
+.fullscreen-btn:hover {
+    background: rgba(255, 140, 0, 0.9);
+}
+
+/* All other sections - Force black background */
+.offerings,
+.stories,
+.crisis-tools,
+.get-involved,
+.resources,
+.events {
+    background: #000 !important;
+}
+
+.offerings h2,
+.stories h2,
+.crisis-tools h2,
+.get-involved h2,
+.resources h2,
+.events h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    margin-bottom: 2rem;
+    color: #FFA500;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto 2rem auto;
+    width: 100%;
+}
+
+/* New Highlights Grid Styles */
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto 2rem auto;
+    width: 100%;
+}
+
+.highlight-box {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+}
+
+.highlight-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.highlight-box:hover::before {
+    left: 100%;
+}
+
+.highlight-box:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 165, 0, 0.08);
+    border-color: rgba(255, 165, 0, 0.4);
+    box-shadow: 0 15px 40px rgba(255, 165, 0, 0.15);
+}
+
+.highlight-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    text-align: center;
+}
+
+.highlight-title {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.highlight-desc {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+.highlight-arrow {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.2rem;
+    color: #FFA500;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+}
+
+.highlight-box:hover .highlight-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.feature-tile {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature-tile:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 165, 0, 0.1);
+    border-color: rgba(255, 165, 0, 0.3);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.feature-title {
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.feature-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.stories h2 {
+    margin-bottom: 3rem;
+}
+
+.testimonial {
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+}
+
+.quote {
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+}
+
+.quote-author {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 2rem;
+}
+
+/* Numbered circles for Get Involved section */
+.get-involved .feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 auto 1rem auto;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+/* Footer styles */
+.footer {
+    background: #000 !important;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,165,0,0.5), transparent);
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.footer-mobile-compact {
+    display: none;
+}
+
+.footer-desktop {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Main Footer Content */
+.footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.footer-brand {
+    margin-bottom: 0;
+}
+
+.footer-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.footer-logo-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: brightness(1);
+}
+
+.footer-logo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    line-height: 1.1;
+}
+
+.footer-tagline {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Navigation */
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 0;
+}
+
+.footer-nav-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-nav-link:hover {
+    color: #FFA500;
+    transform: translateX(5px);
+}
+
+/* Contact Section */
+.footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-contact-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-contact-link:hover {
+    color: #FFA500;
+    transform: translateX(5px);
+}
+
+/* Social Media */
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin: 0;
+}
+
+.social-link {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFA500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link svg {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.3s ease;
+}
+
+.social-link:hover {
+    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 165, 0, 0.3);
+}
+
+.social-link:hover svg {
+    transform: scale(1.1);
+}
+
+/* Compact Disclaimer */
+.footer-disclaimer {
+    background: rgba(255, 165, 0, 0.05);
+    border-left: 3px solid #FFA500;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+}
+
+.disclaimer-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Compact Emergency Banner */
+.emergency-banner {
+    background: rgba(220,38,38,0.08);
+    border: 1px solid rgba(220,38,38,0.15);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+}
+
+.emergency-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.emergency-text {
+    color: rgba(255,255,255,0.9);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.emergency-numbers {
+    display: flex;
+    gap: 1rem;
+}
+
+.emergency-number {
+    color: #ff4444;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    background: rgba(255,68,68,0.1);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.emergency-number:hover {
+    color: #ff6666;
+    background: rgba(255,68,68,0.15);
+    transform: translateY(-1px);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+}
+
+.footer-legal {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footer-legal a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.footer-legal a:hover {
+    color: #FFA500;
+}
+
+/* Enhanced Animation Classes - SIMPLIFIED (no exit animations) */
+.fade-in {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-80px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.slide-in-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(80px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.slide-in-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.scale-in {
+    opacity: 0;
+    transform: scale(0.8) rotateY(10deg);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.scale-in.active {
+    opacity: 1;
+    transform: scale(1) rotateY(0deg);
+}
+
+.stagger-item {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity, transform;
+}
+
+.stagger-item.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Section Transitions */
+.section {
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.section.entering {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* MOBILE-SPECIFIC OPTIMIZATIONS */
+@media (max-width: 768px) {
+    /* Force black background on mobile too */
+    html, body, .main-app, .snap-container, .section {
+        background: #000 !important;
+    }
+
+    /* Fix mobile viewport height issues */
+    .section {
+        min-height: 100vh;
+        height: auto !important; /* Allow sections to be taller than viewport */
+        padding: 0;
+    }
+
+    /* Make sections scrollable when content overflows */
+    .section-content {
+        padding: 5rem 1.5rem 3rem 1.5rem;
+        min-height: calc(100vh - 8rem);
+        max-height: none;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+    }
+
+    /* Special handling for hero to stay centered */
+    .hero .section-content {
+        justify-content: center;
+        min-height: 100vh;
+        padding-top: 5rem;
+        overflow-y: visible;
+    }
+
+    /* Special handling for footer to ensure it fits */
+    .footer {
+        min-height: auto !important;
+        height: auto !important;
+    }
+
+    .footer .section-content {
+        min-height: auto;
+        padding: 2rem 1.5rem 1rem 1.5rem;
+    }
+
+    /* Improved mobile header */
+    .header {
+        padding: 1rem 1.5rem;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        z-index: 10004;
+        font-size: 1.8rem;
+        padding: 0.8rem;
+    }
+
+    /* Improved mobile hero text */
+    .hero h1 {
+        font-size: clamp(1.8rem, 8vw, 3rem);
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        margin-bottom: 1.5rem;
+    }
+
+    /* Enhanced mobile video control */
+    .video-control {
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+        z-index: 9998;
+        border-radius: 25px;
+    }
+
+    #videoIcon {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Improved mobile progress dots */
+    .progress-dots {
+        right: 10px;
+        transform: translateY(-50%);
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+        margin: 8px 0;
+    }
+
+    .dot.active {
+        transform: scale(1.4);
+    }
+
+    /* Mobile map optimizations */
+    .chapter-map {
+        height: 280px;
+        margin: 1.5rem auto;
+        border-radius: 15px;
+    }
+
+    .map-controls {
+        top: 10px;
+        right: 10px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .map-btn {
+        padding: 10px 14px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        border-radius: 12px;
+    }
+
+    /* Mobile features grid */
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    /* Mobile highlights grid - more compact */
+    .highlights-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .highlight-box {
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+        min-height: auto;
+    }
+
+    .highlight-icon {
+        font-size: 2.2rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .highlight-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+    }
+
+    .highlight-desc {
+        font-size: 0.85rem;
+        line-height: 1.3;
+        margin-bottom: 0.6rem;
+    }
+
+    .highlight-arrow {
+        position: static;
+        opacity: 1;
+        transform: none;
+        text-align: center;
+        margin-top: 0.3rem;
+        font-size: 1rem;
+    }
+
+    .feature-tile {
+        padding: 1.5rem 1rem;
+        text-align: center;
+    }
+
+    .feature-icon {
+        font-size: 2.2rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .feature-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .feature-desc {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    /* Mobile mission section */
+    .mission h2 {
+        margin-bottom: 1.5rem;
+    }
+
+    .mission-text {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+    }
+
+    /* Mobile stories optimization */
+    .stories .section-content {
+        padding-top: 6rem;
+    }
+
+    .quote {
+        font-size: clamp(1.1rem, 4vw, 1.3rem);
+        margin-bottom: 1rem;
+        line-height: 1.3;
+        padding: 0 0.5rem;
+    }
+
+    .quote-author {
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    /* Mobile button improvements */
+    .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+        margin: 0.4rem;
+        border-radius: 25px;
+        min-width: 120px;
+    }
+
+    /* Hide desktop footer on mobile */
+    .footer-desktop {
+        display: none;
+    }
+
+    /* Show mobile footer */
+    .footer-mobile-compact {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    /* Mobile Brand Section */
+    .footer-brand-mobile {
+        text-align: center;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-brand-mobile .footer-logo-container {
+        justify-content: center;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .footer-brand-mobile .footer-logo-img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .footer-brand-mobile .footer-logo {
+        font-size: 1.5rem;
+    }
+
+    .footer-brand-mobile .footer-tagline {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* Quick Links Grid */
+    .footer-quick-links {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .quick-link {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 0.8rem;
+        text-align: center;
+        padding: 0.5rem 0.3rem;
+        transition: color 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .quick-link:hover {
+        color: #FFA500;
+    }
+
+    /* Contact Strip */
+    .footer-contact-strip {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .contact-item {
+        width: 35px;
+        height: 35px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFA500;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .contact-item svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .contact-item:hover {
+        background: #FFA500;
+        color: #000;
+        transform: translateY(-2px);
+    }
+
+    /* Emergency Strip */
+    .footer-emergency-strip {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        flex-wrap: wrap;
+    }
+
+    .emergency-label {
+        color: rgba(255,255,255,0.8);
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .emergency-btn {
+        color: #ff4444;
+        text-decoration: none;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        background: rgba(255,68,68,0.1);
+        transition: all 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .emergency-btn:hover {
+        background: rgba(255,68,68,0.15);
+        transform: translateY(-1px);
+    }
+
+    /* Legal Strip */
+    .footer-legal-strip {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.8rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-size: 0.75rem;
+    }
+
+    .copyright {
+        color: rgba(255,255,255,0.5);
+    }
+
+    .legal-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .legal-links a {
+        color: rgba(255,255,255,0.5);
+        text-decoration: none;
+        transition: color 0.3s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .legal-links a:hover {
+        color: #FFA500;
+    }
+
+    /* Compact Disclaimer */
+    .footer-disclaimer-compact {
+        background: rgba(255, 165, 0, 0.05);
+        border-left: 2px solid #FFA500;
+        padding: 0.8rem;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.4;
+        text-align: center;
+    }
+}
+
+/* Extra small mobile optimizations */
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 1.2rem 0.8rem 0.8rem 0.8rem;
+    }
+
+    .footer-brand-mobile .footer-logo {
+        font-size: 1.3rem;
+    }
+
+    .footer-brand-mobile .footer-logo-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .footer-quick-links {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.3rem;
+    }
+
+    .quick-link {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.2rem;
+    }
+
+    .footer-contact-strip {
+        gap: 1.2rem;
+    }
+
+    .contact-item {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }
+
+    .footer-emergency-strip {
+        gap: 0.6rem;
+    }
+
+    .emergency-btn {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .footer-disclaimer-compact {
+        font-size: 0.65rem;
+        padding: 0.6rem;
+    }
+}
+
+/* Touch interaction improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .btn:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+
+    .feature-tile:hover {
+        transform: none;
+    }
+
+    .feature-tile:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+
+    .video-control:hover {
+        transform: none;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .video-control:active {
+        transform: scale(0.9);
+        transition: transform 0.1s ease;
+    }
+
+    .dot:hover {
+        transform: scale(1.3);
+    }
+
+    .dot:active {
+        transform: scale(1.1);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero .section-content {
+        padding-top: 4rem;
+        justify-content: center;
+    }
+
+    .section-content {
+        padding-top: 4rem;
+        min-height: calc(100vh - 4rem);
+    }
+
+    .progress-dots {
+        right: 15px;
+    }
+
+    .video-control {
+        bottom: 15px;
+        left: 15px;
+    }
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+    .snap-container {
+        height: -webkit-fill-available;
+    }
+
+    .section {
+        min-height: -webkit-fill-available;
+        height: -webkit-fill-available;
+    }
+
+    .hero .section-content {
+        min-height: -webkit-fill-available;
+    }
+}
+</style>
+</head>
+
+<body>
+<!-- Welcome Screen -->
+<div class="welcome-screen" id="welcomeScreen">
+<div class="typewriter">
+    <h1>
+        <span class="line1">Welcome to</span>
+        <span class="line2">The Unseen Hours</span>
+    </h1>
+    <p>We are so glad to have you. Your experiences matter. You matter.</p>
+    <button class="continue-btn" id="continueBtn" onclick="enterSite()">Continue</button>
+</div>
+</div>
+
+<!-- Main App -->
+<div class="main-app" id="mainApp">
+<!-- Header -->
+<header class="header">
+    <nav class="nav-container">
+        <a href="https://www.theunseenhours.org" class="logo">The Unseen Hours</a>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="https://www.theunseenhours.org/mission" class="nav-link">Mission</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Tools</a>
+                <div class="dropdown">
+                    <div class="dropdown-content">
+                        <div class="dropdown-column">
+                            <h4 class="dropdown-title">Physical Health</h4>
+                            <ul class="dropdown-links">
+                                <a style="color: #888; cursor: default; text-decoration: none;">Coming Soon!</a>
+                            </ul>
+                        </div>
+                        <div class="dropdown-column">
+                            <h4 class="dropdown-title">Mental Health</h4>
+                            <ul class="dropdown-links">
+                                <li><a href="http://theunseenhours.org/box-breathing">Box Breathing</a></li>
+                                <li><a href="http://theunseenhours.org/54321-sensory-grounding">5-4-3-2-1 Sensory Grounding</a></li>
+                                <li><a href="http://theunseenhours.org/panic-attack-sos">Panic Attack SOS</a></li>
+                                <li><a href="https://theunseenhours.org/positive-affirmations">Positive Affirmations</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown-column">
+                            <h4 class="dropdown-title">Study Tools</h4>
+                            <ul class="dropdown-links">
+                                <li><a href="https://theunseenhours.org/pomodoro">Pomodoro Timer</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item"><a href="https://forums.theunseenhours.org" class="nav-link">Forums</a></li>
+            <li class="nav-item"><a href="https://www.theunseenhours.org/chapters" class="nav-link">Chapters</a></li>
+            <li class="nav-item"><a href="https://www.theunseenhours.org/resources" class="nav-link">Resources</a></li>
+            <li class="nav-item"><a href="https://www.theunseenhours.org/contact" class="nav-link">Contact</a></li>
+            <li class="nav-item"><a href="https://www.theunseenhours.org/about-us" class="nav-link">About</a></li>
+        </ul>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
+    </nav>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+        <a href="https://www.theunseenhours.org" class="logo">The Unseen Hours</a>
+        <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+    </div>
+    <ul class="mobile-nav-links">
+        <li class="mobile-nav-item">
+            <a href="https://www.theunseenhours.org/mission" class="mobile-nav-link">Mission</a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="https://forums.theunseenhours.org" class="mobile-nav-link">Forums</a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="https://www.theunseenhours.org/chapters" class="mobile-nav-link">Chapters</a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="https://www.theunseenhours.org/resources" class="mobile-nav-link">Resources</a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="https://www.theunseenhours.org/contact" class="mobile-nav-link">Contact</a>
+        </li>
+        <li class="mobile-nav-item">
+            <a href="https://www.theunseenhours.org/about-us" class="mobile-nav-link">About</a>
+        </li>
+    </ul>
+    
+    <div class="mobile-tools-section">
+        <h3 class="mobile-tools-title">Tools</h3>
+        <div class="mobile-tools-grid">
+            <div class="mobile-tool-category">
+                <h4 class="mobile-tool-title">Physical Health</h4>
+                <ul class="mobile-tool-links">
+                    <a style="color: #888; cursor: default; text-decoration: none;">Coming Soon!</a>
+                </ul>
+            </div>
+            <div class="mobile-tool-category">
+                <h4 class="mobile-tool-title">Mental Health</h4>
+                <ul class="mobile-tool-links">
+                    <li><a href="http://theunseenhours.org/box-breathing">Box Breathing</a></li>
+                    <li><a href="http://theunseenhours.org/54321-sensory-grounding">5-4-3-2-1 Sensory Grounding</a></li>
+                    <li><a href="http://theunseenhours.org/panic-attack-sos">Panic Attack SOS</a></li>
+                    <li><a href="https://theunseenhours.org/positive-affirmations">Positive Affirmations</a></li>
+                </ul>
+            </div>
+            <div class="mobile-tool-category">
+                <h4 class="mobile-tool-title">Study Tools</h4>
+                <ul class="mobile-tool-links">
+                    <li><a href="https://theunseenhours.org/pomodoro">Pomodoro Timer</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Video Control Button -->
+<button class="video-control" id="videoControl" onclick="toggleVideo()">
+    <span id="videoIcon" class="pause"></span>
+</button>
+
+<!-- Progress Dots -->
+<div class="progress-dots">
+    <div class="dot active" data-section="0"></div>
+    <div class="dot" data-section="1"></div>
+    <div class="dot" data-section="2"></div>
+    <div class="dot" data-section="3"></div>
+    <div class="dot" data-section="4"></div>
+    <div class="dot" data-section="5"></div>
+    <div class="dot" data-section="6"></div>
+    <div class="dot" data-section="7"></div>
+</div>
+
+<!-- Snap Container -->
+<div class="snap-container" id="snapContainer">
+    <!-- Section 1: Hero -->
+    <section class="section hero" id="hero">
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
+            <source src="https://cdn.theunseenhours.org/msuvideo.mp4.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        
+        <div class="section-content">
+            <h1 class="fade-in" id="heroMessage">Your healing matters to all of us.</h1>
+            <p class="fade-in">A community for hidden struggles, gentle support, and real stories.</p>
+            <div class="fade-in">
+                <a href="https://www.theunseenhours.org/chapters" class="btn btn-primary">Join Us</a>
+                <a href="https://www.theunseenhours.org/about-us" class="btn btn-secondary">About Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Mission -->
+    <section class="section mission" id="mission">
+        <div class="section-content">
+            <h2 class="fade-in">Our Mission</h2>
+            <p class="mission-text fade-in">
+                We exist for the moments when the world feels too heavy, when no one seems to understand, 
+                and when hope feels distant. The Unseen Hours is more than a platform—it's a lifeline 
+                for those navigating life's invisible battles.
+            </p>
+            <div class="chapter-map scale-in" id="chapterMapContainer">
+                <div class="map-controls">
+                    <button class="map-btn" id="filter-btn">🇺🇸 US Only</button>
+                    <button class="map-btn" id="reset-view-btn">🎯 Reset</button>
+                    <button class="map-btn fullscreen-btn" id="fullscreen-btn">⛶ Fullscreen</button>
+                </div>
+                <div id="chapterMap"></div>
+            </div>
+            <a href="https://www.theunseenhours.org/mission" class="btn btn-primary fade-in">More about our mission</a>
+        </div>
+    </section>
+
+    <!-- Section 3: Our Highlights -->
+    <section class="section offerings" id="offerings">
+        <div class="section-content">
+            <h2 class="fade-in">Our Highlights</h2>
+            <div class="highlights-grid">
+                <a href="http://theunseenhours.org/box-breathing" class="highlight-box stagger-item">
+                    <div class="highlight-icon">🫁</div>
+                    <h3 class="highlight-title">Box Breathing</h3>
+                    <p class="highlight-desc">Calm your mind with this simple breathing technique</p>
+                    <div class="highlight-arrow">→</div>
+                </a>
+                
+                <a href="http://theunseenhours.org/54321-sensory-grounding" class="highlight-box stagger-item">
+                    <div class="highlight-icon">🧘</div>
+                    <h3 class="highlight-title">5-4-3-2-1 Sensory Grounding</h3>
+                    <p class="highlight-desc">Ground yourself in the present moment</p>
+                    <div class="highlight-arrow">→</div>
+                </a>
+                
+                <a href="http://theunseenhours.org/panic-attack-sos" class="highlight-box stagger-item">
+                    <div class="highlight-icon">🆘</div>
+                    <h3 class="highlight-title">Panic Attack SOS</h3>
+                    <p class="highlight-desc">Emergency techniques for panic attacks</p>
+                    <div class="highlight-arrow">→</div>
+                </a>
+                
+                <a href="https://theunseenhours.org/positive-affirmations" class="highlight-box stagger-item">
+                    <div class="highlight-icon">✨</div>
+                    <h3 class="highlight-title">Positive Affirmations</h3>
+                    <p class="highlight-desc">Daily encouragement and self-compassion</p>
+                    <div class="highlight-arrow">→</div>
+                </a>
+                
+                <a href="https://theunseenhours.org/pomodoro" class="highlight-box stagger-item">
+                    <div class="highlight-icon">⏱️</div>
+                    <h3 class="highlight-title">Pomodoro Timer</h3>
+                    <p class="highlight-desc">Boost focus and productivity</p>
+                    <div class="highlight-arrow">→</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Stories -->
+    <section class="section stories" id="stories">
+        <div class="section-content">
+            <h2 class="fade-in">Voices from Our Community</h2>
+            <div class="testimonial">
+                <blockquote class="quote slide-in-left">
+                    "For the first time in years, I found people who understood without judgment. 
+                    The Unseen Hours gave me hope when I had none left."
+                </blockquote>
+                <p class="quote-author slide-in-right">— Anonymous Member</p>
+            </div>
+            <div class="fade-in" style="margin-top: 2rem;">
+                <a href="https://forums.theunseenhours.org" class="btn btn-primary">Share Your Story</a>
+                <a href="#read-more" class="btn btn-secondary">Read More Stories</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Get Involved -->
+    <section class="section get-involved" id="get-involved">
+        <div class="section-content">
+            <h2 class="fade-in">Get Involved</h2>
+            <div class="features-grid">
+                <div class="feature-tile stagger-item">
+                    <div class="feature-icon">🏗️</div>
+                    <h3 class="feature-title">Create A Chapter</h3>
+                    <p class="feature-desc">Start a new community in your area</p>
+                </div>
+                <div class="feature-tile stagger-item">
+                    <div class="feature-icon">🤝</div>
+                    <h3 class="feature-title">Join A Chapter</h3>
+                    <p class="feature-desc">Connect with your local community</p>
+                </div>
+                <div class="feature-tile stagger-item">
+                    <div class="feature-icon">💫</div>
+                    <h3 class="feature-title">Make an Impact</h3>
+                    <p class="feature-desc">Change lives in your community</p>
+                </div>
+            </div>
+            <a href="#volunteer" class="btn btn-primary fade-in">Learn More about Opportunities</a>
+        </div>
+    </section>
+
+    <!-- Section 6: Resources -->
+    <section class="section resources" id="resources">
+        <div class="section-content">
+            <h2 class="fade-in">Find Support, Tools, and Guidance</h2>
+            <p class="mission-text fade-in">
+                Discover hand-picked guides, wellness tools, and practical tips for mental health, physical well-being, and academic success. Whether you're seeking self-care strategies, crisis support resources, or ways to support others, find what you need to thrive.
+            </p>
+            <div class="fade-in" style="margin-top: 2rem;">
+                <a href="https://www.theunseenhours.org/resources" class="btn btn-primary">Explore Resources</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 7: Events -->
+    <section class="section events" id="events">
+        <div class="section-content">
+            <h2 class="fade-in">Upcoming Events</h2>
+            <div class="fade-in" style="margin-top: 2rem;">
+                <a href="#PLACEHOLDER_EVENT_LINK" class="btn btn-primary">Explore Events</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 8: Footer -->
+    <section class="section footer" id="footer">
+        <div class="footer-content">
+            <!-- Mobile Compact Footer -->
+            <div class="footer-mobile-compact">
+                <!-- Logo and Brand -->
+                <div class="footer-brand-mobile">
+                    <div class="footer-logo-container">
+                        <img src="https://cdn.theunseenhours.org/The%20Unseen%20Hours-logo-white.png" alt="The Unseen Hours Logo" class="footer-logo-img">
+                        <div class="footer-logo">The Unseen Hours</div>
+                    </div>
+                    <p class="footer-tagline">Supporting each other through life's invisible moments.</p>
+                </div>
+
+                <!-- Quick Links Grid -->
+                <div class="footer-quick-links">
+                    <a href="#mission" class="quick-link">Mission</a>
+                    <a href="#offerings" class="quick-link">Highlights</a>
+                    <a href="https://status.theunseenhours.org" class="quick-link">Status And Outages</a>
+                    <a href="#get-involved" class="quick-link">Get Involved</a>
+                    <a href="#resources" class="quick-link">Resources</a>
+                    <a href="https://www.theunseenhours.org/chapters" class="quick-link">🌍 Chapters</a>
+                </div>
+
+                <!-- Contact Strip -->
+                <div class="footer-contact-strip">
+                    <a href="mailto:contact@theunseenhours.org" class="contact-item">📧</a>
+                    <a href="tel:+18105693159" class="contact-item">📞</a>
+                    <a href="https://www.youtube.com/@theunseenhoursYT" class="contact-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com/theunseenhoursx" class="contact-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://x.com/theunseenhoursx" class="contact-item">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Emergency Strip -->
+                <div class="footer-emergency-strip">
+                    <span class="emergency-label">Emergency:</span>
+                    <a href="tel:911" class="emergency-btn">🚨 911</a>
+                    <a href="tel:988" class="emergency-btn">📞 988</a>
+                    <a href="sms:741741" class="emergency-btn">💬 741741</a>
+                </div>
+
+                <!-- Legal Strip -->
+                <div class="footer-legal-strip">
+                    <div class="copyright">© 2025 The Unseen Hours</div>
+                    <div class="legal-links">
+                        <a href="https://www.theunseenhours.org/privacy-policy">Privacy</a>
+                        <a href="https://www.theunseenhours.org/terms-and-conditions">Terms</a>
+                    </div>
+                </div>
+
+                <!-- Compact Disclaimer -->
+                <div class="footer-disclaimer-compact">
+                    💡 Student-led volunteer initiative. Not a business or legal entity.
+                </div>
+            </div>
+
+            <!-- Desktop Footer (Original) -->
+            <div class="footer-desktop">
+                <!-- Main Footer Content -->
+                <div class="footer-main">
+                    <div class="footer-left">
+                        <div class="footer-brand">
+                            <div class="footer-logo-container">
+                                <img src="https://cdn.theunseenhours.org/The%20Unseen%20Hours-logo-white.png" alt="The Unseen Hours Logo" class="footer-logo-img">
+                                <div class="footer-logo">The Unseen Hours</div>
+                            </div>
+                            <p class="footer-tagline">Supporting each other through life's invisible moments.</p>
+                        </div>
+                    </div>
+
+                    <div class="footer-center">
+                        <nav class="footer-nav">
+                            <a href="#mission" class="footer-nav-link">Our Mission</a>
+                            <a href="#offerings" class="footer-nav-link">Our Highlights</a>
+                            <a href="#stories" class="footer-nav-link">Stories</a>
+                            <a href="#get-involved" class="footer-nav-link">Get Involved</a>
+                            <a href="#resources" class="footer-nav-link">Resources</a>
+                             <a href="https://status.theunseenhours.org" class="footer-nav-link">Status and Outages</a>
+                        </nav>
+                    </div>
+
+                    <div class="footer-right">
+                        <div class="footer-contact">
+                            <a href="mailto:contact@theunseenhours.org" class="footer-contact-link">
+                                📧 contact@theunseenhours.org
+                            </a>
+                            <a href="tel:+18105693159" class="footer-contact-link">
+                                📞 (810) 569-3159
+                            </a>
+                            <a href="https://www.theunseenhours.org/chapters" class="footer-contact-link">
+                                🌍 Find Local Chapters
+                            </a>
+                        </div>
+                        <div class="footer-social">
+                            <a href="https://www.youtube.com/@theunseenhoursYT" class="social-link" title="YouTube" target="_blank">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                                </svg>
+                            </a>
+                            <a href="https://instagram.com/theunseenhoursx" class="social-link" title="Instagram" target="_blank">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                            <a href="https://x.com/theunseenhoursx" class="social-link" title="X (Twitter)" target="_blank">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Disclaimer Section -->
+                <div class="footer-disclaimer">
+                    <p class="disclaimer-text">
+                        💡 <strong>Important:</strong> The Unseen Hours is a student-led, volunteer initiative. It is not operated as a business, nonprofit, or legal entity, and does not offer paid services of any kind.
+                    </p>
+                </div>
+
+                <!-- Emergency Banner -->
+                <div class="emergency-banner">
+                    <div class="emergency-content">
+                        <span class="emergency-text">Need immediate help?</span>
+                        <div class="emergency-numbers">
+                            <a href="tel:911" class="emergency-number">🚨 911</a>
+                            <a href="tel:988" class="emergency-number">📞 988</a>
+                            <a href="sms:741741" class="emergency-number">💬 741741</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer Bottom -->
+                <div class="footer-bottom">
+                    <div class="footer-copyright">© 2025 The Unseen Hours</div>
+                    <div class="footer-legal">
+                        <a href="https://www.theunseenhours.org/privacy-policy">Privacy Policy</a>
+                        <a href="https://www.theunseenhours.org/terms-and-conditions">Terms and Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// Array of random hero messages
+const heroMessages = [
+    "You're not alone in the hours no one sees.",
+    "Your story matters, even in the darkness.",
+    "Hope exists in the spaces between heartbeats.",
+    "Someone understands your silent struggles.",
+    "You are seen, even when you feel invisible.",
+    "Your journey is valid, your pain is real.",
+    "In your darkest hour, community awaits.",
+    "Your healing matters to all of us.",
+    "Every breath you take is an act of courage.",
+    "You belong here, exactly as you are."
+];
+
+// Global variables
+let isVideoPaused = false;
+let hasScrolledOnce = false;
+let currentSection = 0;
+let previousSection = 0;
+let isMobile = window.innerWidth <= 768;
+let isScrolling = false;
+let scrollTimeout;
+let sectionElements = [];
+let animatedElements = new Map();
+
+// Map variables
+let mapInstance = null;
+let mapMarkers = [];
+let mapInitialized = false;
+let isUSFilter = false;
+let isMapFullscreen = false;
+let savedMapState = null;
+
+// Chapter data
+const CHAPTER_DATA = [
+    {
+        lat: 42.3314,
+        lng: -84.5553,
+        name: "Michigan State University",
+        description: "University chapter exploring consciousness and hidden experiences",
+        country: "us"
+    },
+    {
+        lat: 45.4870,
+        lng: 15.5420,
+        name: "Karlovac, Croatia", 
+        description: "European chapter bringing international perspectives",
+        country: "croatia"
+    }
+];
+
+// Function to set random hero message
+function setRandomHeroMessage() {
+    const randomIndex = Math.floor(Math.random() * heroMessages.length);
+    document.getElementById('heroMessage').textContent = heroMessages[randomIndex];
+}
+
+// Welcome screen functionality
+window.enterSite = function() {
+    console.log('enterSite function called');
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const mainApp = document.getElementById('mainApp');
+    
+    if (!welcomeScreen || !mainApp) {
+        console.error('Elements not found:', { welcomeScreen, mainApp });
+        return;
+    }
+    
+    console.log('Adding hide class to welcome screen');
+    welcomeScreen.classList.add('hide');
+    
+    setTimeout(() => {
+        console.log('Showing main app');
+        mainApp.classList.add('show');
+        if (typeof updateVideoControlVisibility === 'function') {
+            updateVideoControlVisibility();
+        }
+        setTimeout(() => {
+            initializeAnimations();
+            animateCurrentSection();
+        }, 100);
+    }, 400);
+    
+    setTimeout(() => {
+        console.log('Hiding welcome screen completely');
+        welcomeScreen.style.display = 'none';
+    }, 800);
+}
+
+// Function to handle video control visibility based on section
+function updateVideoControlVisibility() {
+    const videoControl = document.getElementById('videoControl');
+    
+    if (!videoControl) return;
+    
+    if (currentSection === 0) {
+        videoControl.classList.remove('hidden');
+    } else {
+        videoControl.classList.add('hidden');
+    }
+}
+
+// Video control functionality
+window.toggleVideo = function() {
+    const video = document.getElementById('heroVideo');
+    const videoIcon = document.getElementById('videoIcon');
+    
+    if (isVideoPaused) {
+        video.play();
+        videoIcon.className = 'pause';
+    } else {
+        video.pause();
+        videoIcon.className = 'play';
+    }
+    isVideoPaused = !isVideoPaused;
+}
+
+// Initialize animation system
+function initializeAnimations() {
+    sectionElements = document.querySelectorAll('.section');
+    
+    sectionElements.forEach((section, sectionIndex) => {
+        const elements = section.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in, .stagger-item');
+        animatedElements.set(sectionIndex, Array.from(elements));
+    });
+}
+
+// Animate elements in current section - SIMPLIFIED (no exit animations)
+function animateCurrentSection() {
+    const elements = animatedElements.get(currentSection);
+    if (!elements) return;
+
+    elements.forEach((element, index) => {
+        // Remove any existing classes
+        element.classList.remove('active');
+        
+        // Add stagger delay only for stagger items
+        const delay = element.classList.contains('stagger-item') ? index * 100 : index * 50;
+        
+        setTimeout(() => {
+            element.classList.add('active');
+        }, delay);
+    });
+}
+
+// REMOVED: exitPreviousSection function - this was causing the black screen issue
+
+// Map initialization
+function initChapterMap() {
+    console.log('Initializing chapter map...');
+    
+    if (typeof L === 'undefined') {
+        console.log('Leaflet not ready, retrying...');
+        setTimeout(initChapterMap, 500);
+        return;
+    }
+
+    const mapElement = document.getElementById('chapterMap');
+    if (!mapElement) {
+        console.error('Map element not found');
+        return;
+    }
+
+    try {
+        if (mapInstance) {
+            console.log('Cleaning up existing map');
+            mapInstance.remove();
+            mapInstance = null;
+            mapMarkers = [];
+        }
+
+        mapElement.innerHTML = '';
+
+        console.log('Creating new map instance');
+        mapInstance = L.map('chapterMap', {
+            center: [30.0, -30.0],
+            zoom: 2,
+            zoomControl: true,
+            scrollWheelZoom: true,
+            doubleClickZoom: true,
+            dragging: true,
+            touchZoom: true,
+            boxZoom: true,
+            keyboard: true
+        });
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '© OpenStreetMap contributors © CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(mapInstance);
+
+        createMarkers();
+        setupMapControls();
+
+        mapInitialized = true;
+        isUSFilter = false;
+
+        console.log('Map initialization complete!');
+
+        setTimeout(() => {
+            if (mapInstance) {
+                mapInstance.invalidateSize();
+            }
+        }, 200);
+
+    } catch (error) {
+        console.error('Map initialization failed:', error);
+        setTimeout(initChapterMap, 1000);
+    }
+}
+
+// Create all markers
+function createMarkers() {
+    console.log('Creating markers...');
+    mapMarkers = [];
+
+    CHAPTER_DATA.forEach(chapter => {
+        const popupContent = `
+            <div style="color: white; text-align: center;">
+                <h3 style="margin: 0 0 8px 0; color: #FFA500; font-size: 1.1rem; font-weight: 700;">${chapter.name}</h3>
+                <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 0.9rem;">${chapter.description}</p>
+            </div>
+        `;
+
+        const marker = L.circleMarker([chapter.lat, chapter.lng], {
+            radius: 10,
+            fillColor: '#FFA500',
+            color: '#FFFFFF',
+            weight: 3,
+            opacity: 1,
+            fillOpacity: 0.9
+        }).addTo(mapInstance).bindPopup(popupContent, {
+            maxWidth: 250,
+            className: 'custom-popup'
+        });
+
+        mapMarkers.push({
+            marker: marker,
+            data: chapter
+        });
+    });
+
+    console.log(`Created ${mapMarkers.length} markers`);
+}
+
+// Set up map control buttons
+function setupMapControls() {
+    console.log('Setting up map controls...');
+
+    const filterBtn = document.getElementById('filter-btn');
+    const resetBtn = document.getElementById('reset-view-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+    if (!filterBtn || !resetBtn || !fullscreenBtn) {
+        console.error('Control buttons not found');
+        return;
+    }
+
+    filterBtn.onclick = null;
+    resetBtn.onclick = null;
+    fullscreenBtn.onclick = null;
+
+    filterBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleUSFilter();
+    };
+
+    resetBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        resetMapView();
+    };
+
+    fullscreenBtn.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMapFullscreen();
+    };
+
+    console.log('Map controls set up successfully');
+}
+
+// Toggle US-only filter
+function toggleUSFilter() {
+    if (!mapInstance || !mapInitialized) return;
+
+    console.log('Toggling US filter, current state:', isUSFilter);
+    
+    isUSFilter = !isUSFilter;
+    const filterBtn = document.getElementById('filter-btn');
+
+    if (isUSFilter) {
+        filterBtn.textContent = '🌍 Show All';
+        
+        mapMarkers.forEach(item => {
+            if (item.data.country === 'us') {
+                if (!mapInstance.hasLayer(item.marker)) {
+                    mapInstance.addLayer(item.marker);
+                }
+            } else {
+                if (mapInstance.hasLayer(item.marker)) {
+                    mapInstance.removeLayer(item.marker);
+                }
+            }
+        });
+
+        mapInstance.setView([39.8283, -98.5795], 4);
+    } else {
+        filterBtn.textContent = '🇺🇸 US Only';
+        
+        mapMarkers.forEach(item => {
+            if (!mapInstance.hasLayer(item.marker)) {
+                mapInstance.addLayer(item.marker);
+            }
+        });
+
+        mapInstance.setView([30.0, -30.0], 2);
+    }
+
+    console.log('Filter toggle complete');
+}
+
+// Reset map view
+function resetMapView() {
+    if (!mapInstance || !mapInitialized) return;
+
+    console.log('Resetting map view...');
+
+    isUSFilter = false;
+    const filterBtn = document.getElementById('filter-btn');
+    if (filterBtn) {
+        filterBtn.textContent = '🇺🇸 US Only';
+    }
+
+    mapMarkers.forEach(item => {
+        if (!mapInstance.hasLayer(item.marker)) {
+            mapInstance.addLayer(item.marker);
+        }
+    });
+
+    mapInstance.setView([30.0, -30.0], 2);
+
+    console.log('Map view reset complete');
+}
+
+// Fullscreen functionality
+function toggleMapFullscreen() {
+    console.log('Toggling fullscreen, current state:', isMapFullscreen);
+
+    const container = document.getElementById('chapterMapContainer');
+    if (!container) return;
+
+    if (!isMapFullscreen) {
+        enterMapFullscreen(container);
+    } else {
+        exitMapFullscreen();
+    }
+}
+
+function enterMapFullscreen(container) {
+    console.log('Entering fullscreen...');
+
+    saveMapState();
+
+    try {
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+            container.webkitRequestFullscreen();
+        } else if (container.mozRequestFullScreen) {
+            container.mozRequestFullScreen();
+        } else if (container.msRequestFullscreen) {
+            container.msRequestFullscreen();
+        } else {
+            fallbackFullscreen(container);
+        }
+    } catch (error) {
+        console.error('Fullscreen error:', error);
+        fallbackFullscreen(container);
+    }
+}
+
+function exitMapFullscreen() {
+    console.log('Exiting fullscreen...');
+
+    try {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else {
+            exitFallbackFullscreen();
+        }
+    } catch (error) {
+        console.error('Exit fullscreen error:', error);
+        exitFallbackFullscreen();
+    }
+}
+
+function saveMapState() {
+    if (mapInstance && mapInitialized) {
+        savedMapState = {
+            center: mapInstance.getCenter(),
+            zoom: mapInstance.getZoom(),
+            isUSFilter: isUSFilter
+        };
+        console.log('Map state saved:', savedMapState);
+    }
+}
+
+function restoreMapState() {
+    if (mapInstance && savedMapState && mapInitialized) {
+        console.log('Restoring map state:', savedMapState);
+        
+        console.log('Re-adding all markers to map...');
+        mapMarkers.forEach(item => {
+            if (!mapInstance.hasLayer(item.marker)) {
+                mapInstance.addLayer(item.marker);
+                console.log(`Added marker: ${item.data.name}`);
+            }
+        });
+        
+        mapInstance.setView(savedMapState.center, savedMapState.zoom);
+        
+        isUSFilter = savedMapState.isUSFilter;
+        const filterBtn = document.getElementById('filter-btn');
+        if (filterBtn) {
+            filterBtn.textContent = isUSFilter ? '🌍 Show All' : '🇺🇸 US Only';
+        }
+        
+        if (isUSFilter) {
+            console.log('Applying US filter...');
+            mapMarkers.forEach(item => {
+                if (item.data.country !== 'us') {
+                    if (mapInstance.hasLayer(item.marker)) {
+                        mapInstance.removeLayer(item.marker);
+                        console.log(`Filtered out: ${item.data.name}`);
+                    }
+                }
+            });
+        }
+        
+        savedMapState = null;
+        console.log('Map state restored successfully');
+    }
+}
+
+function fallbackFullscreen(container) {
+    console.log('Using fallback fullscreen...');
+    
+    container.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 10010 !important;
+        background: #000 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+    `;
+
+    isMapFullscreen = true;
+    updateFullscreenButton();
+    document.body.style.overflow = 'hidden';
+
+    setTimeout(() => {
+        if (mapInstance) {
+            mapInstance.invalidateSize();
+        }
+    }, 100);
+}
+
+function exitFallbackFullscreen() {
+    console.log('Exiting fallback fullscreen');
+    
+    const container = document.getElementById('chapterMapContainer');
+    if (container) {
+        container.style.cssText = '';
+        isMapFullscreen = false;
+        updateFullscreenButton();
+        document.body.style.overflow = '';
+        
+        setTimeout(() => {
+            if (mapInstance) {
+                mapInstance.invalidateSize();
+                restoreMapState();
+            }
+        }, 100);
+    }
+}
+
+function updateFullscreenButton() {
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    if (fullscreenBtn) {
+        if (isMapFullscreen) {
+            fullscreenBtn.textContent = '✕ Exit';
+            fullscreenBtn.classList.add('exit-fullscreen-btn');
+        } else {
+            fullscreenBtn.textContent = '⛶ Fullscreen';
+            fullscreenBtn.classList.remove('exit-fullscreen-btn');
+        }
+    }
+}
+
+// Listen for fullscreen change events
+document.addEventListener('fullscreenchange', handleFullscreenChange);
+document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+function handleFullscreenChange() {
+    const isFullscreen = !!(document.fullscreenElement || 
+                          document.webkitFullscreenElement || 
+                          document.mozFullScreenElement || 
+                          document.msFullscreenElement);
+    
+    isMapFullscreen = isFullscreen;
+    updateFullscreenButton();
+    
+    if (!isFullscreen) {
+        setTimeout(() => {
+            if (mapInstance) {
+                mapInstance.invalidateSize();
+                restoreMapState();
+            }
+        }, 100);
+    } else {
+        setTimeout(() => {
+            if (mapInstance) {
+                mapInstance.invalidateSize();
+            }
+        }, 100);
+    }
+}
+
+// Scroll handling - SIMPLIFIED (no exit animations)
+function handleScroll() {
+    const container = document.getElementById('snapContainer');
+    const sections = document.querySelectorAll('.section');
+    const scrollTop = container.scrollTop;
+    const containerHeight = container.clientHeight;
+    
+    let newSection = Math.round(scrollTop / containerHeight);
+    newSection = Math.max(0, Math.min(sections.length - 1, newSection));
+    
+    if (newSection !== currentSection) {
+        previousSection = currentSection;
+        currentSection = newSection;
+        
+        updateProgressDots();
+        updateVideoControlVisibility();
+        
+        // Only animate the current section, no exit animations
+        if (animatedElements.size > 0) {
+            animateCurrentSection();
+        }
+    }
+}
+
+function updateProgressDots() {
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        if (index === currentSection) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
+}
+
+// Mobile menu functionality
+function setupMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+    if (mobileMenuToggle && mobileMenu && mobileMenuClose) {
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+
+        mobileMenuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+
+        // Close menu when clicking outside
+        mobileMenu.addEventListener('click', (e) => {
+            if (e.target === mobileMenu) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Progress dots click handling
+function setupProgressDots() {
+    const dots = document.querySelectorAll('.dot');
+    const container = document.getElementById('snapContainer');
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            const targetSection = document.querySelectorAll('.section')[index];
+            if (targetSection && container) {
+                container.scrollTo({
+                    top: index * container.clientHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing...');
+    
+    // Set random hero message
+    setRandomHeroMessage();
+    
+    // Setup mobile menu
+    setupMobileMenu();
+    
+    // Setup progress dots
+    setupProgressDots();
+    
+    // Setup scroll handling
+    const snapContainer = document.getElementById('snapContainer');
+    if (snapContainer) {
+        let scrollTimeout;
+        snapContainer.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(handleScroll, 50);
+        });
+    }
+    
+    // Initialize map when mission section becomes visible
+    const missionSection = document.getElementById('mission');
+    if (missionSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !mapInitialized) {
+                    setTimeout(initChapterMap, 100);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(missionSection);
+    }
+    
+    console.log('Initialization complete');
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    isMobile = window.innerWidth <= 768;
+    if (mapInstance && mapInitialized) {
+        setTimeout(() => {
+            mapInstance.invalidateSize();
+        }, 100);
+    }
+});
+
+console.log('Script loaded successfully');
+</script>
+</body>
+</html>
