@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Under Maintenance - The Unseen Hours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #F5F5DC 0%, #E6D7B3 100%);
+            color: #5D4E37;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Google Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(139, 69, 19, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main container */
+        .maintenance-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            max-width: 600px;
+            padding: 3rem 2rem;
+            background: rgba(245, 245, 220, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid rgba(139, 69, 19, 0.2);
+            box-shadow: 0 20px 60px rgba(139, 69, 19, 0.3);
+        }
+
+        /* Animated logo/icon */
+        .maintenance-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gear {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #8B4513;
+            border-radius: 50%;
+            position: relative;
+            animation: rotate 4s linear infinite;
+        }
+
+        .gear::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: #8B4513;
+            border-radius: 50%;
+        }
+
+        .gear::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: #8B4513;
+            border-radius: 50%;
+        }
+
+        .gear-tooth {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #8B4513;
+            border-radius: 2px;
+        }
+
+        .gear-tooth:nth-child(1) { top: -6px; left: 50%; transform: translateX(-50%); }
+        .gear-tooth:nth-child(2) { bottom: -6px; left: 50%; transform: translateX(-50%); }
+        .gear-tooth:nth-child(3) { left: -6px; top: 50%; transform: translateY(-50%); }
+        .gear-tooth:nth-child(4) { right: -6px; top: 50%; transform: translateY(-50%); }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Typography */
+        .maintenance-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: #8B4513;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .maintenance-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: rgba(93, 78, 55, 0.8);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .maintenance-message {
+            font-size: 1rem;
+            color: rgba(93, 78, 55, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(139, 69, 19, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8B4513, #A0522D, #CD853F);
+            border-radius: 3px;
+            animation: progress 3s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 0%; }
+        }
+
+        /* Status dots */
+        .status-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(93, 78, 55, 0.7);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #8B4513;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-dot:nth-child(1) { animation-delay: 0s; }
+        .status-dot:nth-child(2) { animation-delay: 0.5s; }
+        .status-dot:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Loading text animation */
+        .loading-text {
+            font-size: 1rem;
+            color: rgba(93, 78, 55, 0.6);
+            margin-top: 1rem;
+        }
+
+        .loading-text::after {
+            content: '';
+            animation: dots 2s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
+    <div class="maintenance-container">
+        <!-- Animated maintenance icon -->
+        <div class="maintenance-icon">
+            <div class="gear">
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+                <div class="gear-tooth"></div>
+            </div>
+        </div>
+
+        <h1 class="maintenance-title">🔧 Under Maintenance</h1>
+        <p class="maintenance-subtitle">We're making things better for you</p>
+        
+        <p class="maintenance-message">
+            Our team is working hard to improve your experience. Once maintenance is complete, you'll be automatically redirected to the homepage.
+        </p>
+
+        <!-- Progress bar -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+
+        <!-- Status indicators -->
+        <div class="status-container">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>Updating Systems</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>Optimizing Performance</span>
+            </div>
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>Testing Features</span>
+            </div>
+        </div>
+
+        <div class="loading-text">Please check back soon</div>
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size and position
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Initialize particles when page loads
+        document.addEventListener('DOMContentLoaded', createParticles);
+
+        // Add some interactivity - shake effect on click
+        document.querySelector('.maintenance-container').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => {
+                this.style.animation = '';
+            }, 10);
+        });
+    </script>
+</body>
+</html>
