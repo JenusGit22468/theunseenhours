@@ -1,1 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lo-Fi Focus Timer - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        /* Squarespace code block reset */
+        .sqs-block-code .sqs-block-content {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Full reset for this component */
+        .timer-app {
+            all: initial;
+            font-family: 'Inter', sans-serif;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .timer-app * {
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        /* Lo-fi grid background */
+        .timer-app::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: 
+                linear-gradient(rgba(184, 107, 43, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(184, 107, 43, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            transform: rotate(45deg);
+            animation: gridMove 15s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes gridMove {
+            0% { transform: rotate(45deg) translateY(0); }
+            100% { transform: rotate(45deg) translateY(-20px); }
+        }
+
+        .timer-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px var(--shadow);
+            backdrop-filter: blur(10px);
+            margin-bottom: 6rem;
+            border: 3px solid var(--border);
+        }
+
+        .home-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .timer-display {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(184, 107, 43, 0.2);
+            margin: 2rem 0;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+
+        .phase-display {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .btn.active {
+            background: var(--accent);
+            color: var(--white);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: 2px solid rgba(184, 107, 43, 0.3);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            min-width: 120px;
+        }
+
+        .mode-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .mode-btn.active {
+            background: rgba(184, 107, 43, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .settings {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .settings-group {
+            display: none;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .settings-group.active {
+            display: flex;
+        }
+
+        .setting-btn {
+            background: transparent;
+            border: 2px solid rgba(184, 107, 43, 0.3);
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            min-width: 80px;
+        }
+
+        .setting-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .setting-btn.active {
+            background: rgba(184, 107, 43, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Timer pulse animation */
+        @keyframes timerPulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        .timer-display.running {
+            animation: timerPulse 2s infinite;
+        }
+
+        /* Quote styles */
+        .quote-container {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .quote-text {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+        }
+
+        .quote-author {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        .quote-container.fade-in {
+            opacity: 1;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .timer-display {
+                font-size: 4rem;
+            }
+
+            .timer-container {
+                padding: 1rem;
+                margin: 1rem;
+                margin-bottom: 4rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 200px;
+            }
+
+            .mode-toggle {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mode-btn {
+                width: 200px;
+            }
+
+            .settings-group {
+                justify-content: center;
+            }
+
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timer-display {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+
+            .phase-display {
+                font-size: 1rem;
+            }
+
+            .quote-text {
+                font-size: 0.9rem;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer-app">
+        <div class="watermark">The Unseen Hours</div>
+        <button class="home-button" onclick="goHome()">← HOME</button>
+
+        <div class="timer-container">
+            <div class="phase-display" id="phaseDisplay">Focus Time</div>
+            <div class="timer-display" id="timeDisplay">25:00</div>
+            
+            <div class="controls">
+                <button class="btn" id="startBtn">Start</button>
+                <button class="btn" id="resetBtn">Reset</button>
+            </div>
+
+            <div class="mode-toggle">
+                <button class="mode-btn active" data-mode="focus">Focus</button>
+                <button class="mode-btn" data-mode="rest">Rest</button>
+            </div>
+
+            <div class="settings">
+                <div class="settings-group active" id="focusSettings">
+                    <button class="setting-btn active" data-time="25">25min</button>
+                    <button class="setting-btn" data-time="45">45min</button>
+                    <button class="setting-btn" data-time="60">60min</button>
+                </div>
+                <div class="settings-group" id="restSettings">
+                    <button class="setting-btn active" data-time="5">5min</button>
+                    <button class="setting-btn" data-time="25">25min</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-container">
+            <p class="quote-text"></p>
+            <p class="quote-author"></p>
+        </div>
+    </div>
+
+    <script>
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        class PomodoroTimer {
+            constructor() {
+                this.timeDisplay = document.getElementById('timeDisplay');
+                this.phaseDisplay = document.getElementById('phaseDisplay');
+                this.startBtn = document.getElementById('startBtn');
+                this.resetBtn = document.getElementById('resetBtn');
+                this.modeBtns = document.querySelectorAll('.mode-btn');
+                this.focusSettings = document.getElementById('focusSettings');
+                this.restSettings = document.getElementById('restSettings');
+
+                this.isRunning = false;
+                this.timeLeft = 25 * 60;
+                this.totalTime = 25 * 60;
+                this.timer = null;
+                this.currentMode = 'focus';
+
+                this.bindEvents();
+                this.updateDisplay();
+                this.requestNotificationPermission();
+            }
+
+            bindEvents() {
+                this.startBtn.addEventListener('click', () => this.toggleTimer());
+                this.resetBtn.addEventListener('click', () => this.resetTimer());
+                
+                this.modeBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const mode = e.target.dataset.mode;
+                        this.switchMode(mode);
+                    });
+                });
+
+                document.querySelectorAll('.setting-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const minutes = parseInt(e.target.dataset.time);
+                        this.setTime(minutes);
+                        const group = e.target.closest('.settings-group');
+                        group.querySelectorAll('.setting-btn').forEach(b => b.classList.remove('active'));
+                        e.target.classList.add('active');
+                    });
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.toggleTimer();
+                    } else if (e.code === 'KeyR') {
+                        e.preventDefault();
+                        this.resetTimer();
+                    }
+                });
+            }
+
+            requestNotificationPermission() {
+                if ('Notification' in window && Notification.permission === 'default') {
+                    Notification.requestPermission();
+                }
+            }
+
+            switchMode(mode) {
+                if (this.isRunning) return;
+                
+                this.currentMode = mode;
+                this.modeBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.mode === mode);
+                });
+
+                this.focusSettings.classList.toggle('active', mode === 'focus');
+                this.restSettings.classList.toggle('active', mode === 'rest');
+
+                // Clear previous active settings
+                document.querySelectorAll('.setting-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                if (mode === 'focus') {
+                    this.setTime(25);
+                    this.phaseDisplay.textContent = 'Focus Time';
+                    this.focusSettings.querySelector('[data-time="25"]').classList.add('active');
+                } else {
+                    this.setTime(5);
+                    this.phaseDisplay.textContent = 'Rest Time';
+                    this.restSettings.querySelector('[data-time="5"]').classList.add('active');
+                }
+            }
+
+            toggleTimer() {
+                if (this.isRunning) {
+                    this.pauseTimer();
+                } else {
+                    this.startTimer();
+                }
+            }
+
+            startTimer() {
+                this.isRunning = true;
+                this.startBtn.textContent = 'Pause';
+                this.startBtn.classList.add('active');
+                this.timeDisplay.classList.add('running');
+
+                this.timer = setInterval(() => {
+                    this.timeLeft--;
+                    this.updateDisplay();
+
+                    if (this.timeLeft <= 0) {
+                        this.handleTimerComplete();
+                    }
+                }, 1000);
+            }
+
+            pauseTimer() {
+                this.isRunning = false;
+                this.startBtn.textContent = 'Start';
+                this.startBtn.classList.remove('active');
+                this.timeDisplay.classList.remove('running');
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            }
+
+            resetTimer() {
+                this.pauseTimer();
+                this.timeLeft = this.totalTime;
+                this.updateDisplay();
+            }
+
+            setTime(minutes) {
+                if (!this.isRunning) {
+                    this.totalTime = minutes * 60;
+                    this.timeLeft = this.totalTime;
+                    this.updateDisplay();
+                }
+            }
+
+            updateDisplay() {
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                this.timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            handleTimerComplete() {
+                this.pauseTimer();
+                this.playNotificationSound();
+                this.showNotification();
+                
+                // Auto-switch between focus and rest
+                if (this.currentMode === 'focus') {
+                    this.switchMode('rest');
+                } else {
+                    this.switchMode('focus');
+                }
+            }
+
+            playNotificationSound() {
+                try {
+                    // Create a simple beep sound using Web Audio API
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 1);
+                } catch (error) {
+                    console.log('Audio notification not available');
+                }
+            }
+
+            showNotification() {
+                if ('Notification' in window && Notification.permission === "granted") {
+                    const message = this.currentMode === 'focus' ? 
+                        'Focus session complete! Time for a break.' : 
+                        'Break time over! Ready to focus?';
+                    
+                    new Notification("Timer Complete", {
+                        body: message,
+                        icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23b86b2b'/%3E%3C/svg%3E"
+                    });
+                }
+            }
+        }
+
+        // Study quotes
+        const quotes = [
+            { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
+            { text: "Focus on the process, not the outcome.", author: "Unknown" },
+            { text: "Small progress is still progress.", author: "Unknown" },
+            { text: "Your future is created by what you do today.", author: "Anonymous" },
+            { text: "The expert in anything was once a beginner.", author: "Helen Hayes" },
+            { text: "Success is built one step at a time.", author: "Unknown" },
+            { text: "Consistency beats perfection.", author: "Unknown" },
+            { text: "Trust the process.", author: "Unknown" },
+            { text: "Done is better than perfect.", author: "Sheryl Sandberg" },
+            { text: "Focus on being productive instead of busy.", author: "Tim Ferriss" },
+            { text: "Progress, not perfection.", author: "Unknown" },
+            { text: "Every moment is a fresh beginning.", author: "T.S. Eliot" },
+            { text: "The quiet hours shape us.", author: "The Unseen Hours" },
+            { text: "In stillness, we find our strength.", author: "The Unseen Hours" },
+            { text: "Every small step forward matters.", author: "The Unseen Hours" }
+        ];
+
+        class QuoteManager {
+            constructor() {
+                this.quoteText = document.querySelector('.quote-text');
+                this.quoteAuthor = document.querySelector('.quote-author');
+                this.quoteContainer = document.querySelector('.quote-container');
+                this.currentIndex = -1;
+                
+                // Show first quote after a delay
+                setTimeout(() => this.updateQuote(), 2000);
+                
+                // Change quote every 45 seconds
+                setInterval(() => this.updateQuote(), 45000);
+            }
+
+            updateQuote() {
+                this.quoteContainer.classList.remove('fade-in');
+                
+                setTimeout(() => {
+                    this.currentIndex = (this.currentIndex + 1) % quotes.length;
+                    const quote = quotes[this.currentIndex];
+                    
+                    this.quoteText.textContent = `"${quote.text}"`;
+                    this.quoteAuthor.textContent = `— ${quote.author}`;
+                    
+                    this.quoteContainer.classList.add('fade-in');
+                }, 500);
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new PomodoroTimer();
+            new QuoteManager();
+        });
+
+        // Prevent page scroll on mobile
+        document.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        }, { passive: false });
+    </script>
+</body>
+</html>
