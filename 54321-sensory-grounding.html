@@ -1,1 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-4-3-2-1 Grounding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .grounding-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(60, 47, 47, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 5;
+        }
+
+        .home-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 1;
+            pointer-events: all;
+            z-index: 10;
+            font-weight: 500;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .progress-indicator {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(184, 107, 43, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 15px rgba(184, 107, 43, 0.4);
+        }
+
+        .progress-dot.completed {
+            background: var(--accent-light);
+        }
+
+        .main-content {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            transition: all 0.5s ease;
+        }
+
+        .step-subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 40px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .sense-visual {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 40px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .sense-icon {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(184, 107, 43, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: radial-gradient(circle, rgba(184, 107, 43, 0.1) 0%, transparent 70%);
+            transition: all 0.5s ease;
+        }
+
+        .sense-icon.active {
+            border-color: var(--accent);
+            box-shadow: 
+                0 0 30px rgba(184, 107, 43, 0.3),
+                inset 0 0 30px rgba(184, 107, 43, 0.1);
+            transform: scale(1.1);
+        }
+
+        .items-found {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .item-bubble {
+            padding: 12px 20px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .item-bubble.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-area {
+            margin-bottom: 20px;
+        }
+
+        .input-prompt {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .item-input {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .item-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .item-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(184, 107, 43, 0.2);
+        }
+
+        .add-button {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .add-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .add-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .next-button {
+            background: var(--accent);
+            border: 2px solid var(--accent);
+            color: var(--white);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            z-index: 10;
+            margin-top: 30px;
+            font-weight: 600;
+            white-space: nowrap;
+            min-width: 200px;
+        }
+
+        .next-button.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .next-button:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .affirmation-text {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 600px;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 2s ease;
+            font-style: italic;
+            line-height: 1.4;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .affirmation-text.visible {
+            opacity: 1;
+        }
+
+        .completion-content {
+            display: none;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .completion-content.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .completion-icon {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: radial-gradient(circle, rgba(184, 107, 43, 0.2) 0%, transparent 70%);
+            box-shadow: 0 0 40px rgba(184, 107, 43, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .step-title {
+                font-size: 2.2rem;
+            }
+            
+            .sense-visual {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .sense-icon {
+                font-size: 3rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-button, .progress-indicator {
+                top: 20px;
+            }
+            
+            .home-button {
+                left: 20px;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+            
+            .progress-indicator {
+                right: 20px;
+            }
+            
+            .step-title {
+                font-size: 1.8rem;
+            }
+            
+            .step-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .sense-visual {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .sense-icon {
+                font-size: 2.5rem;
+            }
+            
+            .item-input {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+
+            .action-area {
+                margin-bottom: 10px;
+            }
+
+            .next-button {
+                margin-top: 15px;
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grounding-container">
+        <div class="watermark">The Unseen Hours</div>
+        
+        <button class="home-button" id="homeBtn">Home</button>
+        
+        <div class="progress-indicator" id="progressIndicator">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+
+        <div class="main-content" id="mainContent">
+            <div class="step-content" id="step0">
+                <div class="step-title">5-4-3-2-1 Grounding</div>
+                <div class="step-subtitle">When anxiety feels overwhelming, this gentle technique helps bring you back to the present moment through your five senses.</div>
+                
+                <div class="sense-visual">
+                    <div class="sense-icon">🧘‍♀️</div>
+                </div>
+                
+                <div class="input-prompt">Take a deep breath. You're going to be okay.</div>
+                
+                <button class="next-button visible" onclick="groundingApp.nextStep()">Begin Grounding</button>
+            </div>
+        </div>
+
+        <div class="affirmation-text" id="affirmationText">Your feelings are valid, and this moment will pass</div>
+    </div>
+
+    <script>
+        class GroundingApp {
+            constructor() {
+                this.currentStep = 0;
+                this.totalSteps = 6;
+                this.currentItemIndex = 0;
+                
+                this.steps = [
+                    { 
+                        title: "5-4-3-2-1 Grounding",
+                        subtitle: "When anxiety feels overwhelming, this gentle technique helps bring you back to the present moment through your five senses.",
+                        icon: "🧘‍♀️",
+                        count: 0,
+                        target: 0,
+                        prompt: "Take a deep breath. You're going to be okay.",
+                        placeholder: ""
+                    },
+                    { 
+                        title: "5 Things You Can SEE",
+                        subtitle: "Look around you right now. Name 5 things you can see, no matter how small or ordinary.",
+                        icon: "👁️",
+                        count: 5,
+                        target: 5,
+                        prompt: "What do you see around you?",
+                        placeholder: "A lamp, my coffee cup, the wall..."
+                    },
+                    { 
+                        title: "4 Things You Can TOUCH",
+                        subtitle: "Focus on textures and physical sensations. Touch 4 different things around you.",
+                        icon: "✋",
+                        count: 4,
+                        target: 4,
+                        prompt: "What can you physically touch right now?",
+                        placeholder: "The smooth table, soft fabric..."
+                    },
+                    { 
+                        title: "3 Things You Can HEAR",
+                        subtitle: "Listen carefully to the world around you. What sounds can you notice?",
+                        icon: "👂",
+                        count: 3,
+                        target: 3,
+                        prompt: "What sounds do you hear?",
+                        placeholder: "Birds chirping, air conditioning..."
+                    },
+                    { 
+                        title: "2 Things You Can SMELL",
+                        subtitle: "Take a gentle breath in. What scents can you detect in your environment?",
+                        icon: "👃",
+                        count: 2,
+                        target: 2,
+                        prompt: "What can you smell?",
+                        placeholder: "Coffee, fresh air..."
+                    },
+                    { 
+                        title: "1 Thing You Can TASTE",
+                        subtitle: "Notice any taste in your mouth, or take a sip of something nearby.",
+                        icon: "👅",
+                        count: 1,
+                        target: 1,
+                        prompt: "What can you taste?",
+                        placeholder: "Mint, the lingering taste of tea..."
+                    }
+                ];
+                
+                this.foundItems = [];
+                this.affirmations = [
+                    "Your feelings are valid, and this moment will pass",
+                    "You are safe in this moment, right here, right now",
+                    "Your breath is your anchor - you can always return to it",
+                    "You've gotten through difficult times before, and you will again",
+                    "It's okay to feel overwhelmed - you're taking the right steps",
+                    "You are more resilient than you realize",
+                    "This grounding is helping your nervous system find calm",
+                    "Each sense you notice brings you closer to peace"
+                ];
+                
+                this.bindEvents();
+                this.showAffirmation();
+            }
+            
+            bindEvents() {
+                document.getElementById('homeBtn').addEventListener('click', () => this.goHome());
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' && this.currentStep > 0 && this.currentStep < 6) {
+                        this.addItem();
+                    }
+                });
+            }
+            
+            nextStep() {
+                if (this.currentStep === 0) {
+                    this.currentStep = 1;
+                    this.foundItems = [];
+                    this.renderStep();
+                    this.updateProgress();
+                    this.showAffirmation();
+                }
+            }
+            
+            renderStep() {
+                const mainContent = document.getElementById('mainContent');
+                const step = this.steps[this.currentStep];
+                
+                if (this.currentStep === 0) {
+                    return;
+                }
+                
+                if (this.currentStep > 5) {
+                    this.showCompletion();
+                    return;
+                }
+                
+                mainContent.innerHTML = `
+                    <div class="step-content">
+                        <div class="step-title">${step.title}</div>
+                        <div class="step-subtitle">${step.subtitle}</div>
+                        
+                        <div class="sense-visual">
+                            <div class="sense-icon active">${step.icon}</div>
+                        </div>
+                        
+                        <div class="items-found" id="itemsFound">
+                            ${this.foundItems.map((item, index) => 
+                                `<div class="item-bubble visible" style="animation-delay: ${index * 0.1}s">${item}</div>`
+                            ).join('')}
+                        </div>
+                        
+                        <div class="action-area">
+                            <div class="input-prompt">${step.prompt}</div>
+                            <input type="text" class="item-input" id="itemInput" placeholder="${step.placeholder}" maxlength="50">
+                            <br>
+                            <button class="add-button" onclick="groundingApp.addItem()">Add (${this.foundItems.length}/${step.count})</button>
+                        </div>
+                        
+                        <button class="next-button ${this.foundItems.length >= step.count ? 'visible' : ''}" onclick="groundingApp.moveToNextSense()">
+                            ${this.currentStep === 5 ? 'Complete Grounding' : 'Continue'}
+                        </button>
+                    </div>
+                `;
+                
+                setTimeout(() => {
+                    const input = document.getElementById('itemInput');
+                    if (input) input.focus();
+                }, 100);
+            }
+            
+            addItem() {
+                const input = document.getElementById('itemInput');
+                if (!input) return;
+                
+                const value = input.value.trim();
+                const step = this.steps[this.currentStep];
+                
+                if (value && this.foundItems.length < step.count) {
+                    this.foundItems.push(value);
+                    input.value = '';
+                    this.renderStep();
+                    
+                    if (this.foundItems.length >= step.count) {
+                        setTimeout(() => {
+                            this.showAffirmation();
+                            setTimeout(() => {
+                                this.moveToNextSense();
+                            }, 2000);
+                        }, 500);
+                    }
+                }
+            }
+            
+            moveToNextSense() {
+                const step = this.steps[this.currentStep];
+                if (this.foundItems.length >= step.count) {
+                    this.currentStep++;
+                    this.foundItems = [];
+                    
+                    if (this.currentStep > 5) {
+                        this.showCompletion();
+                    } else {
+                        this.renderStep();
+                        this.updateProgress();
+                    }
+                }
+            }
+            
+            showCompletion() {
+                const container = document.querySelector('.grounding-container');
+                container.innerHTML = `
+                    <div class="watermark">The Unseen Hours</div>
+                    
+                    <button class="home-button" onclick="groundingApp.goHome()">Home</button>
+                    
+                    <div class="progress-indicator">
+                        <div class="progress-dot completed"></div>
+                        <div class="progress-dot completed"></div>
+                        <div class="progress-dot completed"></div>
+                        <div class="progress-dot completed"></div>
+                        <div class="progress-dot completed"></div>
+                        <div class="progress-dot completed"></div>
+                    </div>
+
+                    <div class="main-content" style="text-align: center; max-width: 800px; width: 100%;">
+                        <div class="step-title">You're Grounded! 🌟</div>
+                        <div class="step-subtitle">Take a deep breath and notice how you feel right now. You've successfully used your five senses to anchor yourself in the present moment.</div>
+                        
+                        <div class="completion-icon">✨</div>
+                        
+                        <div class="input-prompt" style="margin-bottom: 40px;">You showed up for yourself when anxiety felt overwhelming. That takes real courage.</div>
+                        
+                        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                            <button class="next-button visible" onclick="groundingApp.restart()">
+                                🔄 Try Again
+                            </button>
+                            <button class="next-button visible" onclick="groundingApp.goHome()">
+                                🏠 Explore More Tools
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="affirmation-text visible" style="opacity: 1;">You are grounded. You are present. You are safe.</div>
+                `;
+            }
+            
+            restart() {
+                this.currentStep = 0;
+                this.foundItems = [];
+                
+                const container = document.querySelector('.grounding-container');
+                container.innerHTML = `
+                    <div class="watermark">The Unseen Hours</div>
+                    
+                    <button class="home-button" onclick="groundingApp.goHome()">Home</button>
+                    
+                    <div class="progress-indicator" id="progressIndicator">
+                        <div class="progress-dot active"></div>
+                        <div class="progress-dot"></div>
+                        <div class="progress-dot"></div>
+                        <div class="progress-dot"></div>
+                        <div class="progress-dot"></div>
+                        <div class="progress-dot"></div>
+                    </div>
+
+                    <div class="main-content" id="mainContent" style="text-align: center; max-width: 800px; width: 100%;">
+                        <div class="step-content" id="step0">
+                            <div class="step-title">5-4-3-2-1 Grounding</div>
+                            <div class="step-subtitle">When anxiety feels overwhelming, this gentle technique helps bring you back to the present moment through your five senses.</div>
+                            
+                            <div class="sense-visual">
+                                <div class="sense-icon">🧘‍♀️</div>
+                            </div>
+                            
+                            <div class="input-prompt">Take a deep breath. You're going to be okay.</div>
+                            
+                            <button class="next-button visible" onclick="groundingApp.nextStep()">Begin Grounding</button>
+                        </div>
+                    </div>
+
+                    <div class="affirmation-text" id="affirmationText">Your feelings are valid, and this moment will pass</div>
+                `;
+                
+                this.showAffirmation();
+            }
+            
+            getNextSenseName() {
+                const senseNames = ['', 'TOUCH', 'HEAR', 'SMELL', 'TASTE'];
+                return senseNames[this.currentStep] || '';
+            }
+            
+            updateProgress() {
+                const dots = document.querySelectorAll('.progress-dot');
+                dots.forEach((dot, index) => {
+                    dot.classList.remove('active', 'completed');
+                    if (index < this.currentStep) {
+                        dot.classList.add('completed');
+                    } else if (index === this.currentStep) {
+                        dot.classList.add('active');
+                    }
+                });
+            }
+            
+            showAffirmation() {
+                const affirmationText = document.getElementById('affirmationText');
+                if (!affirmationText) return;
+                
+                const randomIndex = Math.floor(Math.random() * this.affirmations.length);
+                
+                affirmationText.classList.remove('visible');
+                
+                setTimeout(() => {
+                    affirmationText.textContent = this.affirmations[randomIndex];
+                    affirmationText.classList.add('visible');
+                    
+                    setTimeout(() => {
+                        affirmationText.classList.remove('visible');
+                    }, 6000);
+                }, 500);
+            }
+            
+            goHome() {
+                if (confirm('Are you sure you want to go home? Your progress will be lost.')) {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                }
+            }
+        }
+        
+        let groundingApp;
+        document.addEventListener('DOMContentLoaded', () => {
+            groundingApp = new GroundingApp();
+        });
+        
+        window.addEventListener('load', () => {
+            document.body.style.height = '100vh';
+            document.documentElement.style.height = '100vh';
+        });
+    </script>
+</body>
+</html>
