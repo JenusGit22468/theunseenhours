@@ -1,1 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Use - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 5vh 5vw;
+            text-align: center;
+        }
+
+        .content-section {
+            min-height: 100vh;
+            padding: 8vh 5vw;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .hero-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            opacity: 0;
+            font-style: italic;
+            color: var(--accent);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .last-updated {
+            background: rgba(184, 107, 43, 0.1);
+            border: 2px solid rgba(184, 107, 43, 0.2);
+            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 1.5s forwards;
+            font-weight: 500;
+        }
+
+        /* Terms Content Sections */
+        .terms-section {
+            background: var(--white);
+            color: var(--text-primary);
+        }
+
+        .terms-section:nth-child(odd) {
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
+        }
+
+        .terms-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .section-header.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: var(--white);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .section-text {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease 0.2s;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .section-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .section-text li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .section-text li::marker {
+            color: var(--accent);
+        }
+
+        .section-text strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(220, 53, 69, 0.08);
+            border: 2px solid rgba(220, 53, 69, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-box h4 {
+            color: #dc3545;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box {
+            background: rgba(184, 107, 43, 0.08);
+            border: 2px solid rgba(184, 107, 43, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .info-box h4 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+            color: var(--white);
+        }
+
+        .contact-content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .contact-link:hover {
+            color: var(--bg-light);
+            border-bottom-color: var(--bg-light);
+        }
+
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            color: var(--accent);
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            margin-top: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .contact-button:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            20%, 80% {
+                opacity: 0.6;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(184, 107, 43, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Scroll reveal classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .scroll-container {
+                scroll-snap-type: none;
+            }
+            
+            .section {
+                height: auto;
+                min-height: 100vh;
+                padding: 6vh 6vw;
+                scroll-snap-align: none;
+            }
+
+            .content-section {
+                min-height: auto;
+                padding: 6vh 6vw;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .terms-content {
+                padding: 0;
+            }
+
+            .contact-content {
+                padding: 2rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .section-number {
+                margin-right: 0;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .highlight-box,
+            .info-box {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="watermark">The Unseen Hours</div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-quote">TERMS OF USE</h1>
+            <p class="hero-tagline">Understanding our community guidelines and your rights as part of The Unseen Hours</p>
+            <div class="last-updated">Last Updated: May 29, 2025</div>
+        </section>
+
+        <!-- Introduction -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">🌟</div>
+                    <h2 class="section-title">Welcome to Our Community</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>Welcome to The Unseen Hours ("we," "our," or "us"). By accessing or using our website (theunseenhours.org), forums, and related services, you agree to be bound by these Terms of Use. If you do not agree with any part of these terms, please do not use our services.</p>
+                    
+                    <p>These terms reflect our commitment to creating a safe, supportive community including but not limited to mental health and wellness support. We encourage you to read them carefully.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Purpose & Mission -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Our Purpose & Mission</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>The Unseen Hours is student organization that was founded at Michigan State University that exists to provide a platform for individuals to share personal stories of struggle, growth, healing, and recovery. We aim to create a supportive community where people can find resources, connect with others, and access mental health tools during their most challenging moments.</p>
+                    
+                    <p>By participating in our community, you agree to:</p>
+                    <ul>
+                        <li>Uphold our mission of support and understanding</li>
+                        <li>Respect all community guidelines and standards</li>
+                        <li>Contribute to a safe and welcoming environment for all users</li>
+                        <li>Use our services in good faith and for their intended purpose</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Community Standards -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">2</div>
+                    <h2 class="section-title">Community Standards</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>You may submit stories, comments, forum posts, or other content to our platform. All user contributions must meet our community standards. You agree that your submissions:</p>
+                    
+                    <ul>
+                        <li>Are truthful and authentic to the best of your knowledge</li>
+                        <li>Do not infringe on any third-party intellectual property rights</li>
+                        <li>Are not defamatory, offensive, discriminatory, or illegal</li>
+                        <li>Do not contain personal information of others without consent</li>
+                        <li>Respect the privacy and dignity of all community members</li>
+                        <li>Do not promote self-harm or provide harmful advice</li>
+                        <li>Follow our crisis intervention protocols when appropriate</li>
+                    </ul>
+
+                    <p>We reserve the right to moderate, edit, or remove any content that violates these guidelines. Repeated violations may result in account suspension or termination.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Content & Privacy -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">3</div>
+                    <h2 class="section-title">Content & Privacy</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>By submitting content to The Unseen Hours, you grant us a non-exclusive, royalty-free license to display, distribute, and promote your content on our platform. This allows us to:</p>
+                    
+                    <ul>
+                        <li>Share your stories with our community (respecting your privacy choices)</li>
+                        <li>Use your content for educational or awareness purposes</li>
+                        <li>Adapt your content for different formats or platforms</li>
+                        <li>Archive your content for future community benefit</li>
+                    </ul>
+
+                    <div class="info-box">
+                        <h4>🔒 Your Privacy Matters</h4>
+                        <p>We respect your choice to remain anonymous. If you request anonymity, we will not associate your content with your personal identity in public displays. However, we may retain identifying information for moderation and safety purposes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Medical Disclaimer -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">4</div>
+                    <h2 class="section-title">Medical Disclaimer</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <div class="highlight-box">
+                        <h4>⚠️ Important Medical Disclaimer</h4>
+                        <p>Content on The Unseen Hours is for informational and supportive purposes only. It does NOT constitute medical, legal, therapeutic, or other professional advice. Always seek help from qualified professionals regarding health, recovery, or legal matters.</p>
+                    </div>
+
+                    <p>Our community provides peer support and shared experiences, but we cannot replace professional care. If you are experiencing a mental health crisis, please contact:</p>
+                    
+                    <ul>
+                        <li><strong>988 Suicide & Crisis Lifeline:</strong> Call or text 988</li>
+                        <li><strong>Crisis Text Line:</strong> Text HOME to 741741</li>
+                        <li><strong>Emergency Services:</strong> Call 911 or go to your nearest emergency room</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Account Responsibilities -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">5</div>
+                    <h2 class="section-title">Your Responsibilities</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>If you create an account with us, you are responsible for:</p>
+                    
+                    <ul>
+                        <li>Maintaining the security of your login credentials</li>
+                        <li>All activities that occur under your account</li>
+                        <li>Immediately notifying us of any unauthorized access</li>
+                        <li>Providing accurate and up-to-date information</li>
+                        <li>Complying with all applicable laws and regulations</li>
+                    </ul>
+
+                    <p>We reserve the right to suspend or terminate accounts that violate these terms or pose a risk to our community's safety and well-being.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Limitation of Liability -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">6</div>
+                    <h2 class="section-title">Limitation of Liability</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We strive to create a safe and supportive community, but we cannot guarantee the accuracy, completeness, or reliability of user-submitted content. To the fullest extent permitted by law:</p>
+                    
+                    <ul>
+                        <li>We are not responsible for the accuracy of user-submitted content</li>
+                        <li>We do not endorse any advice, opinions, or recommendations shared by users</li>
+                        <li>We are not liable for any damages resulting from your use of our services</li>
+                        <li>We are not liable for any direct, indirect, incidental, or consequential damages arising from your use of our platform</li>
+                    </ul>
+
+                    <p>Your use of our services is at your own risk. We encourage you to use good judgment and seek professional help when needed.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Organizational Status -->
+        <section class="section terms-section content-section">
+            <div class="terms-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">7</div>
+                    <h2 class="section-title">About Our Organization</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <div class="info-box">
+                        <h4>📚 Student-Led Initiative</h4>
+                        <p>The Unseen Hours is a student-led, volunteer initiative. It is not operated as a business, nonprofit, or legal entity, and does not offer paid services of any kind. All roles are voluntary, and no participants receive compensation.</p>
+                    </div>
+
+                    <p>This structure reflects our grassroots commitment to peer support and community-driven mental health advocacy. While we strive for professionalism and reliability, users should understand the volunteer nature of our operations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section contact-section">
+            <div class="contact-content scroll-reveal">
+                <h2 class="contact-title">Questions About These Terms?</h2>
+                <p class="contact-text">If you have questions about these Terms of Use or need clarification about our policies, we're here to help.</p>
+                <p class="contact-text">Contact us at: <a href="mailto:contact@theunseenhours.org" class="contact-link">contact@theunseenhours.org</a></p>
+                <p class="contact-text">We typically respond within 2-3 business days.</p>
+                <a href="mailto:contact@theunseenhours.org" class="contact-button">
+                    <span>💌</span>
+                    Get in Touch
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.getElementById('scrollContainer');
+            const progressFill = document.getElementById('progressFill');
+            const sections = document.querySelectorAll('.section');
+
+            // Progress bar
+            scrollContainer.addEventListener('scroll', function() {
+                const scrollTop = scrollContainer.scrollTop;
+                const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                progressFill.style.width = progress + '%';
+            });
+
+            // Scroll animations
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    const elements = entry.target.querySelectorAll('.scroll-reveal');
+                    
+                    if (entry.isIntersecting) {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.add('active');
+                            }, index * 200);
+                        });
+                    } else {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.remove('active');
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, {
+                root: scrollContainer,
+                rootMargin: '-20% 0px -20% 0px',
+                threshold: 0.1
+            });
+
+            sections.forEach(function(section) {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
