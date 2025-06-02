@@ -567,6 +567,46 @@
             border-color: var(--accent);
         }
 
+        .offering-card:nth-child(1) {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(1):hover {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(2) {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(2):hover {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(3) {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(3):hover {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(4) {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(4):hover {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(5) {
+            cursor: pointer;
+        }
+
+        .offering-card:nth-child(5):hover {
+            cursor: pointer;
+        }
+
         .offering-icon {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
@@ -677,16 +717,65 @@
             transform: translateY(-2px);
         }
 
-        /* Footer */
+        /* Redesigned Footer */
         .footer {
             background: var(--text-primary);
             color: var(--white);
             padding: 3rem 0 2rem;
         }
 
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-emergency {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(185, 28, 28, 0.15) 100%);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .footer-emergency h4 {
+            color: #FF6B6B;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .emergency-footer-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .emergency-footer-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #FF6B6B;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .emergency-footer-link:hover {
+            background: rgba(220, 38, 38, 0.2);
+            border-color: #FF6B6B;
+            transform: translateY(-1px);
+        }
+
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -694,15 +783,42 @@
         .footer-section h3 {
             font-family: 'Playfair Display', serif;
             font-size: 1.3rem;
+            color: var(--bg-light);
             margin-bottom: 1rem;
-            color: var(--white);
+            font-weight: 600;
         }
 
-        .footer-section p,
+        .footer-section h4 {
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.6rem;
+        }
+
         .footer-section a {
             color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            line-height: 1.8;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            line-height: 1.6;
         }
 
         .footer-section a:hover {
@@ -711,33 +827,69 @@
 
         .social-links {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             margin-top: 1rem;
         }
 
         .social-link {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--white);
             text-decoration: none;
             transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.8rem;
         }
 
         .social-link:hover {
             background: var(--accent);
             transform: translateY(-2px);
+            color: var(--white);
         }
 
         .footer-bottom {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .disclaimer-text {
             color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            line-height: 1.5;
+            max-width: 600px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--accent-light);
         }
 
         /* Animations */
@@ -839,6 +991,27 @@
             .hero-content {
                 padding: 0 1rem;
             }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: left;
+                gap: 1rem;
+            }
+
+            .emergency-footer-links {
+                flex-direction: column;
+                align-items: center;
+            }
         }
 
         @media (max-width: 480px) {
@@ -851,6 +1024,10 @@
             .story-card,
             .join-card {
                 padding: 2rem 1.5rem;
+            }
+
+            .footer-container {
+                padding: 0 1rem;
             }
         }
     </style>
@@ -871,7 +1048,7 @@
                 </a>
                 <a href="sms:741741" class="emergency-link">
                     <span class="emergency-icon">💬</span>
-                    <span class="emergency-link-text">Text 741741</span>
+                    <span class="emergency-link-text">Text HOME to 741741</span>
                 </a>
             </div>
             <button class="emergency-close" id="emergencyClose">&times;</button>
@@ -883,7 +1060,7 @@
         <div class="nav-container">
             <a href="#" class="logo">The Unseen Hours</a>
             <ul class="nav-menu">
-                <li><a href="#mission" class="nav-link">Mission</a></li>
+                <li><a href="https://theunseenhours.org/mission" class="nav-link">Mission</a></li>
                 <li class="nav-item dropdown-container">
                     <a href="#" class="nav-link">Tools</a>
                     <div class="dropdown">
@@ -912,23 +1089,23 @@
                         </div>
                     </div>
                 </li>
-                <li><a href="#" class="nav-link">Forums</a></li>
-                <li><a href="#" class="nav-link">Chapters</a></li>
-                <li><a href="#offerings" class="nav-link">Resources</a></li>
-                <li><a href="#" class="nav-link">Contact</a></li>
-                <li><a href="#" class="nav-link">About</a></li>
+                <li><a href="https://forums.theunseenhours.org/" class="nav-link">Forums</a></li>
+                <li><a href="https://theunseenhours.org/chapters" class="nav-link">Chapters</a></li>
+                <li><a href="https://theunseenhours.org/resources" class="nav-link">Resources</a></li>
+                <li><a href="https://theunseenhours.org/contact" class="nav-link">Contact</a></li>
+                <li><a href="https://theunseenhours.org/about" class="nav-link">About</a></li>
             </ul>
             <button class="mobile-toggle" id="mobileToggle">☰</button>
         </div>
         <div class="mobile-menu" id="mobileMenu">
             <ul>
-                <li><a href="#mission">Mission</a></li>
+                <li><a href="https://theunseenhours.org/mission">Mission</a></li>
                 <li><a href="#">Tools</a></li>
-                <li><a href="#">Forums</a></li>
-                <li><a href="#">Chapters</a></li>
-                <li><a href="#offerings">Resources</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="https://forums.theunseenhours.org/">Forums</a></li>
+                <li><a href="https://theunseenhours.org/chapters">Chapters</a></li>
+                <li><a href="https://theunseenhours.org/resources">Resources</a></li>
+                <li><a href="https://theunseenhours.org/contact">Contact</a></li>
+                <li><a href="https://theunseenhours.org/about">About</a></li>
             </ul>
         </div>
     </nav>
@@ -943,8 +1120,8 @@
             <h1>You are not alone in the unseen hours.</h1>
             <p>A platform for healing, support, and solidarity.</p>
             <div class="hero-buttons">
-                <a href="#join" class="btn btn-primary">Join Us</a>
-                <a href="#mission" class="btn btn-secondary">Learn More</a>
+                <a href="https://theunseenhours.org/chapters" class="btn btn-primary">Join Us</a>
+                <a href="https://theunseenhours.org/about" class="btn btn-secondary">About Us</a>
             </div>
         </div>
     </section>
@@ -973,34 +1150,34 @@
             <p class="section-subtitle">Comprehensive support for your mental health and wellness journey</p>
             <div class="offerings-grid">
                 <div class="offering-card">
-                    <span class="offering-icon">🆘</span>
-                    <h3>Crisis Support</h3>
-                    <p>Immediate help and resources for mental health emergencies, available 24/7.</p>
+                    <span class="offering-icon">🌬️</span>
+                    <h3>Box Breathing</h3>
+                    <p>Calm your mind with this simple breathing technique</p>
+                </div>
+                <div class="offering-card">
+                    <span class="offering-icon">💫</span>
+                    <h3>Positive Daily Affirmations</h3>
+                    <p>Daily encouragement and self-compassion</p>
                 </div>
                 <div class="offering-card">
                     <span class="offering-icon">🧘</span>
-                    <h3>Wellness Tools</h3>
-                    <p>Guided meditation, breathing exercises, and mindfulness practices for daily wellbeing.</p>
+                    <h3>5-4-3-2-1 Sensory Grounding</h3>
+                    <p>Ground yourself in the present moment</p>
+                </div>
+                <div class="offering-card">
+                    <span class="offering-icon">⏰</span>
+                    <h3>Pomodoro Timer</h3>
+                    <p>Boost focus and productivity</p>
+                </div>
+                <div class="offering-card">
+                    <span class="offering-icon">🆘</span>
+                    <h3>Panic Attack SOS</h3>
+                    <p>Emergency techniques for panic attacks</p>
                 </div>
                 <div class="offering-card">
                     <span class="offering-icon">👥</span>
                     <h3>Community Support</h3>
                     <p>Connect with others who understand your journey through local chapters and forums.</p>
-                </div>
-                <div class="offering-card">
-                    <span class="offering-icon">📚</span>
-                    <h3>Educational Resources</h3>
-                    <p>Evidence-based information about mental health, self-care, and recovery.</p>
-                </div>
-                <div class="offering-card">
-                    <span class="offering-icon">🎯</span>
-                    <h3>Study Support</h3>
-                    <p>Academic tools and strategies to help you succeed while managing mental health.</p>
-                </div>
-                <div class="offering-card">
-                    <span class="offering-icon">💬</span>
-                    <h3>Peer Stories</h3>
-                    <p>Real experiences from community members sharing hope and healing.</p>
                 </div>
             </div>
         </div>
@@ -1020,13 +1197,9 @@
                     <p class="story-quote">"The breathing exercises helped me through my worst panic attacks. I finally felt like I had tools that actually worked."</p>
                     <p class="story-author">— College Student</p>
                 </div>
-                <div class="story-card">
-                    <p class="story-quote">"Starting a chapter at my school brought together students who needed each other. We're creating the support system we never had."</p>
-                    <p class="story-author">— Chapter Leader</p>
-                </div>
             </div>
             <div class="stories-cta">
-                <a href="#" class="btn btn-primary">Share Your Story</a>
+                <a href="https://forums.theunseenhours.org" class="btn btn-primary">Share Your Story</a>
             </div>
         </div>
     </section>
@@ -1040,12 +1213,12 @@
                 <div class="join-card">
                     <h3>Start a Chapter</h3>
                     <p>Bring The Unseen Hours to your school or community. Lead local initiatives and create safe spaces for mental health support.</p>
-                    <a href="#" class="btn btn-white">Learn More</a>
+                    <a href="https://theunseenhours.org/chapters" class="btn btn-white">Learn More</a>
                 </div>
                 <div class="join-card">
                     <h3>Volunteer with Us</h3>
                     <p>Support our mission through content creation, peer support, event planning, and community outreach efforts.</p>
-                    <a href="#" class="btn btn-white">Get Involved</a>
+                    <a href="https://theunseenhours.org/events" class="btn btn-white">Get Involved</a>
                 </div>
             </div>
         </div>
@@ -1053,44 +1226,80 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
+        <div class="footer-container">
+            <!-- Emergency Section -->
+            <div class="footer-emergency">
+                <h4>If you're experiencing a mental health emergency or having thoughts of self-harm, immediate help is available 24/7:</h4>
+                <div class="emergency-footer-links">
+                    <a href="tel:911" class="emergency-footer-link">
+                        <span>🚨</span> Emergency: 911
+                    </a>
+                    <a href="tel:988" class="emergency-footer-link">
+                        <span>📞</span> Crisis Line: 988
+                    </a>
+                    <a href="sms:741741" class="emergency-footer-link">
+                        <span>💬</span> Text HOME to 741741
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Footer Content -->
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>The Unseen Hours</h3>
-                    <p>A student-led initiative dedicated to mental health awareness, support, and community building. Your experiences matter. You matter.</p>
+                    <p>Supporting each other through life's invisible moments. A student-led initiative dedicated to mental health awareness and support.</p>
                     <div class="social-links">
-                        <a href="#" class="social-link">YT</a>
-                        <a href="#" class="social-link">IG</a>
-                        <a href="#" class="social-link">X</a>
-                        <a href="#" class="social-link">FB</a>
+                        <a href="https://youtube.com/@TheUnseenHoursYT" class="social-link" target="_blank">YT</a>
+                        <a href="https://instagram.com/theunseenhoursx" class="social-link" target="_blank">IG</a>
+                        <a href="https://x.com/theunseenhoursx" class="social-link" target="_blank">X</a>
                     </div>
                 </div>
+
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <p><a href="#mission">Our Mission</a></p>
-                    <p><a href="#offerings">Resources</a></p>
-                    <p><a href="#">Tools</a></p>
-                    <p><a href="#stories">Stories</a></p>
-                    <p><a href="#">Find Chapters</a></p>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://theunseenhours.org/mission">Our Mission</a></li>
+                        <li><a href="https://theunseenhours.org/resources">Resources</a></li>
+                        <li><a href="https://theunseenhours.org/stories">Stories</a></li>
+                        <li><a href="https://theunseenhours.org/chapters">Find Chapters</a></li>
+                        <li><a href="https://status.theunseenhours.org">Status & Outages</a></li>
+                    </ul>
                 </div>
+
                 <div class="footer-section">
-                    <h3>Support</h3>
-                    <p><a href="#">Crisis Resources</a></p>
-                    <p><a href="#">Community Guidelines</a></p>
-                    <p><a href="#">Privacy Policy</a></p>
-                    <p><a href="mailto:contact@theunseenhours.org">Contact Us</a></p>
-                    <p><a href="tel:+18105693159">(810) 569-3159</a></p>
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="https://theunseenhours.org/crisis-support">Crisis Resources</a></li>
+                        <li><a href="https://forums.theunseenhours.org/">Community Guidelines</a></li>
+                        <li><a href="mailto:contact@theunseenhours.org">Contact Us</a></li>
+                        <li><a href="tel:+18105693159">(810) 569-3159</a></li>
+                    </ul>
                 </div>
+
                 <div class="footer-section">
-                    <h3>Emergency Resources</h3>
-                    <p><a href="tel:988">988 Suicide & Crisis Lifeline</a></p>
-                    <p><a href="sms:741741">Crisis Text Line: 741741</a></p>
-                    <p><a href="tel:911">Emergency: 911</a></p>
-                    <p><a href="#">Find Local Support</a></p>
+                    <h4>Emergency Resources</h4>
+                    <ul>
+                        <li><a href="tel:988">988 Suicide & Crisis Lifeline</a></li>
+                        <li><a href="sms:741741">Crisis Text Line: TEXT HOME to 741741</a></li>
+                        <li><a href="tel:911">Emergency: 911</a></li>
+                        <li><a href="https://theunseenhours.org/crisis-support">Find Local Support</a></li>
+                    </ul>
                 </div>
             </div>
+
+            <!-- Footer Bottom -->
             <div class="footer-bottom">
-                <p>&copy; 2025 The Unseen Hours. All rights reserved.</p>
+                <div>
+                    <p class="disclaimer-text">
+                        The Unseen Hours is a student-led, volunteer initiative. It is not operated as a business, nonprofit, or legal entity, and does not offer paid services of any kind. All roles are voluntary, and no participants receive compensation.
+                    </p>
+                    <p class="footer-copyright">&copy; 2025 The Unseen Hours. All rights reserved.</p>
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="https://theunseenhours.org/privacy-policy">Privacy Policy</a>
+                    <a href="https://theunseenhours.org/terms-and-conditions">Terms and Conditions</a>
+                    <a href="https://theunseenhours.org/accessibility">Accessibility</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -1172,6 +1381,25 @@
             const hero = document.querySelector('.hero');
             hero.style.background = 'linear-gradient(135deg, #f5f1eb 0%, #d4956f 100%)';
             this.style.display = 'none';
+        });
+
+        // Add click functionality to offering cards
+        const offeringCards = document.querySelectorAll('.offering-card');
+        const offeringLinks = [
+            'https://theunseenhours.org/box-breathing',
+            'https://theunseenhours.org/daily-affirmations',
+            'https://theunseenhours.org/54321-sensory-grounding',
+            'https://theunseenhours.org/pomodoro',
+            'https://theunseenhours.org/panic-attack-sos',
+            'https://forums.theunseenhours.org' // Community Support
+        ];
+
+        offeringCards.forEach((card, index) => {
+            if (offeringLinks[index]) { // Only add click if there's a link
+                card.addEventListener('click', function() {
+                    window.open(offeringLinks[index], '_blank');
+                });
+            }
         });
     </script>
 </body>
