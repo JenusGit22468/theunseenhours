@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Events - The Unseen Hours</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            scroll-behavior: smooth;
+            background: #000;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 80px 5vw;
+            text-align: center;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .home-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section - MSU Theme */
+        .hero-section {
+            background: linear-gradient(135deg, #000000 0%, #18453B 50%, #000000 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 6rem);
+            font-weight: 200;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 2rem);
+            font-weight: 300;
+            opacity: 0;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            margin-bottom: 3rem;
+        }
+
+        .hero-description {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1.5s forwards;
+        }
+
+        /* Calendar Section - MSU Theme */
+        .calendar-section {
+            background: linear-gradient(135deg, #18453B 0%, #000000 50%, #18453B 100%);
+            color: white;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: white;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .calendar-content {
+            max-width: 1200px;
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-container {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-container:hover {
+            border-color: #18453B;
+            box-shadow: 0 25px 50px rgba(24, 69, 59, 0.3);
+        }
+
+        .calendar-header {
+            background: linear-gradient(135deg, #18453B 0%, #0f2e26 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .msu-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .calendar-header-content h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-header-content p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .calendar-iframe-container {
+            flex: 1;
+            background: white;
+            min-height: 500px;
+        }
+
+        .calendar-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Events Info Section - MSU Theme */
+        .events-info-section {
+            background: linear-gradient(135deg, #000000 0%, #18453B 50%, #000000 100%);
+            color: white;
+        }
+
+        .events-info-content {
+            max-width: 1000px;
+            width: 100%;
+            text-align: left;
+        }
+
+        .events-info-content h3 {
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        .events-info-content p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .event-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .event-type-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            text-align: center;
+        }
+
+        .event-type-card:hover {
+            transform: translateY(-5px);
+            border-color: #18453B;
+            background: rgba(24, 69, 59, 0.2);
+            box-shadow: 0 15px 30px rgba(24, 69, 59, 0.3);
+        }
+
+        .event-type-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .event-type-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .event-type-description {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Join Section - MSU Theme */
+        .join-section {
+            background: linear-gradient(135deg, #18453B 0%, #000000 50%, #18453B 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-title {
+            font-size: clamp(2rem, 5vw, 5rem);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .join-text {
+            font-size: clamp(1rem, 2vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+        }
+
+        .join-buttons {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .join-button {
+            background: linear-gradient(135deg, #18453B 0%, #0f2e26 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 10px 30px rgba(24, 69, 59, 0.4);
+        }
+
+        .join-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(24, 69, 59, 0.6);
+            background: linear-gradient(135deg, #0f2e26 0%, #18453B 100%);
+        }
+
+        .join-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .join-button.secondary:hover {
+            background: rgba(24, 69, 59, 0.2);
+            border-color: #18453B;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            20%, 80% {
+                opacity: 0.8;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #18453B, #0f2e26);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 8vw;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .calendar-content {
+                height: 60vh;
+            }
+
+            .calendar-iframe-container {
+                min-height: 400px;
+            }
+
+            .calendar-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+
+            .msu-logo {
+                width: 30px;
+                height: 30px;
+                padding: 6px;
+                border-radius: 6px;
+            }
+
+            .join-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .join-button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .event-types {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .event-type-card {
+                padding: 1.5rem;
+            }
+
+            /* Optimize particles for mobile performance */
+            .particle {
+                display: none;
+            }
+
+            /* Mobile typography adjustments */
+            .hero-title {
+                font-size: clamp(1.5rem, 8vw, 3rem);
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 4vw, 1.4rem);
+            }
+
+            .section-title {
+                font-size: clamp(1.3rem, 6vw, 2.5rem);
+                margin-bottom: 2rem;
+            }
+
+            .join-title {
+                font-size: clamp(1.8rem, 8vw, 3.5rem);
+            }
+
+            .join-text {
+                font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            }
+
+            .join-button {
+                padding: 14px 32px;
+                font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 30px 10vw;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .calendar-content {
+                height: 50vh;
+            }
+
+            .calendar-iframe-container {
+                min-height: 300px;
+            }
+
+            .msu-logo {
+                width: 25px;
+                height: 25px;
+                padding: 5px;
+                border-radius: 5px;
+            }
+
+            .calendar-header-content h4 {
+                font-size: 1.1rem;
+            }
+
+            .calendar-header-content p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal {
+                transition: opacity 0.3s ease;
+                transform: none;
+            }
+
+            .particle {
+                animation: none;
+            }
+
+            .hero-title,
+            .hero-subtitle,
+            .hero-description {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            .scroll-container {
+                scroll-snap-type: none;
+            }
+
+            .section {
+                scroll-snap-align: none;
+            }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            animation: bounce 2s infinite;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-title">Gather in the Spaces Between</h1>
+            <p class="hero-subtitle">Where hidden stories find their moment</p>
+            <p class="hero-description">
+                Join us for meaningful conversations, creative expressions, and moments of connection 
+                that honor both the seen and unseen aspects of our shared human experience.
+            </p>
+            <div class="scroll-indicator">Scroll to explore ↓</div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="section calendar-section">
+            <h2 class="section-title scroll-reveal">EVENT CALENDAR</h2>
+            <div class="calendar-content scroll-reveal">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <img src="https://cdn.theunseenhours.org/msu-logo.png" alt="MSU Spartan Logo" class="msu-logo">
+                        <div class="calendar-header-content">
+                            <h4>Upcoming Events</h4>
+                            <p>Stay updated with all our gatherings and activities</p>
+                        </div>
+                    </div>
+                    <div class="calendar-iframe-container">
+                        <iframe class="calendar-iframe" 
+                                src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=America%2FChicago&showPrint=0&src=b3JnLnRoZXVuc2VlbmhvdXJzQGdtYWlsLmNvbQ&color=%23ef6c00"
+                                frameborder="0" 
+                                scrolling="no">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Info Section -->
+        <section class="section events-info-section">
+            <div class="events-info-content scroll-reveal">
+                <h3>Creating Spaces for Connection</h3>
+                <p>
+                    Our events are designed to foster genuine human connection and understanding. 
+                    Each gathering creates a safe space where participants can share their experiences, 
+                    explore creativity, and find community in the margins of everyday life.
+                </p>
+                
+                <div class="event-types">
+                    <div class="event-type-card">
+                        <span class="event-type-icon">🎭</span>
+                        <div class="event-type-title">Discussion Circles</div>
+                        <div class="event-type-description">
+                            Open conversations about mental health, identity, and personal growth in supportive group settings.
+                        </div>
+                    </div>
+                    
+                    <div class="event-type-card">
+                        <span class="event-type-icon">✨</span>
+                        <div class="event-type-title">Creative Workshops</div>
+                        <div class="event-type-description">
+                            Artistic expression sessions including writing, art therapy, and collaborative storytelling.
+                        </div>
+                    </div>
+                    
+                    <div class="event-type-card">
+                        <span class="event-type-icon">🌙</span>
+                        <div class="event-type-title">Mindfulness Sessions</div>
+                        <div class="event-type-description">
+                            Guided meditation, reflection practices, and wellness activities for mental clarity.
+                        </div>
+                    </div>
+                    
+                    <div class="event-type-card">
+                        <span class="event-type-icon">🤝</span>
+                        <div class="event-type-title">Community Gatherings</div>
+                        <div class="event-type-description">
+                            Social events that build lasting connections and celebrate our diverse community.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Section -->
+        <section class="section join-section">
+            <h2 class="join-title scroll-reveal">Join Our Community</h2>
+            <p class="join-text scroll-reveal">
+                Every gathering is an opportunity to connect with others who understand 
+                that the most meaningful conversations happen in the quiet spaces between words.
+            </p>
+            <div class="join-buttons scroll-reveal">
+                <a href="mailto:events@theunseenhours.org" class="join-button">
+                    <span>📧</span>
+                    Get Event Updates
+                </a>
+                <a href="mailto:chapters@theunseenhours.org" class="join-button secondary">
+                    <span>🌟</span>
+                    Start a Chapter
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Global function for home button
+        function goHome() {
+            window.location.href = 'https://theunseenhours.org';
+        }
+
+        class ScrollStoryController {
+            constructor() {
+                this.scrollContainer = document.getElementById('scrollContainer');
+                this.progressFill = document.getElementById('progressFill');
+                this.sections = document.querySelectorAll('.section');
+                this.scrollIndicator = document.querySelector('.scroll-indicator');
+                
+                this.bindEvents();
+                this.initializeObserver();
+                this.handleResize();
+            }
+
+            bindEvents() {
+                this.scrollContainer.addEventListener('scroll', this.throttle(() => {
+                    this.updateProgress();
+                    this.handleScrollIndicator();
+                }, 16)); // ~60fps
+
+                window.addEventListener('resize', this.debounce(() => {
+                    this.handleResize();
+                }, 250));
+            }
+
+            updateProgress() {
+                const scrollTop = this.scrollContainer.scrollTop;
+                const scrollHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+                const progress = Math.min((scrollTop / scrollHeight) * 100, 100);
+                this.progressFill.style.width = `${progress}%`;
+            }
+
+            handleScrollIndicator() {
+                if (this.scrollIndicator) {
+                    const scrollTop = this.scrollContainer.scrollTop;
+                    if (scrollTop > 100) {
+                        this.scrollIndicator.classList.add('hidden');
+                    } else {
+                        this.scrollIndicator.classList.remove('hidden');
+                    }
+                }
+            }
+
+            handleResize() {
+                // Force recalculation of scroll positions on resize
+                this.updateProgress();
+            }
+
+            initializeObserver() {
+                // Check if IntersectionObserver is supported
+                if (!window.IntersectionObserver) {
+                    // Fallback for older browsers - show all elements
+                    document.querySelectorAll('.scroll-reveal').forEach(el => {
+                        el.classList.add('active');
+                    });
+                    return;
+                }
+
+                const options = {
+                    root: this.scrollContainer,
+                    rootMargin: '-10% 0px -10% 0px',
+                    threshold: [0.1, 0.5]
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const elements = entry.target.querySelectorAll('.scroll-reveal');
+                        
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                            // Scrolling into view - animate in
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.add('active');
+                                }, index * 150);
+                            });
+                        } else if (!entry.isIntersecting) {
+                            // Scrolling out of view - animate out
+                            elements.forEach((el) => {
+                                el.classList.remove('active');
+                            });
+                        }
+                    });
+                }, options);
+
+                this.sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+
+            // Utility functions for performance
+            throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                }
+            }
+
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollStoryController();
+        });
+
+        // Prevent horizontal scrolling issues
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Handle snap-lock scroll behavior
+        let isScrolling = false;
+        let scrollTimeout;
+
+        document.getElementById('scrollContainer').addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            isScrolling = true;
+            
+            scrollTimeout = setTimeout(function() {
+                isScrolling = false;
+                
+                // Snap to nearest section on mobile
+                if (window.innerWidth <= 768) {
+                    const container = document.getElementById('scrollContainer');
+                    const sections = document.querySelectorAll('.section');
+                    const containerRect = container.getBoundingClientRect();
+                    const containerCenter = containerRect.height / 2;
+                    
+                    let closestSection = null;
+                    let closestDistance = Infinity;
+                    
+                    sections.forEach(section => {
+                        const sectionRect = section.getBoundingClientRect();
+                        const sectionCenter = sectionRect.top + sectionRect.height / 2;
+                        const distance = Math.abs(sectionCenter - containerCenter);
+                        
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closestSection = section;
+                        }
+                    });
+                    
+                    if (closestSection && closestDistance > 50) {
+                        closestSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            }, 150);
+        });
+    </script>
+</body>
+</html>
