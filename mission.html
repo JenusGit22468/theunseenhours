@@ -4,7 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission & Vision - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,7 +28,7 @@
         body, html {
             height: 100%;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -24,7 +38,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: #000;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
             z-index: 9999;
             overflow-y: auto;
             overflow-x: hidden;
@@ -47,120 +61,134 @@
             position: fixed;
             top: 30px;
             left: 30px;
-            background: rgba(255, 165, 0, 0.1);
-            border: 1px solid rgba(255, 165, 0, 0.3);
-            color: #FFA500;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
             padding: 12px 24px;
             font-size: 0.9rem;
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 10000;
-            backdrop-filter: blur(20px);
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
         }
 
         .home-button:hover {
-            background: rgba(255, 165, 0, 0.2);
-            border-color: rgba(255, 165, 0, 0.5);
+            background: var(--accent);
+            color: var(--white);
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
         }
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 30%, #1a1a1a 70%, #2a1a0a 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
         }
 
         .hero-quote {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 200;
+            font-weight: 400;
             line-height: 1.2;
             margin-bottom: 2rem;
             opacity: 0;
             transform: translateY(50px);
             animation: fadeInUp 1.5s ease-out 0.5s forwards;
             max-width: 1000px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
 
         .hero-tagline {
             font-size: clamp(1.2rem, 3vw, 2rem);
-            font-weight: 300;
+            font-weight: 400;
             opacity: 0;
             font-style: italic;
-            color: rgba(255, 165, 0, 0.8);
+            color: var(--accent);
             transform: translateY(30px);
             animation: fadeInUp 1.5s ease-out 1s forwards;
         }
 
         /* Mission Section */
         .mission-section {
-            background: linear-gradient(135deg, #2a1a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-            color: white;
+            background: var(--white);
+            color: var(--text-primary);
         }
 
         .section-title {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 600;
             margin-bottom: 3rem;
-            color: #FFA500;
-            letter-spacing: 0.05em;
+            color: var(--accent);
+            letter-spacing: -0.02em;
         }
 
         .mission-text {
             font-size: clamp(1.1rem, 2.5vw, 1.8rem);
             line-height: 1.6;
             max-width: 900px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+            color: var(--text-secondary);
         }
 
         /* Principles Section */
         .principles-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a1a0a 100%);
-            color: white;
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
+            color: var(--text-primary);
         }
 
         .principles-title {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 600;
             margin-bottom: 2rem;
-            color: #FFA500;
-            letter-spacing: 0.05em;
+            color: var(--accent);
+            letter-spacing: -0.02em;
         }
 
         .principles-subtitle {
             font-size: clamp(1.1rem, 2.5vw, 1.8rem);
             line-height: 1.6;
             max-width: 800px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            color: var(--text-secondary);
             font-style: italic;
         }
 
         /* Values Sections */
         .value-section {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a1a0a 100%);
-            color: white;
+            background: var(--bg-light);
+            color: var(--text-primary);
         }
 
         .value-section:nth-child(odd) {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2a1a0a 50%, #0a0a0a 100%);
+            background: var(--white);
+        }
+
+        .value-section:nth-child(even) {
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
         }
 
         .value-name {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            color: #FFA500;
+            font-weight: 600;
+            color: var(--accent);
             margin-bottom: 2rem;
-            letter-spacing: 0.02em;
+            letter-spacing: -0.02em;
         }
 
         .value-description {
             font-size: clamp(1rem, 2.2vw, 1.6rem);
             line-height: 1.7;
             max-width: 800px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.85);
+            font-weight: 400;
+            color: var(--text-secondary);
         }
 
         /* Scroll-triggered animations */
@@ -208,10 +236,11 @@
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 165, 0, 0.6);
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
             border-radius: 50%;
+            opacity: 0.4;
             animation: particleFloat 10s infinite ease-in-out;
         }
 
@@ -231,10 +260,10 @@
                 opacity: 0;
             }
             10% {
-                opacity: 0.6;
+                opacity: 0.4;
             }
             20%, 80% {
-                opacity: 0.8;
+                opacity: 0.6;
                 transform: translateY(-10vh) translateX(10px);
             }
             90% {
@@ -249,13 +278,13 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(184, 107, 43, 0.2);
             z-index: 9999;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #FFA500, #FF8C00);
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
             width: 0%;
             transition: width 0.3s ease;
         }
@@ -266,11 +295,12 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 165, 0, 0.6);
+            color: var(--accent);
             font-size: 0.9rem;
             animation: bounce 2s infinite;
             z-index: 10;
             transition: opacity 0.5s ease;
+            opacity: 0.7;
         }
 
         .scroll-indicator.hidden {
@@ -317,26 +347,46 @@
 
         /* Final section */
         .final-section {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 50%, #FFA500 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+            color: var(--white);
         }
 
         .final-title {
+            font-family: 'Playfair Display', serif;
             font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 300;
+            font-weight: 500;
             margin-bottom: 2rem;
-            background: linear-gradient(135deg, #fff, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--white);
+            letter-spacing: -0.02em;
         }
 
         .final-text {
             font-size: clamp(1.1rem, 2.5vw, 1.8rem);
             line-height: 1.6;
             max-width: 800px;
-            font-weight: 300;
+            font-weight: 400;
             color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal,
+            .scroll-reveal-left,
+            .scroll-reveal-right {
+                transition: opacity 0.3s ease;
+                transform: none;
+            }
+
+            .particle {
+                animation: none;
+            }
+
+            .hero-quote,
+            .hero-tagline {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
 </head>
