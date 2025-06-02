@@ -1,1 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fdf7f2;
+      color: #3a2e1e;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #5a4225;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #cdbba7;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #a3754d;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #8b623f;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contact Us</h1>
+  <form id="contactForm">
+    <label>Name:</label>
+    <input type="text" name="name" required>
+
+    <label>Email:</label>
+    <input type="email" name="email" required>
+
+    <label>Message:</label>
+    <textarea name="message" rows="5" required></textarea>
+
+    <button type="submit">Send</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch("https://hook.us2.make.com/d4o5e4aacevzr4ts19fo09kxie5z551k", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(() => {
+        alert("Message sent successfully!");
+        form.reset();
+      })
+      .catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
+    });
+  </script>
+
+</body>
+</html>
 
