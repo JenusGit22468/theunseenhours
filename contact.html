@@ -1,64 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Contact Us</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us – The Unseen Hours</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #fdf7f2;
-      color: #3a2e1e;
-      padding: 40px;
-      max-width: 600px;
-      margin: auto;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    h1 {
-      color: #5a4225;
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      scroll-behavior: smooth;
     }
 
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      margin-bottom: 16px;
-      border: 1px solid #cdbba7;
-      border-radius: 4px;
-      font-size: 16px;
+    .scroll-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 9999;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-snap-type: y mandatory;
     }
 
-    button {
-      background-color: #a3754d;
-      color: white;
+    .section {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      scroll-snap-align: start;
+      padding: 0 5vw;
+      text-align: center;
+    }
+
+    .home-button {
+      position: fixed;
+      top: 30px;
+      left: 30px;
+      background: rgba(255, 165, 0, 0.1);
+      border: 1px solid rgba(255, 165, 0, 0.3);
+      color: #FFA500;
       padding: 12px 24px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
+      font-size: 0.9rem;
+      border-radius: 30px;
       cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 10000;
+      backdrop-filter: blur(20px);
     }
 
-    button:hover {
-      background-color: #8b623f;
+    .home-button:hover {
+      background: rgba(255, 165, 0, 0.2);
+      border-color: rgba(255, 165, 0, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .contact-section {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a1a0a 100%);
+      color: white;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #FFA500;
+      letter-spacing: 0.05em;
+    }
+
+    .mission-text {
+      font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+      line-height: 1.6;
+      max-width: 800px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    form {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,165,0,0.3);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.05);
+      color: white;
+      font-size: 1rem;
+    }
+
+    form textarea {
+      resize: vertical;
+    }
+
+    form button {
+      background: #FFA500;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    form button:hover {
+      background: #cc8400;
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(60px);
+      transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 9999;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FFA500, #FF8C00);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+      .section {
+        padding: 0 8vw;
+      }
+
+      .home-button {
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
 
-  <h1>Contact Us</h1>
-  <form id="contactForm">
-    <label>Name:</label>
-    <input type="text" name="name" required>
+  <button class="home-button" onclick="goHome()">← Home</button>
 
-    <label>Email:</label>
-    <input type="email" name="email" required>
+  <div class="scroll-container" id="scrollContainer">
 
-    <label>Message:</label>
-    <textarea name="message" rows="5" required></textarea>
-
-    <button type="submit">Send</button>
-  </form>
+    <!-- Contact Section -->
+    <section class="section contact-section">
+      <h2 class="section-title scroll-reveal">CONTACT US</h2>
+      <p class="mission-text scroll-reveal">Have something to share? We'd love to hear from you.</p>
+      <form id="contactForm" class="scroll-reveal">
+        <input type="text" name="first_name" placeholder="First Name" required>
+        <input type="text" name="last_name" placeholder="Last Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="phone" placeholder="Phone Number" required pattern="[0-9]{7,15}" title="Please enter a valid phone number using digits only.">
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </div>
 
   <script>
+    class ScrollStoryController {
+      constructor() {
+        this.scrollContainer = document.getElementById('scrollContainer');
+        this.progressFill = document.getElementById('progressFill');
+        this.sections = document.querySelectorAll('.section');
+        this.bindEvents();
+        this.initializeObserver();
+      }
+
+      bindEvents() {
+        this.scrollContainer.addEventListener('scroll', () => {
+          this.updateProgress();
+        });
+      }
+
+      updateProgress() {
+        const scrollTop = this.scrollContainer.scrollTop;
+        const scrollHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+        const progress = (scrollTop / scrollHeight) * 100;
+        this.progressFill.style.width = `${progress}%`;
+      }
+
+      initializeObserver() {
+        const options = {
+          root: this.scrollContainer,
+          rootMargin: '-20% 0px -20% 0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const elements = entry.target.querySelectorAll('.scroll-reveal');
+            if (entry.isIntersecting) {
+              elements.forEach((el, index) => {
+                setTimeout(() => {
+                  el.classList.add('active');
+                }, index * 200);
+              });
+            } else {
+              elements.forEach((el, index) => {
+                setTimeout(() => {
+                  el.classList.remove('active');
+                }, index * 100);
+              });
+            }
+          });
+        }, options);
+
+        this.sections.forEach(section => {
+          observer.observe(section);
+        });
+      }
+    }
+
+    function goHome() {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = '/';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new ScrollStoryController();
+    });
+
+    // Submit to Make webhook
     const form = document.getElementById('contactForm');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -79,7 +275,5 @@
       });
     });
   </script>
-
 </body>
 </html>
-
