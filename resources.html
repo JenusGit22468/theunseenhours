@@ -1,1 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 5vh 5vw;
+            text-align: center;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .hero-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            opacity: 0;
+            font-style: italic;
+            color: var(--accent);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        /* Resource Category Sections */
+        .resource-section {
+            background: var(--white);
+            color: var(--text-primary);
+        }
+
+        .resource-section:nth-child(odd) {
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
+        }
+
+        .category-icon {
+            font-size: clamp(4rem, 10vw, 8rem);
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+            color: var(--accent);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .category-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .category-description {
+            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .resource-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-align: left;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-light);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(184, 107, 43, 0.2);
+        }
+
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+            color: var(--white);
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .cta-text {
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--white);
+            color: var(--accent);
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cta-button:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            20%, 80% {
+                opacity: 0.6;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(184, 107, 43, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .scroll-container {
+                scroll-snap-type: none;
+            }
+            
+            .section {
+                height: auto;
+                min-height: 100vh;
+                padding: 6vh 6vw;
+                scroll-snap-align: none;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .resource-card {
+                padding: 1.25rem;
+            }
+
+            .category-icon {
+                margin-bottom: 1.5rem;
+            }
+
+            .category-name {
+                margin-bottom: 1.5rem;
+            }
+
+            .category-description {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="watermark">The Unseen Hours</div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-quote">WE ALL NEED HELP SOMETIMES</h1>
+            <p class="hero-tagline">Finding the right kind of help can be confusing or discouraging, especially when you're already struggling. That's why we've created this carefully curated list of resources to guide you toward support that's actually accessible and meaningful.</p>
+        </section>
+
+        <!-- Mental Well-Being -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">🧠</div>
+            <h2 class="category-name scroll-reveal-left">Mental Well-Being</h2>
+            <p class="category-description scroll-reveal-right">Your mental health matters. Here are carefully selected resources to support your emotional well-being:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="tel:988" class="resource-card" target="_blank">
+                    <div class="resource-title">📞 988 Suicide & Crisis Lifeline</div>
+                    <div class="resource-description">Free 24/7 support via call/text for anyone in crisis.</div>
+                </a>
+                <a href="https://www.7cups.com" class="resource-card" target="_blank">
+                    <div class="resource-title">💬 7 Cups</div>
+                    <div class="resource-description">Anonymous chat with trained listeners, plus therapy options and forums.</div>
+                </a>
+                <a href="https://insighttimer.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🧘 Insight Timer</div>
+                    <div class="resource-description">Free meditation, mindfulness, anxiety, and sleep tracks.</div>
+                </a>
+                <a href="https://www.thetrevorproject.org" class="resource-card" target="_blank">
+                    <div class="resource-title">🏳️‍🌈 Trevor Project</div>
+                    <div class="resource-description">LGBTQ+ youth crisis support via text, chat, or call.</div>
+                </a>
+                <a href="https://www.mentalhealthmatch.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🔍 Mental Health Match</div>
+                    <div class="resource-description">Find culturally competent therapists who match your needs.</div>
+                </a>
+                <a href="https://lifestance.com" class="resource-card" target="_blank">
+                    <div class="resource-title">💻 LifeStance Health</div>
+                    <div class="resource-description">Mental health services with in-person and online therapy options nationwide.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Physical Well-Being -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">💪</div>
+            <h2 class="category-name scroll-reveal-right">Physical Well-Being</h2>
+            <p class="category-description scroll-reveal-left">Resources to support your physical health and wellness:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/basics/fitness-basics/hlv-20049447" class="resource-card" target="_blank">
+                    <div class="resource-title">🏃 Mayo Clinic Exercise Guide</div>
+                    <div class="resource-description">Evidence-based fitness recommendations for all levels.</div>
+                </a>
+                <a href="https://www.myplate.gov" class="resource-card" target="_blank">
+                    <div class="resource-title">🍎 MyPlate Nutrition Guide</div>
+                    <div class="resource-description">USDA's official nutrition guidelines and meal planning tools.</div>
+                </a>
+                <a href="https://www.sleepfoundation.org" class="resource-card" target="_blank">
+                    <div class="resource-title">😴 Sleep Foundation</div>
+                    <div class="resource-description">Comprehensive sleep health information and improvement strategies.</div>
+                </a>
+                <a href="https://www.cdc.gov/physicalactivity/basics/adults/index.htm" class="resource-card" target="_blank">
+                    <div class="resource-title">🎯 CDC Physical Activity Guidelines</div>
+                    <div class="resource-description">Official recommendations for staying active and healthy.</div>
+                </a>
+                <a href="https://www.nih.gov/health-information" class="resource-card" target="_blank">
+                    <div class="resource-title">🏥 NIH Health Information</div>
+                    <div class="resource-description">Trusted medical information on various health conditions.</div>
+                </a>
+                <a href="https://www.nhs.uk/live-well/" class="resource-card" target="_blank">
+                    <div class="resource-title">🌱 NHS Live Well</div>
+                    <div class="resource-description">Comprehensive health and wellness guidance from UK's National Health Service.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Career & Academic Well-Being -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">📚</div>
+            <h2 class="category-name scroll-reveal-left">Career & Academic</h2>
+            <p class="category-description scroll-reveal-right">Tools and resources to help you thrive in your professional and academic life:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="https://www.linkedin.com/learning" class="resource-card" target="_blank">
+                    <div class="resource-title">🎓 LinkedIn Learning</div>
+                    <div class="resource-description">Professional development courses and career skills training.</div>
+                </a>
+                <a href="https://www.indeed.com/career-advice" class="resource-card" target="_blank">
+                    <div class="resource-title">💼 Indeed Career Guide</div>
+                    <div class="resource-description">Job search tips, interview prep, and career development advice.</div>
+                </a>
+                <a href="https://www.coursera.org" class="resource-card" target="_blank">
+                    <div class="resource-title">📖 Coursera</div>
+                    <div class="resource-description">University-level courses and professional certificates online.</div>
+                </a>
+                <a href="https://www.khanacademy.org" class="resource-card" target="_blank">
+                    <div class="resource-title">🎯 Khan Academy</div>
+                    <div class="resource-description">Free educational resources covering academic subjects and test prep.</div>
+                </a>
+                <a href="https://www.glassdoor.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🔍 Glassdoor</div>
+                    <div class="resource-description">Company reviews, salary information, and interview insights.</div>
+                </a>
+                <a href="https://www.skillshare.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🎨 Skillshare</div>
+                    <div class="resource-description">Creative and business skills classes taught by industry professionals.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Support Networks -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">👥</div>
+            <h2 class="category-name scroll-reveal-right">Support Networks</h2>
+            <p class="category-description scroll-reveal-left">Connect with communities and find support systems that understand your journey:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="https://www.reddit.com/r/mentalhealth" class="resource-card" target="_blank">
+                    <div class="resource-title">💬 Reddit Mental Health Communities</div>
+                    <div class="resource-description">Peer support and discussion forums on various topics.</div>
+                </a>
+                <a href="https://www.meetup.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🤝 Meetup</div>
+                    <div class="resource-description">Find local support groups and communities with shared interests.</div>
+                </a>
+                <a href="https://www.nami.org/Support-Education/Support-Groups" class="resource-card" target="_blank">
+                    <div class="resource-title">👫 NAMI Support Groups</div>
+                    <div class="resource-description">Mental health support groups nationwide.</div>
+                </a>
+                <a href="https://www.facebook.com/help/1210980105630225" class="resource-card" target="_blank">
+                    <div class="resource-title">📱 Facebook Support Groups</div>
+                    <div class="resource-description">Private online communities for various health and wellness topics.</div>
+                </a>
+                <a href="https://www.psychologytoday.com/us/groups" class="resource-card" target="_blank">
+                    <div class="resource-title">🏥 Psychology Today Groups</div>
+                    <div class="resource-description">Directory of therapy and support groups by location.</div>
+                </a>
+                <a href="https://www.supportgroups.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🔗 Support Groups</div>
+                    <div class="resource-description">Online directory of support groups for various conditions and life challenges.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Self-Advocacy Tools -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">🗣️</div>
+            <h2 class="category-name scroll-reveal-left">Self-Advocacy</h2>
+            <p class="category-description scroll-reveal-right">Empower yourself with tools and resources to advocate for your needs and rights:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="https://www.ada.gov" class="resource-card" target="_blank">
+                    <div class="resource-title">⚖️ ADA.gov</div>
+                    <div class="resource-description">Americans with Disabilities Act information and resources.</div>
+                </a>
+                <a href="https://www.patientadvocate.org" class="resource-card" target="_blank">
+                    <div class="resource-title">🏥 Patient Advocate Foundation</div>
+                    <div class="resource-description">Healthcare advocacy and insurance assistance.</div>
+                </a>
+                <a href="https://www.selfadvocacyresource.net" class="resource-card" target="_blank">
+                    <div class="resource-title">💪 Self Advocacy Resource Hub</div>
+                    <div class="resource-description">Tools and training for effective self-advocacy.</div>
+                </a>
+                <a href="https://www.consumerreports.org/health" class="resource-card" target="_blank">
+                    <div class="resource-title">📋 Consumer Reports Health</div>
+                    <div class="resource-description">Unbiased healthcare information and advocacy tips.</div>
+                </a>
+                <a href="https://www.aclu.org/know-your-rights" class="resource-card" target="_blank">
+                    <div class="resource-title">📜 ACLU Know Your Rights</div>
+                    <div class="resource-description">Civil liberties information and legal advocacy resources.</div>
+                </a>
+                <a href="https://www.healthcare.gov" class="resource-card" target="_blank">
+                    <div class="resource-title">🩺 Healthcare.gov</div>
+                    <div class="resource-description">Official health insurance marketplace and healthcare information.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Books, Podcasts & Media -->
+        <section class="section resource-section">
+            <div class="category-icon scroll-reveal">📖</div>
+            <h2 class="category-name scroll-reveal-right">Books & Media</h2>
+            <p class="category-description scroll-reveal-left">Inspiring and educational content to support your well-being journey:</p>
+            <div class="resources-grid scroll-reveal">
+                <a href="https://www.amazon.com/Body-Keeps-Score-Healing-Trauma/dp/0143127748" class="resource-card" target="_blank">
+                    <div class="resource-title">📚 "The Body Keeps the Score"</div>
+                    <div class="resource-description">Groundbreaking book on trauma and healing by Bessel van der Kolk.</div>
+                </a>
+                <a href="https://www.tenpercent.com/podcast" class="resource-card" target="_blank">
+                    <div class="resource-title">🎧 Ten Percent Happier Podcast</div>
+                    <div class="resource-description">Meditation and mindfulness for skeptics and beginners.</div>
+                </a>
+                <a href="https://brenebrown.com/unlockingus/" class="resource-card" target="_blank">
+                    <div class="resource-title">🎙️ Unlocking Us with Brené Brown</div>
+                    <div class="resource-description">Conversations about courage, vulnerability, and leadership.</div>
+                </a>
+                <a href="https://www.headspace.com" class="resource-card" target="_blank">
+                    <div class="resource-title">🧘 Headspace</div>
+                    <div class="resource-description">Meditation app with guided sessions and sleep stories.</div>
+                </a>
+                <a href="https://www.ted.com/topics/mental+health" class="resource-card" target="_blank">
+                    <div class="resource-title">🎥 TED Talks on Mental Health</div>
+                    <div class="resource-description">Inspiring talks from experts and advocates.</div>
+                </a>
+                <a href="https://open.spotify.com/show/4rOoJ6Egrf8K2IrywzwOMk" class="resource-card" target="_blank">
+                    <div class="resource-title">🎵 The Happiness Lab Podcast</div>
+                    <div class="resource-description">Science-based insights on happiness and well-being from Dr. Laurie Santos.</div>
+                </a>
+            </div>
+        </section>
+
+       <!-- Call to Action Section -->
+        <section class="section cta-section">
+            <h2 class="cta-title scroll-reveal">Need More Help?</h2>
+            <p class="cta-text scroll-reveal">
+                Remember, seeking help is a sign of strength, not weakness. 
+                If you're in immediate crisis, please reach out to emergency services or a crisis hotline.
+            </p>
+            <a href="https://theunseenhours.org/contact" target="_blank" rel="noopener noreferrer" class="cta-button scroll-reveal">
+                <span>💌</span>
+                Please reach out to us!
+            </a>
+        </section>
+    </div>
+
+    <script>
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.getElementById('scrollContainer');
+            const progressFill = document.getElementById('progressFill');
+            const sections = document.querySelectorAll('.section');
+
+            // Progress bar
+            scrollContainer.addEventListener('scroll', function() {
+                const scrollTop = scrollContainer.scrollTop;
+                const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                progressFill.style.width = progress + '%';
+            });
+
+            // Scroll animations
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    const elements = entry.target.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+                    
+                    if (entry.isIntersecting) {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.add('active');
+                            }, index * 200);
+                        });
+                    } else {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.remove('active');
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, {
+                root: scrollContainer,
+                rootMargin: '-20% 0px -20% 0px',
+                threshold: 0.1
+            });
+
+            sections.forEach(function(section) {
+                observer.observe(section);
+            });
+        });
