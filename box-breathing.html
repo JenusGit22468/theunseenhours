@@ -1,1 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Exercise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .breathing-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            z-index: 9999;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(60, 47, 47, 0.3);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 5;
+        }
+
+        .breathing-shape {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin-bottom: 40px;
+            transform: scale(1);
+            transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .breathing-shape.inhale {
+            transform: scale(1.4);
+        }
+
+        .breathing-shape.hold-in {
+            transform: scale(1.4);
+        }
+
+        .breathing-shape.hold-out {
+            transform: scale(1);
+        }
+
+        .breathing-shape.exhale {
+            transform: scale(1);
+        }
+
+        .organic-blob {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(184, 107, 43, 0.6) 0%, rgba(184, 107, 43, 0.2) 70%, transparent 100%);
+            border-radius: 50% 60% 40% 70%;
+            position: relative;
+            transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: blur(1px);
+            transform: scale(0.8);
+            border: 2px solid rgba(184, 107, 43, 0.3);
+        }
+
+        .breathing-shape.inhale .organic-blob {
+            border-radius: 55% 45% 55% 45%;
+            background: radial-gradient(circle at 40% 30%, rgba(184, 107, 43, 0.8) 0%, rgba(184, 107, 43, 0.4) 60%, transparent 100%);
+            box-shadow: 
+                0 0 30px rgba(184, 107, 43, 0.4),
+                inset 0 0 20px rgba(184, 107, 43, 0.2);
+            filter: blur(0.5px);
+            transform: scale(1.2);
+            border-color: rgba(184, 107, 43, 0.6);
+        }
+
+        .breathing-shape.hold-in .organic-blob {
+            border-radius: 55% 45% 55% 45%;
+            background: radial-gradient(circle at 40% 30%, rgba(184, 107, 43, 0.8) 0%, rgba(184, 107, 43, 0.4) 60%, transparent 100%);
+            box-shadow: 
+                0 0 30px rgba(184, 107, 43, 0.4),
+                inset 0 0 20px rgba(184, 107, 43, 0.2);
+            filter: blur(0.5px);
+            transform: scale(1.2);
+            border-color: rgba(184, 107, 43, 0.6);
+        }
+
+        .breathing-shape.hold-out .organic-blob {
+            border-radius: 60% 40% 50% 50%;
+            background: radial-gradient(circle at 20% 50%, rgba(184, 107, 43, 0.5) 0%, rgba(184, 107, 43, 0.15) 80%, transparent 100%);
+            box-shadow: 
+                0 0 15px rgba(184, 107, 43, 0.2),
+                inset 0 0 10px rgba(184, 107, 43, 0.1);
+            filter: blur(1.2px);
+            transform: scale(0.8);
+            border-color: rgba(184, 107, 43, 0.2);
+        }
+
+        .breathing-shape.exhale .organic-blob {
+            border-radius: 60% 40% 50% 50%;
+            background: radial-gradient(circle at 20% 50%, rgba(184, 107, 43, 0.5) 0%, rgba(184, 107, 43, 0.15) 80%, transparent 100%);
+            box-shadow: 
+                0 0 15px rgba(184, 107, 43, 0.2),
+                inset 0 0 10px rgba(184, 107, 43, 0.1);
+            filter: blur(1.2px);
+            transform: scale(0.8);
+            border-color: rgba(184, 107, 43, 0.2);
+        }
+
+        .breathing-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            transition: all 4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 80%; }
+        .particle:nth-child(2) { top: 60%; left: 10%; }
+        .particle:nth-child(3) { top: 10%; left: 30%; }
+        .particle:nth-child(4) { top: 80%; left: 70%; }
+        .particle:nth-child(5) { top: 40%; left: 90%; }
+        .particle:nth-child(6) { top: 70%; left: 20%; }
+
+        .breathing-shape.inhale .particle {
+            opacity: 0.8;
+            transform: scale(1.5) translateY(-15px);
+            background: var(--accent-light);
+        }
+
+        .breathing-shape.hold-in .particle {
+            opacity: 0.8;
+            transform: scale(1.5) translateY(-15px);
+            background: var(--accent-light);
+        }
+
+        .breathing-shape.hold-out .particle {
+            opacity: 0.3;
+            transform: scale(0.8) translateY(5px);
+            background: var(--accent);
+        }
+
+        .breathing-shape.exhale .particle {
+            opacity: 0.3;
+            transform: scale(0.8) translateY(5px);
+            background: var(--accent);
+        }
+
+        .affirmation-text {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 600px;
+            padding: 0 20px;
+            opacity: 0;
+            transition: opacity 2s ease;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .affirmation-text.visible {
+            opacity: 1;
+        }
+
+        .instruction-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            transition: all 0.5s ease;
+            letter-spacing: -0.02em;
+        }
+
+        .counter-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .start-button {
+            background: var(--accent);
+            border: 2px solid var(--accent);
+            color: var(--white);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.05em;
+            position: relative;
+            z-index: 5;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+        }
+
+        .start-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                transparent,
+                rgba(184, 107, 43, 0.4),
+                transparent,
+                rgba(212, 149, 111, 0.4),
+                transparent
+            );
+            transform: translate(-50%, -50%) rotate(0deg);
+            border-radius: 50%;
+            animation: rotateGradient 3s linear infinite;
+            z-index: -2;
+        }
+
+        .start-button::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--accent);
+            border-radius: 48px;
+            z-index: -1;
+            transition: all 0.3s ease;
+        }
+
+        .start-button:hover {
+            background: var(--accent-light);
+            border-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 8px 25px rgba(184, 107, 43, 0.4),
+                0 0 30px rgba(184, 107, 43, 0.2);
+        }
+
+        .start-button:hover::after {
+            background: var(--accent-light);
+        }
+
+        .start-button:hover::before {
+            animation-duration: 1.5s;
+            background: conic-gradient(
+                transparent,
+                rgba(184, 107, 43, 0.6),
+                transparent,
+                rgba(212, 149, 111, 0.6),
+                transparent
+            );
+        }
+
+        @keyframes rotateGradient {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .home-button {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 1;
+            pointer-events: all;
+            z-index: 10;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .breathing-shape {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .instruction-text {
+                font-size: 2rem;
+            }
+            
+            .counter-text {
+                font-size: 1rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .breathing-shape {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .instruction-text {
+                font-size: 1.5rem;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .affirmation-text {
+                bottom: 100px;
+                font-size: 1rem;
+                max-width: 90%;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="breathing-container">
+        <div class="watermark">The Unseen Hours</div>
+        
+        <button class="home-button" id="homeBtn">Home</button>
+        
+        <div class="instruction-text" id="instructionText">Box Breathing Exercise</div>
+        <div class="counter-text" id="counterText">4 seconds each phase</div>
+        
+        <div class="breathing-shape" id="breathingShape">
+            <div class="organic-blob"></div>
+            <div class="breathing-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+        </div>
+        
+        <div class="affirmation-text" id="affirmationText">This feeling will pass, and you are stronger than you know</div>
+        
+        <button class="start-button" id="startBtn">Begin Session</button>
+    </div>
+
+    <script>
+        class BreathingApp {
+            constructor() {
+                this.isActive = false;
+                this.isPaused = false;
+                this.currentPhase = 'ready';
+                this.phaseIndex = 0;
+                this.phases = ['inhale', 'hold-in', 'exhale', 'hold-out'];
+                this.phaseTexts = ['Breathe In', 'Hold', 'Breathe Out', 'Hold'];
+                this.phaseDuration = 4000; // 4 seconds
+                this.currentCount = 4;
+                this.cycleCount = 0;
+                
+                this.affirmations = [
+                    "This feeling will pass, and you are stronger than you know",
+                    "Your body knows how to heal, trust the process",
+                    "You are safe right now, in this moment",
+                    "Each breath brings you back to yourself",
+                    "You have survived difficult moments before, you will survive this too",
+                    "Your anxiety does not define you - you are so much more",
+                    "It's okay to feel scared, but you don't have to face this alone",
+                    "You are exactly where you need to be right now",
+                    "Your breath is always with you, a faithful friend",
+                    "This storm in your mind will pass, leaving clear skies",
+                    "You are not broken, you are human and learning to heal",
+                    "Your sensitivity is not a weakness, it's a superpower",
+                    "You don't have to be perfect to be worthy of love and peace",
+                    "Every small step counts, even when it doesn't feel like progress",
+                    "You are allowed to rest, to pause, to take up space"
+                ];
+                
+                this.shape = document.getElementById('breathingShape');
+                this.instructionText = document.getElementById('instructionText');
+                this.counterText = document.getElementById('counterText');
+                this.affirmationText = document.getElementById('affirmationText');
+                this.startBtn = document.getElementById('startBtn');
+                this.homeBtn = document.getElementById('homeBtn');
+                
+                this.bindEvents();
+            }
+            
+            bindEvents() {
+                this.startBtn.addEventListener('click', () => this.toggleSession());
+                this.homeBtn.addEventListener('click', () => this.goHome());
+            }
+            
+            toggleSession() {
+                if (!this.isActive) {
+                    this.startSession();
+                } else {
+                    this.stopSession();
+                }
+            }
+            
+            startSession() {
+                this.isActive = true;
+                this.isPaused = false;
+                this.phaseIndex = 0;
+                this.cycleCount = 0;
+                
+                this.startBtn.textContent = 'Stop Session';
+                this.startBtn.style.opacity = '0.7';
+                
+                // Show first affirmation
+                this.showRandomAffirmation();
+                
+                this.runBreathingCycle();
+            }
+            
+            stopSession() {
+                this.isActive = false;
+                this.isPaused = false;
+                
+                this.shape.className = 'breathing-shape';
+                this.instructionText.textContent = 'Box Breathing Exercise';
+                this.counterText.textContent = '4 seconds each phase';
+                this.affirmationText.classList.remove('visible');
+                this.startBtn.textContent = 'Begin Session';
+                this.startBtn.style.opacity = '1';
+                
+                // Clear all timers
+                if (this.phaseTimer) {
+                    clearTimeout(this.phaseTimer);
+                    this.phaseTimer = null;
+                }
+                if (this.countTimer) {
+                    clearInterval(this.countTimer);
+                    this.countTimer = null;
+                }
+                if (this.affirmationTimer) {
+                    clearTimeout(this.affirmationTimer);
+                    this.affirmationTimer = null;
+                }
+            }
+            
+            runBreathingCycle() {
+                if (!this.isActive || this.isPaused) return;
+                
+                const currentPhase = this.phases[this.phaseIndex];
+                const phaseText = this.phaseTexts[this.phaseIndex];
+                
+                // Update shape animation
+                this.shape.className = `breathing-shape ${currentPhase}`;
+                
+                // Update text
+                this.instructionText.textContent = phaseText;
+                
+                // Start countdown - FIXED LOGIC
+                this.currentCount = 4; // Always start at 4
+                this.updateCounter();
+                
+                // Clear any existing timer first
+                if (this.countTimer) {
+                    clearInterval(this.countTimer);
+                }
+                
+                // Start new countdown timer
+                this.countTimer = setInterval(() => {
+                    this.currentCount--;
+                    this.updateCounter();
+                    
+                    // Stop when we reach 0
+                    if (this.currentCount <= 0) {
+                        clearInterval(this.countTimer);
+                        this.countTimer = null;
+                    }
+                }, 1000);
+                
+                // Schedule next phase
+                if (this.phaseTimer) {
+                    clearTimeout(this.phaseTimer);
+                }
+                
+                this.phaseTimer = setTimeout(() => {
+                    if (this.isActive && !this.isPaused) {
+                        this.phaseIndex = (this.phaseIndex + 1) % this.phases.length;
+                        
+                        // Show new affirmation every 4 complete cycles (about 1 minute)
+                        if (this.phaseIndex === 0) {
+                            this.cycleCount++;
+                            if (this.cycleCount % 4 === 0) {
+                                this.showRandomAffirmation();
+                            }
+                        }
+                        
+                        this.runBreathingCycle();
+                    }
+                }, this.phaseDuration);
+            }
+            
+            showRandomAffirmation() {
+                const randomIndex = Math.floor(Math.random() * this.affirmations.length);
+                this.affirmationText.textContent = this.affirmations[randomIndex];
+                this.affirmationText.classList.add('visible');
+                
+                // Clear existing timer
+                if (this.affirmationTimer) {
+                    clearTimeout(this.affirmationTimer);
+                }
+                
+                // Hide affirmation after 8 seconds
+                this.affirmationTimer = setTimeout(() => {
+                    this.affirmationText.classList.remove('visible');
+                }, 8000);
+            }
+            
+            goHome() {
+                if (confirm('Are you sure you want to go home? This will end your breathing session.')) {
+                    this.stopSession();
+                    // Navigate to home page or close if in standalone mode
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                }
+            }
+            
+            updateCounter() {
+                // Ensure counter never goes below 0 or above 4
+                const displayCount = Math.max(0, Math.min(4, this.currentCount));
+                this.counterText.textContent = `${displayCount}`;
+            }
+        }
+        
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new BreathingApp();
+        });
+        
+        // Ensure full screen on load
+        window.addEventListener('load', () => {
+            document.body.style.height = '100vh';
+            document.documentElement.style.height = '100vh';
+        });
+    </script>
+</body>
+</html>
