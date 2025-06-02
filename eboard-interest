@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Board Interest Form - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 5vh 5vw;
+            text-align: center;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .hero-icon {
+            font-size: clamp(4rem, 10vw, 8rem);
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInFloat 2s ease-out 0.3s forwards;
+            color: var(--accent);
+        }
+
+        @keyframes fadeInFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(-10px); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .hero-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.7s forwards;
+            max-width: 1000px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            opacity: 0;
+            font-style: italic;
+            color: var(--accent);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1.2s forwards;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--white);
+            color: var(--text-primary);
+            padding: 0;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            border: 3px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px var(--shadow);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            border-bottom: 2px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .form-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .form-content {
+            padding: 0;
+            height: 1200px;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .form-iframe {
+            width: 100%;
+            height: 1500px;
+            min-height: 1500px;
+            border: none;
+            background: #ffffff;
+        }
+
+        /* Loading state */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 241, 235, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+            z-index: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(184, 107, 43, 0.3);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            20%, 80% {
+                opacity: 0.6;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(184, 107, 43, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile optimizations */
+        @media screen and (max-width: 768px) {
+            .scroll-container {
+                scroll-snap-type: none !important;
+                overscroll-behavior: contain;
+            }
+            
+            .section {
+                height: auto !important;
+                min-height: 100vh !important;
+                padding: 4vh 6vw !important;
+                scroll-snap-align: none !important;
+            }
+
+            .hero-section {
+                min-height: 100vh !important;
+                height: auto !important;
+            }
+
+            .form-section {
+                min-height: 100vh !important;
+                height: auto !important;
+                padding: 4vh 4vw !important;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .form-container {
+                margin: 2vh 0;
+            }
+
+            .form-header {
+                padding: 1.5rem;
+            }
+
+            .form-content {
+                height: 1000px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .section {
+                padding: 3vh 8vw !important;
+            }
+
+            .form-section {
+                padding: 3vh 6vw !important;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+
+            .form-content {
+                height: 800px;
+            }
+
+            .form-header {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="watermark">The Unseen Hours</div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <div class="hero-icon">🌟</div>
+            <h1 class="hero-quote">JOIN OUR TEAM</h1>
+            <p class="hero-tagline">Help us build a supportive community and make a difference!</p>
+        </section>
+
+        <!-- Form Section -->
+        <section class="section form-section">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="form-title">E-Board Interest Form</h2>
+                    <p class="form-subtitle">Ready to take the next step? Tell us about yourself and how you'd like to contribute to The Unseen Hours.</p>
+                </div>
+                <div class="form-content">
+                    <div class="loading-overlay" id="loadingOverlay">
+                        <div class="loading-spinner"></div>
+                        <p>Loading form...</p>
+                    </div>
+                    <iframe 
+                        src="https://tally.so/r/wd1Q7N?transparentBackground=1" 
+                        class="form-iframe"
+                        title="The Unseen Hours - E-Board Interest Form"
+                        onload="hideLoading()"
+                        loading="lazy"
+                        scrolling="auto"
+                        frameborder="0">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        function hideLoading() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.classList.add('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.getElementById('scrollContainer');
+            const progressFill = document.getElementById('progressFill');
+
+            // Progress bar
+            scrollContainer.addEventListener('scroll', function() {
+                const scrollTop = scrollContainer.scrollTop;
+                const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                progressFill.style.width = progress + '%';
+            });
+
+            // Auto-hide loading after 3 seconds as fallback
+            setTimeout(function() {
+                hideLoading();
+            }, 3000);
+
+            // Handle iframe loading errors
+            const iframe = document.querySelector('.form-iframe');
+            iframe.addEventListener('error', function() {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.innerHTML = `
+                        <div style="text-align: center; color: var(--accent);">
+                            <p>Form temporarily unavailable</p>
+                            <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8;">Please try refreshing the page</p>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
