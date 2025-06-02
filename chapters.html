@@ -1,1 +1,1366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <title>Chapters - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(60, 47, 47, 0.3);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 80px 5vw;
+            text-align: center;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .home-button:active {
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 5vw, 5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 2rem);
+            font-weight: 400;
+            opacity: 0;
+            font-style: italic;
+            color: var(--accent);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--white);
+            color: var(--text-primary);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 4rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: var(--bg-light);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            background: var(--white);
+            box-shadow: 0 20px 40px rgba(184, 107, 43, 0.2);
+        }
+
+        .stat-number {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-description {
+            font-size: clamp(0.8rem, 2vw, 0.9rem);
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
+            color: var(--text-primary);
+        }
+
+        .map-container {
+            width: 90vw;
+            height: 70vh;
+            max-width: 1200px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid var(--accent);
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 17px;
+        }
+
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .map-btn {
+            background: rgba(245, 241, 235, 0.95);
+            color: var(--text-primary);
+            border: 2px solid var(--accent);
+            padding: 10px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .map-btn:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        /* Chapter Details Sections */
+        .chapter-section {
+            background: var(--bg-light);
+            min-height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 5vw;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-primary);
+        }
+
+        .chapter-content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1400px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .chapter-content {
+            text-align: left;
+        }
+
+        .chapter-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        .chapter-subtitle {
+            font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+        }
+
+        .chapter-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .info-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(184, 107, 43, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(184, 107, 43, 0.2);
+        }
+
+        .info-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .info-label {
+            font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .info-description {
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .chapter-image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px var(--shadow);
+            background: var(--white);
+            border: 3px solid var(--border);
+        }
+
+        .chapter-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+        }
+
+        /* MSU specific styles */
+        .msu-section {
+            background: linear-gradient(135deg, #18453B 0%, #0f2f26 50%, #18453B 100%);
+            color: var(--white);
+        }
+
+        .msu-section .chapter-name {
+            color: var(--white);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .msu-section .chapter-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .msu-section .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .msu-section .info-card:hover {
+            border-color: var(--white);
+            background: var(--white);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .msu-section .info-label {
+            color: #18453B;
+            background: rgba(24, 69, 59, 0.1);
+            padding: 4px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .msu-section .info-value {
+            color: var(--text-primary);
+        }
+
+        .msu-section .info-description {
+            color: var(--text-secondary);
+        }
+
+        .msu-section .chapter-image-container {
+            background: var(--white);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .msu-section .chapter-image {
+            transition: transform 0.3s ease;
+        }
+
+        .msu-section .chapter-image-container:hover .chapter-image {
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+            color: var(--white);
+        }
+
+        .cta-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 5rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .cta-text {
+            font-size: clamp(1rem, 2vw, 1.8rem);
+            line-height: 1.6;
+            max-width: 800px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: var(--white);
+            color: var(--accent);
+            border: 2px solid var(--white);
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.4);
+            background: var(--bg-light);
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(184, 107, 43, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Scroll-triggered animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 1s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 7s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            20%, 80% {
+                opacity: 0.6;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom Mapbox Styles */
+        .mapboxgl-popup-content {
+            background: rgba(60, 47, 47, 0.95) !important;
+            color: var(--white) !important;
+            border: 2px solid var(--accent) !important;
+            border-radius: 10px !important;
+            padding: 15px !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        .mapboxgl-popup-tip {
+            border-top-color: rgba(60, 47, 47, 0.95) !important;
+        }
+
+        .mapboxgl-popup-content h3 {
+            color: var(--accent) !important;
+            margin-bottom: 8px !important;
+            font-family: 'Playfair Display', serif !important;
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 8vw;
+                min-height: 100vh;
+                scroll-snap-align: start;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .map-container {
+                width: 95vw;
+                height: 60vh;
+            }
+
+            .map-controls {
+                top: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+
+            .map-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .chapter-content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 0;
+            }
+
+            .chapter-content {
+                text-align: center;
+            }
+
+            .chapter-image-container {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .chapter-info {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .info-card {
+                text-align: left;
+                padding: 1.5rem;
+            }
+
+            /* Reduce animation distances on mobile */
+            .scroll-reveal {
+                transform: translateY(20px);
+            }
+
+            .scroll-reveal-left {
+                transform: translateX(-20px);
+            }
+
+            .scroll-reveal-right {
+                transform: translateX(20px);
+            }
+
+            /* Optimize particles for mobile performance */
+            .particle {
+                display: none;
+            }
+
+            /* Mobile typography adjustments */
+            .hero-title {
+                font-size: clamp(1.5rem, 8vw, 3rem);
+                margin-bottom: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: clamp(0.9rem, 4vw, 1.4rem);
+            }
+
+            .section-title {
+                font-size: clamp(1.3rem, 6vw, 2.5rem);
+                margin-bottom: 2rem;
+            }
+
+            .chapter-name {
+                font-size: clamp(1.8rem, 8vw, 3.5rem);
+                margin-bottom: 1rem;
+            }
+
+            .chapter-subtitle {
+                font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+                margin-bottom: 2rem;
+            }
+
+            .cta-title {
+                font-size: clamp(1.8rem, 8vw, 3.5rem);
+            }
+
+            .cta-text {
+                font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            }
+
+            .cta-button {
+                padding: 14px 32px;
+                font-size: clamp(0.8rem, 3.5vw, 1.1rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 40px 10vw;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+
+            .map-controls {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .map-btn {
+                padding: 6px 10px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .scroll-reveal,
+            .scroll-reveal-left,
+            .scroll-reveal-right {
+                transition: opacity 0.3s ease;
+                transform: none;
+            }
+
+            .particle {
+                animation: none;
+            }
+
+            .hero-title,
+            .hero-subtitle {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="watermark">The Unseen Hours</div>
+    
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-title">"Communities form in the spaces between worlds."</h1>
+            <p class="hero-subtitle">Discover the chapters that bridge the seen and unseen.</p>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="section stats-section">
+            <h2 class="section-title scroll-reveal">CHAPTER OVERVIEW</h2>
+            <div class="stats-grid scroll-reveal">
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Active Chapters</div>
+                    <div class="stat-description">Communities spanning across continents</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Countries</div>
+                    <div class="stat-description">United States and Croatia</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Map Section -->
+        <section class="section map-section">
+            <h2 class="section-title scroll-reveal">CHAPTER LOCATIONS</h2>
+            <div class="map-container scroll-reveal">
+                <div class="map-controls">
+                    <button class="map-btn" id="filter-btn">🇺🇸 US Only</button>
+                    <button class="map-btn" id="reset-view-btn">🎯 Reset</button>
+                    <button class="map-btn" id="fullscreen-btn">⛶ Full</button>
+                </div>
+                <div id="map"></div>
+            </div>
+        </section>
+
+        <!-- Michigan State University Chapter -->
+        <section class="section chapter-section msu-section">
+            <div class="chapter-content-wrapper">
+                <div class="chapter-content scroll-reveal-left">
+                    <h3 class="chapter-name">Michigan State</h3>
+                    <p class="chapter-subtitle">Where it all began - the original chapter that started our movement.</p>
+                    <div class="chapter-info">
+                        <div class="info-card">
+                            <div class="info-label">Founded</div>
+                            <div class="info-value">2024</div>
+                            <div class="info-description">Established at Michigan State University as a registered student organization, marking the beginning of The Unseen Hours movement.</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Location</div>
+                            <div class="info-value">East Lansing, MI</div>
+                            <div class="info-description">Based in the heart of Michigan State University's vibrant campus community, fostering connections and understanding.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chapter-image-container scroll-reveal-right">
+                    <img src="https://cdn.theunseenhours.org/msu-logo.png" alt="Michigan State University Spartan Logo" class="chapter-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="section cta-section">
+            <h2 class="cta-title scroll-reveal">Start Your Chapter</h2>
+            <p class="cta-text scroll-reveal">
+                Every community needs spaces where the unseen can finally be seen. 
+                Where quiet struggles find voice and hidden triumphs are celebrated.
+            </p>
+            <a href="mailto:chapters@theunseenhours.org" class="cta-button scroll-reveal">
+                <span>✨</span>
+                Begin Your Journey
+            </a>
+        </section>
+    </div>
+
+    <script>
+        // Set Mapbox access token
+        const MAPBOX_TOKEN = 'pk.eyJ1IjoiamVudXNtYXBib3giLCJhIjoiY21iZDViZW8yMjUyMjUyc1BqZHp1OWo2ayJ9.rkaMdUQBhhtKix6Xv1YV7g';
+
+        // Wait for Mapbox to load
+        function waitForMapbox() {
+            return new Promise((resolve) => {
+                if (typeof mapboxgl !== 'undefined') {
+                    resolve();
+                } else {
+                    setTimeout(() => waitForMapbox().then(resolve), 100);
+                }
+            });
+        }
+
+        // Global function for home button
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Map variables
+        var map;
+        var isFullscreen = false;
+        var showUSOnly = false;
+        var markers = [];
+        var mapContainer;
+        
+        class ScrollStoryController {
+            constructor() {
+                this.scrollContainer = document.getElementById('scrollContainer');
+                this.progressFill = document.getElementById('progressFill');
+                this.sections = document.querySelectorAll('.section');
+                
+                this.bindEvents();
+                this.initializeObserver();
+                this.handleResize();
+            }
+
+            bindEvents() {
+                this.scrollContainer.addEventListener('scroll', this.throttle(() => {
+                    this.updateProgress();
+                }, 16));
+
+                window.addEventListener('resize', this.debounce(() => {
+                    this.handleResize();
+                }, 250));
+            }
+
+            updateProgress() {
+                const scrollTop = this.scrollContainer.scrollTop;
+                const scrollHeight = this.scrollContainer.scrollHeight - this.scrollContainer.clientHeight;
+                const progress = Math.min((scrollTop / scrollHeight) * 100, 100);
+                this.progressFill.style.width = `${progress}%`;
+            }
+
+            handleResize() {
+                this.updateProgress();
+                if (map && map.resize) {
+                    setTimeout(() => {
+                        map.resize();
+                    }, 100);
+                }
+            }
+
+            initializeObserver() {
+                if (!window.IntersectionObserver) {
+                    document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right').forEach(el => {
+                        el.classList.add('active');
+                    });
+                    return;
+                }
+
+                const options = {
+                    root: this.scrollContainer,
+                    rootMargin: '-10% 0px -10% 0px',
+                    threshold: [0.1, 0.5]
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        const elements = entry.target.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+                        
+                        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                            elements.forEach((el, index) => {
+                                setTimeout(() => {
+                                    el.classList.add('active');
+                                }, index * 150);
+                            });
+                        } else if (!entry.isIntersecting) {
+                            elements.forEach((el) => {
+                                el.classList.remove('active');
+                            });
+                        }
+                    });
+                }, options);
+
+                this.sections.forEach(section => {
+                    observer.observe(section);
+                });
+            }
+
+            throttle(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                }
+            }
+
+            debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+        }
+
+        async function initMap() {
+            try {
+                await waitForMapbox();
+                
+                mapboxgl.accessToken = MAPBOX_TOKEN;
+
+                map = new mapboxgl.Map({
+                    container: 'map',
+                    style: 'mapbox://styles/mapbox/light-v11',
+                    center: [-30.0, 30.0],
+                    zoom: 1.5,
+                    minZoom: 1,
+                    maxZoom: 18
+                });
+
+                var chapters = [
+                    {
+                        coords: [-84.4837, 42.7318],
+                        name: "Michigan State University",
+                        members: 8,
+                        description: "University chapter exploring consciousness and hidden experiences",
+                        country: "us"
+                    },
+                    {
+                        coords: [15.5420, 45.4870],
+                        name: "Karlovac, Croatia",
+                        members: 2,
+                        description: "European chapter bringing international perspectives",
+                        country: "croatia"
+                    }
+                ];
+
+                markers = [];
+
+                map.on('load', function() {
+                    chapters.forEach(function(chapter) {
+                        const markerEl = document.createElement('div');
+                        markerEl.className = 'custom-marker';
+                        markerEl.style.cssText = `
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            background: #b86b2b;
+                            border: 3px solid #ffffff;
+                            cursor: pointer;
+                            box-shadow: 0 2px 10px rgba(184, 107, 43, 0.4);
+                            transition: all 0.3s ease;
+                        `;
+
+                        markerEl.addEventListener('mouseenter', function() {
+                            this.style.transform = 'scale(1.2)';
+                            this.style.boxShadow = '0 4px 15px rgba(184, 107, 43, 0.6)';
+                        });
+
+                        markerEl.addEventListener('mouseleave', function() {
+                            this.style.transform = 'scale(1)';
+                            this.style.boxShadow = '0 2px 10px rgba(184, 107, 43, 0.4)';
+                        });
+
+                        var popupContent = 
+                            '<div style="text-align: center; font-family: Inter, sans-serif;">' +
+                            '<h3 style="margin: 0 0 8px 0; color: #b86b2b; font-size: 1.1rem; font-weight: 700; font-family: Playfair Display, serif;">' + chapter.name + '</h3>' +
+                            '<p style="margin: 0; color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">' + chapter.description + '</p>' +
+                            '</div>';
+
+                        var popup = new mapboxgl.Popup({
+                            offset: 25,
+                            className: 'custom-popup'
+                        }).setHTML(popupContent);
+
+                        var marker = new mapboxgl.Marker(markerEl)
+                            .setLngLat(chapter.coords)
+                            .setPopup(popup)
+                            .addTo(map);
+
+                        markers.push({
+                            marker: marker,
+                            chapter: chapter
+                        });
+                    });
+
+                    setupMapControls();
+                });
+
+            } catch (error) {
+                console.error('Error initializing map:', error);
+                const mapContainer = document.querySelector('.map-container');
+                if (mapContainer) {
+                    mapContainer.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--bg-light); color: var(--text-secondary); font-family: Inter, sans-serif;">
+                            <p>Map temporarily unavailable. Please refresh the page.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function setupMapControls() {
+            const filterBtn = document.getElementById('filter-btn');
+            const resetViewBtn = document.getElementById('reset-view-btn');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+            if (!filterBtn || !resetViewBtn || !fullscreenBtn) {
+                return;
+            }
+
+            filterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleFilter();
+            });
+
+            resetViewBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                resetView();
+            });
+
+            fullscreenBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleFullscreen();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isFullscreen) {
+                    exitFullscreen();
+                }
+            });
+
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+        }
+
+        function handleFullscreenChange() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement && 
+                !document.mozFullScreenElement && !document.msFullscreenElement && isFullscreen) {
+                exitFullscreen();
+            }
+        }
+
+        function toggleFilter() {
+            if (!map) return;
+            
+            showUSOnly = !showUSOnly;
+            const filterBtn = document.getElementById('filter-btn');
+            
+            if (showUSOnly) {
+                filterBtn.textContent = '🌍 Show All';
+                map.flyTo({
+                    center: [-98.5795, 39.8283],
+                    zoom: 3.5,
+                    duration: 1500
+                });
+            } else {
+                filterBtn.textContent = '🇺🇸 US Only';
+                map.flyTo({
+                    center: [-30.0, 30.0],
+                    zoom: 1.5,
+                    duration: 1500
+                });
+            }
+            
+            updateMarkers();
+        }
+
+        function resetView() {
+            if (!map) return;
+            
+            if (showUSOnly) {
+                map.flyTo({
+                    center: [-98.5795, 39.8283],
+                    zoom: 3.5,
+                    duration: 1500
+                });
+            } else {
+                map.flyTo({
+                    center: [-30.0, 30.0],
+                    zoom: 1.5,
+                    duration: 1500
+                });
+            }
+            
+            setTimeout(function() {
+                if (map && map.resize) {
+                    map.resize();
+                }
+            }, 100);
+        }
+
+        function updateMarkers() {
+            if (!map || markers.length === 0) return;
+            
+            markers.forEach(function(item) {
+                if (showUSOnly) {
+                    if (item.chapter.country === 'us') {
+                        if (!item.marker._map) {
+                            item.marker.addTo(map);
+                        }
+                    } else {
+                        if (item.marker._map) {
+                            item.marker.remove();
+                        }
+                    }
+                } else {
+                    if (!item.marker._map) {
+                        item.marker.addTo(map);
+                    }
+                }
+            });
+        }
+
+        function toggleFullscreen() {
+            if (!isFullscreen) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            if (!mapContainer) return;
+            
+            mapContainer.dataset.originalPosition = mapContainer.style.position || '';
+            mapContainer.dataset.originalTop = mapContainer.style.top || '';
+            mapContainer.dataset.originalLeft = mapContainer.style.left || '';
+            mapContainer.dataset.originalWidth = mapContainer.style.width || '';
+            mapContainer.dataset.originalHeight = mapContainer.style.height || '';
+            mapContainer.dataset.originalZIndex = mapContainer.style.zIndex || '';
+            mapContainer.dataset.originalBorderRadius = mapContainer.style.borderRadius || '';
+            mapContainer.dataset.originalTransform = mapContainer.style.transform || '';
+            
+            mapContainer.style.position = 'fixed';
+            mapContainer.style.top = '0';
+            mapContainer.style.left = '0';
+            mapContainer.style.width = '100vw';
+            mapContainer.style.height = '100vh';
+            mapContainer.style.zIndex = '999999';
+            mapContainer.style.borderRadius = '0';
+            mapContainer.style.transform = 'none';
+            mapContainer.style.margin = '0';
+            mapContainer.style.maxWidth = 'none';
+            
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.style.borderRadius = '0';
+            }
+            
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (fullscreenBtn) {
+                fullscreenBtn.textContent = '⛶ Exit';
+            }
+            isFullscreen = true;
+
+            if (mapContainer.requestFullscreen) {
+                mapContainer.requestFullscreen().catch(() => {});
+            }
+
+            setTimeout(function() {
+                if (map && map.resize) {
+                    map.resize();
+                    if (showUSOnly) {
+                        map.flyTo({
+                            center: [-98.5795, 39.8283],
+                            zoom: 3.5,
+                            duration: 1000
+                        });
+                    } else {
+                        map.flyTo({
+                            center: [-30.0, 30.0],
+                            zoom: 1.5,
+                            duration: 1000
+                        });
+                    }
+                }
+            }, 300);
+        }
+
+        function exitFullscreen() {
+            if (!mapContainer) return;
+            
+            mapContainer.style.position = mapContainer.dataset.originalPosition || '';
+            mapContainer.style.top = mapContainer.dataset.originalTop || '';
+            mapContainer.style.left = mapContainer.dataset.originalLeft || '';
+            mapContainer.style.width = mapContainer.dataset.originalWidth || '';
+            mapContainer.style.height = mapContainer.dataset.originalHeight || '';
+            mapContainer.style.zIndex = mapContainer.dataset.originalZIndex || '';
+            mapContainer.style.borderRadius = mapContainer.dataset.originalBorderRadius || '';
+            mapContainer.style.transform = mapContainer.dataset.originalTransform || '';
+            mapContainer.style.margin = '';
+            mapContainer.style.maxWidth = '';
+            
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.style.borderRadius = '17px';
+            }
+            
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (fullscreenBtn) {
+                fullscreenBtn.textContent = '⛶ Full';
+            }
+            isFullscreen = false;
+
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            }
+
+            setTimeout(function() {
+                if (map && map.resize) {
+                    map.resize();
+                    if (showUSOnly) {
+                        map.flyTo({
+                            center: [-98.5795, 39.8283],
+                            zoom: 3.5,
+                            duration: 1000
+                        });
+                    } else {
+                        map.flyTo({
+                            center: [-30.0, 30.0],
+                            zoom: 1.5,
+                            duration: 1000
+                        });
+                    }
+                }
+            }, 300);
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollStoryController();
+            mapContainer = document.querySelector('.map-container');
+            setTimeout(() => {
+                initMap();
+            }, 1000);
+        });
+
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                if (!map) {
+                    initMap();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>
