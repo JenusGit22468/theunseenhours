@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positive Affirmations Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .affirmations-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-primary);
+            z-index: 9999;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .card-deck {
+            position: relative;
+            width: 350px;
+            height: 250px;
+            margin-bottom: 40px;
+            perspective: 1000px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: transparent;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            backface-visibility: hidden;
+            background: var(--white);
+            border: 3px solid var(--border);
+            box-shadow: 0 15px 35px var(--shadow);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, var(--white) 0%, var(--bg-light) 50%, var(--white) 100%);
+            border: 3px solid rgba(184, 107, 43, 0.2);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            border: 3px solid rgba(184, 107, 43, 0.3);
+            transform: rotateY(180deg);
+        }
+
+        .card-front h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 1.8rem);
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .card-front p {
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        .card-back .affirmation-text {
+            font-size: clamp(1.1rem, 3vw, 1.3rem);
+            font-weight: 400;
+            line-height: 1.5;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .card-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(184, 107, 43, 0.1);
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(184, 107, 43, 0.2);
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .control-button {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .control-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                opacity: 0.4; 
+            }
+            50% { 
+                transform: translateY(-20px) rotate(180deg); 
+                opacity: 0.7; 
+            }
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(3) { top: 80%; left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { top: 40%; left: 70%; animation-delay: 1s; }
+        .particle:nth-child(5) { top: 10%; left: 60%; animation-delay: 3s; }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .card-deck {
+                width: 300px;
+                height: 220px;
+            }
+            
+            .title {
+                font-size: clamp(1.8rem, 6vw, 2rem);
+            }
+            
+            .subtitle {
+                font-size: clamp(0.9rem, 3vw, 1rem);
+                max-width: 90%;
+                margin-bottom: 30px;
+            }
+            
+            .card-front,
+            .card-back {
+                padding: 25px;
+            }
+            
+            .card-front h3 {
+                font-size: clamp(1.3rem, 5vw, 1.5rem);
+            }
+            
+            .card-back .affirmation-text {
+                font-size: clamp(1rem, 3.5vw, 1.1rem);
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            .control-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card-deck {
+                width: 280px;
+                height: 200px;
+            }
+            
+            .title {
+                font-size: clamp(1.5rem, 7vw, 1.7rem);
+            }
+            
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+            
+            .card-front,
+            .card-back {
+                padding: 20px;
+            }
+            
+            .card-front h3 {
+                font-size: clamp(1.2rem, 5.5vw, 1.3rem);
+                margin-bottom: 10px;
+            }
+            
+            .card-front p {
+                font-size: clamp(0.8rem, 3.5vw, 0.85rem);
+            }
+            
+            .card-back .affirmation-text {
+                font-size: clamp(0.95rem, 4vw, 1rem);
+                line-height: 1.4;
+            }
+            
+            .control-button {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+            
+            .controls {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .card-counter {
+                top: 15px;
+                right: 15px;
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Enhanced card hover effects */
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card.flipped:hover {
+            transform: rotateY(180deg) translateY(-5px);
+        }
+
+        /* Add subtle glow to cards */
+        .card-front:hover,
+        .card-back:hover {
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(184, 107, 43, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="affirmations-container">
+        <div class="watermark">The Unseen Hours</div>
+        
+        <button class="home-button" onclick="goHome()">← Home</button>
+        
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <h1 class="title">Daily Positive Affirmations</h1>
+        <p class="subtitle">Take a moment to reconnect with your inner strength and wisdom.</p>
+        
+        <div class="card-deck">
+            <div class="card" id="affirmationCard">
+                <div class="card-counter" id="cardCounter">1 / 91</div>
+                <div class="card-front">
+                    <h3>Your Daily Affirmation</h3>
+                    <p>Each click reveals a new message of hope and encouragement crafted just for you!</p>
+                </div>
+                <div class="card-back">
+                    <div class="affirmation-text" id="affirmationText">
+                        You are worthy of love, peace, and all the beautiful things life has to offer.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-button" id="flipBtn">New Affirmation</button>
+        </div>
+    </div>
+
+    <script>
+        // Global function for home button
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        class AffirmationsDeck {
+            constructor() {
+                this.isFlipped = false;
+                
+                this.affirmations = [
+                  "You are doing the best you can with what you have—and that is enough.",
+                  "Your presence brings light into spaces you don't even realize.",
+                  "Even when you feel invisible, your existence still matters.",
+                  "Healing is not linear, and it's okay to stumble along the way.",
+                  "You are allowed to feel joy, even when the world feels heavy.",
+                  "There is nothing small about the battles you face inside your mind.",
+                  "Rest is not a reward—it's a necessity. You deserve it.",
+                  "The world needs the softness you bring into it.",
+                  "You don't need to earn love by being more or doing more.",
+                  "You are not alone in your pain, even when it feels like you are.",
+                  "Every act of self-kindness is a step toward healing.",
+                  "You carry resilience in your bones, even when you forget it's there.",
+                  "You are a masterpiece still in progress—worthy and beautiful all the same.",
+                  "It's okay to grieve the version of yourself you've outgrown.",
+                  "You deserve the same love you so freely give to others.",
+                  "Your body is not wrong. Your emotions are not too much.",
+                  "You are allowed to start over as many times as you need.",
+                  "It's brave to be soft in a world that tries to harden you.",
+                  "You don't have to have it all figured out right now.",
+                  "Your value isn't based on how productive you are today.",
+                  "You are allowed to ask for help—reaching out is strength, not weakness.",
+                  "Even in stillness, you are growing.",
+                  "You are not too much. You are exactly enough.",
+                  "You are not behind. You are on your own timeline.",
+                  "There's nothing wrong with needing time to heal.",
+                  "Your existence is not a burden. You are a blessing.",
+                  "You don't have to chase happiness—it can come quietly, too.",
+                  "Your past does not determine your worth.",
+                  "You deserve kindness, not just from others, but from yourself.",
+                  "You are not failing—you're simply finding your way.",
+                  "It's okay if all you did today was breathe. That matters.",
+                  "You have nothing to prove. You are already worthy.",
+                  "You are not the worst things you tell yourself when you're hurting.",
+                  "You are allowed to have hard days without justifying them.",
+                  "Being sensitive means you feel deeply—and that is a beautiful thing.",
+                  "Your existence adds color to this world in ways no one else can.",
+                  "It's okay to be proud of your quiet victories.",
+                  "You are allowed to grow at your own pace.",
+                  "You don't have to shrink to make others comfortable.",
+                  "You are allowed to outgrow what once felt like home.",
+                  "You don't have to explain your pain to be valid.",
+                  "Peace is not the absence of struggle—it's finding stillness in the chaos.",
+                  "You are more than your trauma.",
+                  "You are a whole person, even when you feel broken.",
+                  "You can be healing and hurting at the same time.",
+                  "You are not a burden for needing reassurance.",
+                  "Your needs are important. Your needs deserve to be met.",
+                  "You don't have to do everything alone anymore.",
+                  "It's okay to be soft in a world that celebrates hard edges.",
+                  "You are worthy of rest, even if you don't feel like you've 'earned' it.",
+                  "The fact that you're still here says so much about your strength.",
+                  "You are not weak for feeling deeply.",
+                  "Every time you choose to keep going, you're honoring your strength.",
+                  "You can't always see your progress, but that doesn't mean it's not real.",
+                  "There is courage in waking up and facing the day again.",
+                  "You are deserving of love, even in your most unlovable moments.",
+                  "You are allowed to be a work in progress and still be proud of yourself.",
+                  "It's okay to protect your peace.",
+                  "You are allowed to walk away from what no longer serves you.",
+                  "You don't have to perform your pain for others to believe you.",
+                  "You are not dramatic. You are human and hurting.",
+                  "You are not weak for needing rest—you are wise for taking it.",
+                  "Even the slowest steps forward still move you closer to healing.",
+                  "Your softness is strength. Your sensitivity is power.",
+                  "You can hold both joy and grief in the same breath.",
+                  "You are not your worst days.",
+                  "You are someone worth loving, exactly as you are.",
+                  "You are still whole, even when you're hurting.",
+                  "You are allowed to find beauty in survival.",
+                  "You are not lost. You are finding your way.",
+                  "You don't owe anyone perfection to be worthy of their care.",
+                  "You deserve to feel safe in your own skin.",
+                  "You are not defined by your lowest moments.",
+                  "You have every right to be here—exactly as you are.",
+                  "You are lovable, even in your healing.",
+                  "It's okay to say no without guilt.",
+                  "You are more than what you've endured.",
+                  "You are allowed to feel deeply without apology.",
+                  "You can start again, even after the darkest nights.",
+                  "You are a soul worth fighting for.",
+                  "The love you need can begin with yourself.",
+                  "It's okay to not be okay—and to say it out loud.",
+                  "You are brave for choosing to stay when it feels hard.",
+                  "You are not alone in your darkness. Others have found light too.",
+                  "You are not too much. The right people will love all of you.",
+                  "You deserve support just as much as you offer it.",
+                  "You're not broken—you're becoming something new.",
+                  "Your presence is meaningful, even when you feel unseen.",
+                  "You have a right to heal at your own pace.",
+                  "You are worthy of gentleness on the days you feel fragile.",
+                  "You don't have to carry the weight of everything all at once.",
+                  "Your journey is not invalidated by someone else's misunderstanding.",
+                  "You are more than your productivity. You are a person first.",
+                  "You have a light within you that hasn't gone out—it's just resting.",
+                  "You are allowed to make space for yourself in your own life."
+                ];
+
+                // Shuffle the array and start at random position
+                this.affirmations = this.shuffleArray([...this.affirmations]);
+                this.currentIndex = Math.floor(Math.random() * this.affirmations.length);
+                
+                this.card = document.getElementById('affirmationCard');
+                this.affirmationText = document.getElementById('affirmationText');
+                this.cardCounter = document.getElementById('cardCounter');
+                this.flipBtn = document.getElementById('flipBtn');
+                
+                this.bindEvents();
+                this.updateCard();
+            }
+            
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+            
+            bindEvents() {
+                this.card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.flipCard();
+                });
+                this.flipBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.flipCard();
+                });
+                
+                // Better touch support for mobile
+                this.card.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    this.flipCard();
+                });
+            }
+            
+            flipCard() {
+                if (!this.isFlipped) {
+                    // Flipping to back - get new affirmation
+                    this.currentIndex = (this.currentIndex + 1) % this.affirmations.length;
+                    this.affirmationText.textContent = this.affirmations[this.currentIndex];
+                    this.cardCounter.textContent = `${this.currentIndex + 1} / ${this.affirmations.length}`;
+                    
+                    this.card.classList.add('flipped');
+                    this.flipBtn.textContent = 'Flip Back';
+                    this.isFlipped = true;
+                } else {
+                    // Flipping to front
+                    this.card.classList.remove('flipped');
+                    this.flipBtn.textContent = 'New Affirmation';
+                    this.isFlipped = false;
+                }
+            }
+            
+            updateCard() {
+                // Reset to front side
+                this.isFlipped = false;
+                this.card.classList.remove('flipped');
+                this.flipBtn.textContent = 'New Affirmation';
+                
+                // Update content (but don't change the affirmation text since it updates on flip)
+                this.cardCounter.textContent = `${this.currentIndex + 1} / ${this.affirmations.length}`;
+            }
+        }
+        
+        // Initialize the app when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AffirmationsDeck();
+        });
+        
+        // Ensure full screen on load
+        window.addEventListener('load', () => {
+            document.body.style.height = '100vh';
+            document.documentElement.style.height = '100vh';
+        });
+    </script>
+</body>
+</html>
