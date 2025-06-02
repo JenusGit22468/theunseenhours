@@ -1,1 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - The Unseen Hours</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-light: #f5f1eb;
+            --text-primary: #3c2f2f;
+            --text-secondary: #5a4f4f;
+            --accent: #b86b2b;
+            --accent-light: #d4956f;
+            --white: #ffffff;
+            --shadow: rgba(60, 47, 47, 0.1);
+            --border: rgba(60, 47, 47, 0.08);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            left: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(184, 107, 43, 0.4);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 10001;
+        }
+
+        .scroll-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 50%, var(--bg-light) 100%);
+            z-index: 9999;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            scroll-snap-align: start;
+            padding: 5vh 5vw;
+            text-align: center;
+        }
+
+        .content-section {
+            min-height: 100vh;
+            padding: 8vh 5vw;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .home-button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-light) 0%, #ebe3d7 30%, #e8ddd1 70%, var(--bg-light) 100%);
+            color: var(--text-primary);
+        }
+
+        .hero-quote {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+            max-width: 1000px;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            opacity: 0;
+            font-style: italic;
+            color: var(--accent);
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .last-updated {
+            background: rgba(184, 107, 43, 0.1);
+            border: 2px solid rgba(184, 107, 43, 0.2);
+            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 1.5s forwards;
+            font-weight: 500;
+        }
+
+        /* Privacy Content Sections */
+        .privacy-section {
+            background: var(--white);
+            color: var(--text-primary);
+        }
+
+        .privacy-section:nth-child(odd) {
+            background: linear-gradient(135deg, #ebe3d7 0%, var(--bg-light) 50%, #e8ddd1 100%);
+        }
+
+        .privacy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .section-header.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: var(--white);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(184, 107, 43, 0.3);
+        }
+
+        .section-icon {
+            font-size: 1.6rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: var(--accent);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .section-text {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease 0.2s;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .section-text.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .section-text li {
+            margin-bottom: 0.8rem;
+            position: relative;
+        }
+
+        .section-text li::marker {
+            color: var(--accent);
+        }
+
+        .section-text strong {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .disclaimer-box {
+            background: rgba(184, 107, 43, 0.08);
+            border: 2px solid rgba(184, 107, 43, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .disclaimer-box h4 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(69, 183, 209, 0.08);
+            border: 2px solid rgba(69, 183, 209, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight-box h4 {
+            color: #45b7d1;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, var(--accent) 100%);
+            color: var(--white);
+        }
+
+        .contact-content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            letter-spacing: -0.02em;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            color: var(--accent);
+            padding: 16px 32px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            margin-top: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .contact-button:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: particleFloat 10s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; }
+
+        @keyframes particleFloat {
+            0%, 100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            20%, 80% {
+                opacity: 0.6;
+                transform: translateY(-10vh) translateX(10px);
+            }
+            90% {
+                opacity: 0;
+            }
+        }
+
+        /* Progress indicator */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(184, 107, 43, 0.2);
+            z-index: 9999;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile optimizations */
+        @media screen and (max-width: 768px) {
+            .scroll-container {
+                scroll-snap-type: none !important;
+                overscroll-behavior: contain;
+            }
+            
+            .section {
+                height: auto !important;
+                min-height: auto !important;
+                padding: 4vh 6vw !important;
+                scroll-snap-align: none !important;
+            }
+
+            .content-section {
+                min-height: auto !important;
+                padding: 4vh 6vw !important;
+            }
+
+            .hero-section {
+                min-height: 100vh !important;
+                height: auto !important;
+            }
+
+            .contact-section {
+                min-height: 100vh !important;
+                height: auto !important;
+            }
+            
+            .home-button {
+                top: 20px;
+                left: 20px;
+                padding: 10px 20px;
+                font-size: 0.8rem;
+            }
+
+            .watermark {
+                bottom: 15px;
+                left: 20px;
+                font-size: 0.8rem;
+            }
+
+            .privacy-content {
+                padding: 0;
+            }
+
+            .contact-content {
+                padding: 2rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .section-number {
+                margin-right: 0;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .disclaimer-box,
+            .highlight-box {
+                padding: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .section {
+                padding: 3vh 8vw !important;
+            }
+
+            .content-section {
+                padding: 3vh 8vw !important;
+            }
+
+            .home-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 0.75rem;
+            }
+
+            .watermark {
+                bottom: 10px;
+                left: 15px;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Scroll reveal classes */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="watermark">The Unseen Hours</div>
+
+    <button class="home-button" onclick="goHome()">← Home</button>
+
+    <div class="scroll-container" id="scrollContainer">
+        <!-- Hero Section -->
+        <section class="section hero-section">
+            <div class="particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <h1 class="hero-quote">PRIVACY POLICY</h1>
+            <p class="hero-tagline">Your privacy and trust matter to us - understanding how we protect your information</p>
+            <div class="last-updated">Last Updated: April 27, 2025</div>
+        </section>
+
+        <!-- Important Notice -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">⚠️</div>
+                    <h2 class="section-title">Important Notice</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <div class="disclaimer-box">
+                        <h4>🔒 Our Commitment to You</h4>
+                        <p>This platform is not intended to provide professional medical, legal, or therapeutic advice. The Unseen Hours ("we," "our," or "us") respects your privacy and is committed to protecting your personal information. We believe transparency builds trust.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 1: Information We Collect -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Information We Collect</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We collect information in two main ways:</p>
+                    
+                    <ul>
+                        <li><strong>Information You Provide:</strong> When you submit a story, contact us, or interact with the platform, we may collect your name, email address, story content, and other optional information you choose to share.</li>
+                        <li><strong>Automatic Information:</strong> Like many websites, we automatically collect some technical data (browser type, IP address, device information) for security and analytics purposes to ensure our platform runs smoothly.</li>
+                    </ul>
+
+                    <p>We only collect what's necessary to provide you with a safe, supportive experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: How We Use Your Information -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">2</div>
+                    <h2 class="section-title">How We Use Your Information</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We use your information responsibly to:</p>
+                    
+                    <ul>
+                        <li>Operate and improve our platform</li>
+                        <li>Share submitted stories (with respect to your chosen privacy settings)</li>
+                        <li>Communicate with you when needed</li>
+                        <li>Ensure community safety and moderation</li>
+                        <li>Provide technical support and respond to inquiries</li>
+                        <li>Analyze usage patterns to enhance user experience</li>
+                    </ul>
+
+                    <p>Your trust is paramount - we never use your information for purposes you haven't agreed to.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Sharing of Information -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">3</div>
+                    <h2 class="section-title">Sharing of Information</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <div class="highlight-box">
+                        <h4>🛡️ Our Promise</h4>
+                        <p><strong>We do not sell or rent your personal information.</strong> Period. Your privacy is not for sale.</p>
+                    </div>
+
+                    <p>We may share necessary information with trusted service providers (e.g., website hosting, email services) to operate the platform effectively. These partners are bound by strict confidentiality agreements.</p>
+                    
+                    <p>We may disclose information only if required by law or to protect the safety of our community.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Story Submissions & Anonymity -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">4</div>
+                    <h2 class="section-title">Story Submissions</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>If you submit a story, you have complete control over your privacy:</p>
+                    
+                    <ul>
+                        <li><strong>Anonymous Option:</strong> You can request to post anonymously, and we will honor that choice</li>
+                        <li><strong>Public Visibility:</strong> Posted stories may be visible publicly unless you specifically request anonymity</li>
+                        <li><strong>Identity Protection:</strong> When anonymity is requested, we do not associate your content with your personal identity in public displays</li>
+                        <li><strong>Safety Records:</strong> We may retain identifying information for moderation and safety purposes only</li>
+                    </ul>
+
+                    <p>We respect your choice to share your experience while protecting your identity when requested.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Cookies & Technology -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">5</div>
+                    <h2 class="section-title">Cookies & Technology</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We may use cookies or similar technologies to:</p>
+                    
+                    <ul>
+                        <li>Improve your browsing experience</li>
+                        <li>Remember your preferences</li>
+                        <li>Understand how our platform is being used</li>
+                        <li>Ensure security and prevent abuse</li>
+                    </ul>
+
+                    <p>You can adjust your browser settings to decline cookies if you prefer, though this may affect some functionality. We respect your choice and provide clear options for managing your privacy preferences.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Data Security -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">6</div>
+                    <h2 class="section-title">Data Security</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We take reasonable measures to protect your information using industry-standard security practices:</p>
+                    
+                    <ul>
+                        <li>Encrypted data transmission</li>
+                        <li>Secure server infrastructure</li>
+                        <li>Regular security audits</li>
+                        <li>Access controls and authentication</li>
+                        <li>Data backup and recovery procedures</li>
+                    </ul>
+
+                    <p>However, no internet transmission is ever fully secure. Please submit sensitive information with care and consider the public nature of shared stories.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 7: Your Rights & Choices -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">7</div>
+                    <h2 class="section-title">Your Rights & Choices</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>You have control over your information. You may contact us to:</p>
+                    
+                    <ul>
+                        <li><strong>Access:</strong> Request a copy of the personal information we have about you</li>
+                        <li><strong>Correct:</strong> Update or correct any inaccurate information</li>
+                        <li><strong>Delete:</strong> Request deletion of your personal information</li>
+                        <li><strong>Withdraw Consent:</strong> Opt out of communications or data processing</li>
+                        <li><strong>Data Portability:</strong> Request your data in a portable format</li>
+                        <li><strong>Questions:</strong> Ask about how your data is handled</li>
+                    </ul>
+
+                    <p>We respond to all requests promptly and work to accommodate your preferences wherever possible.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 8: Policy Changes -->
+        <section class="section privacy-section content-section">
+            <div class="privacy-content">
+                <div class="section-header scroll-reveal">
+                    <div class="section-number">8</div>
+                    <h2 class="section-title">Changes to This Policy</h2>
+                </div>
+                <div class="section-text scroll-reveal">
+                    <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for legal reasons.</p>
+                    
+                    <p>When we make changes:</p>
+                    <ul>
+                        <li>We'll update the "Last Updated" date</li>
+                        <li>For significant changes, we'll notify you via email or platform announcements</li>
+                        <li>We'll provide a summary of key changes</li>
+                        <li>You'll have time to review before changes take effect</li>
+                    </ul>
+
+                    <p>Continued use of the site after changes means you accept the updated policy. We'll notify you of significant changes when possible and always aim for transparency.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="section contact-section">
+            <div class="contact-content scroll-reveal">
+                <h2 class="contact-title">Questions or Concerns?</h2>
+                <p class="contact-text">If you have any questions about this Privacy Policy or how we handle your information, we're here to help. Your privacy matters to us, and we're committed to being transparent about our practices.</p>
+                <p class="contact-text">We typically respond within 24-48 hours and are always happy to clarify any aspect of how we protect your information.</p>
+                <a href="mailto:contact@theunseenhours.org" class="contact-button">
+                    <span>💌</span>
+                    contact@theunseenhours.org
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function goHome() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainer = document.getElementById('scrollContainer');
+            const progressFill = document.getElementById('progressFill');
+            const sections = document.querySelectorAll('.section');
+
+            // Progress bar
+            scrollContainer.addEventListener('scroll', function() {
+                const scrollTop = scrollContainer.scrollTop;
+                const scrollHeight = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+                const progress = (scrollTop / scrollHeight) * 100;
+                progressFill.style.width = progress + '%';
+            });
+
+            // Scroll animations
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    const elements = entry.target.querySelectorAll('.scroll-reveal');
+                    
+                    if (entry.isIntersecting) {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.add('active');
+                            }, index * 200);
+                        });
+                    } else {
+                        elements.forEach(function(el, index) {
+                            setTimeout(function() {
+                                el.classList.remove('active');
+                            }, index * 100);
+                        });
+                    }
+                });
+            }, {
+                root: scrollContainer,
+                rootMargin: '-20% 0px -20% 0px',
+                threshold: 0.1
+            });
+
+            sections.forEach(function(section) {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
