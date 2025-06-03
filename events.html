@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Events - The Unseen Hours</title>
+    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -270,9 +272,169 @@
             line-height: 1.6;
         }
 
+        /* Signup Section - MSU Theme */
+        .signup-section {
+            background: linear-gradient(135deg, #18453B 0%, #000000 50%, #18453B 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .signup-title {
+            font-size: clamp(1.8rem, 4vw, 3.5rem);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+            letter-spacing: 0.05em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .signup-description {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        /* Custom Mailchimp Styling */
+        #mc_embed_signup {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 2px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 20px !important;
+            padding: 2.5rem !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+            width: 100% !important;
+            max-width: 600px !important;
+            margin: 0 auto !important;
+            font-family: inherit !important;
+            transition: all 0.4s ease !important;
+        }
+
+        #mc_embed_signup:hover {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 25px 50px rgba(24, 69, 59, 0.3) !important;
+        }
+
+        #mc_embed_signup h2 {
+            color: white !important;
+            font-size: clamp(1.3rem, 3vw, 2rem) !important;
+            font-weight: 600 !important;
+            margin-bottom: 1.5rem !important;
+            text-align: center !important;
+            letter-spacing: 0.02em !important;
+        }
+
+        #mc_embed_signup .indicates-required {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.9rem !important;
+            text-align: center !important;
+            margin-bottom: 2rem !important;
+        }
+
+        #mc_embed_signup .mc-field-group {
+            margin-bottom: 1.5rem !important;
+            text-align: left !important;
+        }
+
+        #mc_embed_signup label {
+            color: white !important;
+            font-weight: 600 !important;
+            font-size: 1rem !important;
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+
+        #mc_embed_signup input[type="email"],
+        #mc_embed_signup input[type="text"] {
+            width: 100% !important;
+            padding: 12px 16px !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 10px !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: white !important;
+            font-size: 1rem !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+        }
+
+        #mc_embed_signup input[type="email"]:focus,
+        #mc_embed_signup input[type="text"]:focus {
+            outline: none !important;
+            border-color: #18453B !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 0 20px rgba(24, 69, 59, 0.3) !important;
+        }
+
+        #mc_embed_signup input[type="email"]::placeholder,
+        #mc_embed_signup input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+
+        #mc_embed_signup .helper_text {
+            color: rgba(255, 255, 255, 0.7) !important;
+            font-size: 0.85rem !important;
+            margin-top: 0.5rem !important;
+            display: block !important;
+        }
+
+        #mc_embed_signup .button {
+            background: linear-gradient(135deg, #18453B 0%, #0f2e26 100%) !important;
+            color: white !important;
+            border: none !important;
+            padding: 16px 40px !important;
+            border-radius: 50px !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            width: 100% !important;
+            max-width: 300px !important;
+            margin: 2rem auto 0 !important;
+            display: block !important;
+            box-shadow: 0 10px 30px rgba(24, 69, 59, 0.4) !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        #mc_embed_signup .button:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 15px 40px rgba(24, 69, 59, 0.6) !important;
+            background: linear-gradient(135deg, #0f2e26 0%, #18453B 100%) !important;
+        }
+
+        #mc_embed_signup .asterisk {
+            color: #ff6b6b !important;
+        }
+
+        #mc_embed_signup .response {
+            color: white !important;
+            text-align: center !important;
+            margin-top: 1rem !important;
+            padding: 10px !important;
+            border-radius: 8px !important;
+        }
+
+        #mc_embed_signup #mce-success-response {
+            background: rgba(76, 175, 80, 0.2) !important;
+            border: 1px solid rgba(76, 175, 80, 0.5) !important;
+        }
+
+        #mc_embed_signup #mce-error-response {
+            background: rgba(244, 67, 54, 0.2) !important;
+            border: 1px solid rgba(244, 67, 54, 0.5) !important;
+        }
+
         /* Join Section - MSU Theme */
         .join-section {
-            background: linear-gradient(135deg, #18453B 0%, #000000 50%, #18453B 100%);
+            background: linear-gradient(135deg, #000000 0%, #18453B 50%, #000000 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -478,6 +640,14 @@
                 padding: 1.5rem;
             }
 
+            #mc_embed_signup {
+                padding: 1.5rem !important;
+            }
+
+            #mc_embed_signup .mc-field-group {
+                margin-bottom: 1rem !important;
+            }
+
             /* Optimize particles for mobile performance */
             .particle {
                 display: none;
@@ -496,6 +666,11 @@
             .section-title {
                 font-size: clamp(1.3rem, 6vw, 2.5rem);
                 margin-bottom: 2rem;
+            }
+
+            .signup-title {
+                font-size: clamp(1.3rem, 6vw, 2.5rem);
+                margin-bottom: 1rem;
             }
 
             .join-title {
@@ -545,6 +720,10 @@
 
             .calendar-header-content p {
                 font-size: 0.8rem;
+            }
+
+            #mc_embed_signup {
+                padding: 1rem !important;
             }
         }
 
@@ -706,6 +885,61 @@
             </div>
         </section>
 
+        <!-- Signup Section -->
+        <section class="section signup-section">
+            <div class="signup-content scroll-reveal">
+                <h2 class="signup-title">Stay Connected</h2>
+                <p class="signup-description">
+                    Join our community and never miss an opportunity to connect. Get notified about upcoming events, 
+                    workshops, and gatherings that create spaces for meaningful conversations.
+                </p>
+                
+                <div id="mc_embed_shell">
+                    <div id="mc_embed_signup">
+                        <form action="https://theunseenhours.us14.list-manage.com/subscribe/post?u=bc1c5dec9903e06a841c42ec3&amp;id=e684891be5&amp;f_id=001fe0e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+                            <div id="mc_embed_signup_scroll">
+                                <h2>Subscribe to Events at MSU!</h2>
+                                <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                                
+                                <div class="mc-field-group">
+                                    <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
+                                    <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value="">
+                                </div>
+                                
+                                <div class="mc-field-group">
+                                    <label for="mce-FNAME">First Name <span class="asterisk">*</span></label>
+                                    <input type="text" name="FNAME" class="required text" id="mce-FNAME" required="" value="">
+                                </div>
+                                
+                                <div class="mc-field-group">
+                                    <label for="mce-PHONE">Phone Number <span class="asterisk">*</span></label>
+                                    <input type="text" name="PHONE" class="REQ_CSS" id="mce-PHONE" value="">
+                                    <span id="mce-PHONE-HELPERTEXT" class="helper_text">This may be used to contact you for volunteering events.</span>
+                                </div>
+                                
+                                <div hidden="">
+                                    <input type="hidden" name="tags" value="7263526">
+                                </div>
+                                
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display: none;"></div>
+                                    <div class="response" id="mce-success-response" style="display: none;"></div>
+                                </div>
+                                
+                                <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                    <input type="text" name="b_bc1c5dec9903e06a841c42ec3_e684891be5" tabindex="-1" value="">
+                                </div>
+                                
+                                <div class="clear">
+                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Join Section -->
         <section class="section join-section">
             <h2 class="join-title scroll-reveal">Join Our Community</h2>
@@ -725,6 +959,79 @@
             </div>
         </section>
     </div>
+
+    </div>
+
+    <script>
+        // Simple form validation without jQuery dependency
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('mc-embedded-subscribe-form');
+            const emailInput = document.getElementById('mce-EMAIL');
+            const fnameInput = document.getElementById('mce-FNAME');
+            const phoneInput = document.getElementById('mce-PHONE');
+            const errorResponse = document.getElementById('mce-error-response');
+            const successResponse = document.getElementById('mce-success-response');
+
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            function showError(message) {
+                errorResponse.innerHTML = message;
+                errorResponse.style.display = 'block';
+                successResponse.style.display = 'none';
+            }
+
+            function showSuccess(message) {
+                successResponse.innerHTML = message || 'Thank you for subscribing!';
+                successResponse.style.display = 'block';
+                errorResponse.style.display = 'none';
+            }
+
+            function hideMessages() {
+                errorResponse.style.display = 'none';
+                successResponse.style.display = 'none';
+            }
+
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    hideMessages();
+                    
+                    // Basic validation
+                    if (!emailInput.value.trim()) {
+                        e.preventDefault();
+                        showError('Please enter your email address.');
+                        return false;
+                    }
+
+                    if (!validateEmail(emailInput.value.trim())) {
+                        e.preventDefault();
+                        showError('Please enter a valid email address.');
+                        return false;
+                    }
+
+                    if (!fnameInput.value.trim()) {
+                        e.preventDefault();
+                        showError('Please enter your first name.');
+                        return false;
+                    }
+
+                    // If validation passes, form will submit normally
+                    return true;
+                });
+
+                // Real-time email validation
+                emailInput.addEventListener('blur', function() {
+                    if (this.value.trim() && !validateEmail(this.value.trim())) {
+                        showError('Please enter a valid email address.');
+                    } else {
+                        hideMessages();
+                    }
+                });
+            }
+        });
+    </script>
 
     <script>
         // Global function for home button
