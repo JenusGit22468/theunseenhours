@@ -58,6 +58,12 @@
             pointer-events: none;
         }
 
+        /* Disable scrolling when welcome screen is active */
+        body.welcome-active {
+            overflow: hidden !important;
+            height: 100vh !important;
+        }
+
         /* Hide all other elements when welcome screen is active */
         .welcome-screen:not(.hidden) ~ * {
             visibility: hidden;
@@ -2084,14 +2090,14 @@
         if (!shouldShowWelcomeScreen()) {
             welcomeScreen.classList.add('hidden');
         } else {
-            // Prevent scrolling while welcome screen is active
-            mainContent.style.overflow = 'hidden';
+            // Disable scrolling while welcome screen is active
+            document.body.classList.add('welcome-active');
         }
 
         // Continue button functionality
         welcomeContinueBtn.addEventListener('click', () => {
             welcomeScreen.classList.add('hidden');
-            mainContent.style.overflow = '';
+            document.body.classList.remove('welcome-active');
             
             // Start main site animations after welcome screen closes
             setTimeout(() => {
