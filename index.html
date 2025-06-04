@@ -763,10 +763,13 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: var(--brown-600);
             transition: all 0.3s ease;
             font-weight: bold;
+            z-index: 10;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .awareness-minimize:hover {
@@ -830,7 +833,7 @@
         .awareness-tab {
             position: fixed;
             top: 25%;
-            right: -150px;
+            right: -200px;
             transform: translateY(-25%);
             background: linear-gradient(135deg, var(--sage-600), var(--sage-700));
             border-radius: 1.5rem 0 0 1.5rem;
@@ -847,7 +850,17 @@
             right: 0;
         }
 
-        .awareness-tab:hover {
+        .awareness-tab.auto-hidden {
+            right: -160px;
+        }
+
+        .awareness-tab.auto-hidden:hover {
+            right: 0;
+            transform: translateY(-25%) scale(1.02);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(139, 166, 133, 0.4);
+        }
+
+        .awareness-tab.show:hover {
             right: 10px;
             transform: translateY(-25%) scale(1.05);
         }
@@ -873,18 +886,20 @@
 
         @media (max-width: 768px) {
             .awareness-sidebar {
-                width: 280px;
-                top: auto;
-                bottom: 0;
+                width: 90vw;
+                max-width: 350px;
+                top: 20%;
+                bottom: auto;
                 right: 0;
-                transform: translateX(100%);
-                border-radius: 1.5rem 1.5rem 0 0;
+                left: 50%;
+                transform: translateX(calc(100% + 50vw));
+                border-radius: 1.5rem;
                 border: 1px solid var(--glass-border);
-                border-bottom: none;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             }
 
             .awareness-sidebar.show {
-                transform: translateX(0);
+                transform: translateX(-50%);
             }
 
             .awareness-sidebar-content {
@@ -896,35 +911,51 @@
             }
 
             .awareness-tab {
-                top: auto;
-                bottom: -100px;
-                right: 1rem;
-                transform: translateY(0);
-                border-radius: 1.5rem 1.5rem 0 0;
-                padding: 1rem 1.5rem;
+                top: 20%;
+                bottom: auto;
+                right: -200px;
+                left: auto;
+                transform: translateY(-50%);
+                border-radius: 1.5rem 0 0 1.5rem;
+                padding: 0.875rem 1.25rem 0.875rem 1.75rem;
                 border: 1px solid rgba(254, 252, 247, 0.2);
-                border-bottom: none;
+                border-right: none;
+                box-shadow: -3px 0 15px rgba(0, 0, 0, 0.2);
             }
 
             .awareness-tab.show {
-                bottom: 0;
-                right: 1rem;
+                right: 0;
             }
 
-            .awareness-tab:hover {
-                bottom: 5px;
-                transform: scale(1.02);
+            .awareness-tab.auto-hidden {
+                right: -140px;
+            }
+
+            .awareness-tab.auto-hidden:hover {
+                right: 0;
+                transform: translateY(-50%) scale(1.02);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(139, 166, 133, 0.4);
+            }
+
+            .awareness-tab.show:hover {
+                right: 10px;
+                transform: translateY(-50%) scale(1.05);
             }
 
             .awareness-tab-content {
-                flex-direction: column;
-                gap: 0.25rem;
-                text-align: center;
+                flex-direction: row;
+                gap: 0.75rem;
+                text-align: left;
             }
 
             .awareness-tab-text {
-                font-size: 0.8rem;
+                font-size: 0.85rem;
                 line-height: 1.2;
+                white-space: nowrap;
+            }
+
+            .awareness-tab-icon {
+                font-size: 1.25rem;
             }
         }
 
@@ -1903,6 +1934,12 @@
             transition: transform 0.3s ease;
         }
 
+        .back-to-top-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
         .back-to-top:hover .back-to-top-icon {
             transform: translateY(-2px);
         }
@@ -1924,6 +1961,18 @@
 
             .back-to-top {
                 order: -1;
+                padding: 0.875rem 1.25rem;
+                font-size: 0.9rem;
+            }
+
+            .back-to-top-icon {
+                width: 16px;
+                height: 16px;
+            }
+
+            .back-to-top-icon svg {
+                width: 100%;
+                height: 100%;
             }
         }
     </style>
@@ -1934,7 +1983,7 @@
         <div class="welcome-content">
             <h1>Welcome to The Unseen Hours</h1>
             <p>We are so glad to have you. Your experiences matter. You matter.</p>
-            <button class="welcome-btn" onclick="enterSite()">Continue</button>
+            <button class="welcome-btn" onclick="enterSite()">Continue Your Journey</button>
         </div>
     </div>
 
@@ -2041,7 +2090,7 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <video class="hero-video" id="heroVideo" autoplay muted loop>
+        <video class="hero-video" id="heroVideo" autoplay muted loop playsinline webkit-playsinline>
             <source src="https://cdn.theunseenhours.org/msuvideo.mp4.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
@@ -2049,7 +2098,7 @@
         <!-- Men's Mental Health Awareness Sidebar -->
         <div class="awareness-sidebar" id="awarenessSidebar">
             <div class="awareness-sidebar-content">
-                <button class="awareness-minimize" id="awarenessMinimize">−</button>
+                <button class="awareness-minimize" id="awarenessMinimize" title="Close">×</button>
                 <div class="awareness-sidebar-header">
                     <div class="awareness-sidebar-icon">💙</div>
                     <h3>Men's Mental Health Awareness</h3>
@@ -2267,7 +2316,7 @@
             </div>
             
             <div style="text-align: center; margin-top: 3rem;">
-                <a href="theunseenhours.org/events" class="btn btn-primary">View All Events</a>
+                <a href="#" class="btn btn-primary">View All Events</a>
             </div>
         </div>
     </section>
@@ -2370,6 +2419,7 @@
         let mapInitialized = false;
         let isUSFilter = false;
         let isMapFullscreen = false;
+        let awarenessAutoHideTimer = null;
 
         const CHAPTER_DATA = [
             {
@@ -2409,8 +2459,12 @@
                 updateVideoControlVisibility();
                 // Show awareness popup after welcome screen fades out
                 setTimeout(() => {
-                    showAwarenessPopup();
-                }, 1500);
+                    // Only auto-show if user hasn't interacted with it yet
+                    const sidebar = document.getElementById('awarenessSidebar');
+                    if (sidebar && !sidebar.classList.contains('show')) {
+                        showAwarenessPopup();
+                    }
+                }, 3000);
             }, 1000);
         }
 
@@ -2420,12 +2474,40 @@
             const tab = document.getElementById('awarenessTab');
             const minimizeBtn = document.getElementById('awarenessMinimize');
             
+            // Tab starts hidden - only shows when sidebar is minimized
+            if (tab) {
+                tab.classList.remove('show');
+                
+                // Add hover event listeners for auto-hidden behavior
+                tab.addEventListener('mouseenter', function() {
+                    if (tab.classList.contains('auto-hidden')) {
+                        stopAutoHideTimer();
+                    }
+                });
+                
+                tab.addEventListener('mouseleave', function() {
+                    if (tab.classList.contains('auto-hidden')) {
+                        startAutoHideTimer();
+                    }
+                });
+            }
+            
             if (minimizeBtn && sidebar && tab) {
                 // Minimize sidebar when clicking minimize button
-                minimizeBtn.addEventListener('click', minimizeAwarenessSidebar);
+                minimizeBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    stopAutoHideTimer();
+                    minimizeAwarenessSidebar();
+                });
                 
                 // Show sidebar when clicking the tab
-                tab.addEventListener('click', showAwarenessSidebar);
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    stopAutoHideTimer();
+                    showAwarenessSidebar();
+                });
             }
         }
 
@@ -2439,6 +2521,8 @@
             if (sidebar && tab) {
                 sidebar.classList.add('show');
                 tab.classList.remove('show');
+                tab.classList.remove('auto-hidden');
+                stopAutoHideTimer();
             }
         }
 
@@ -2448,11 +2532,46 @@
             if (sidebar && tab) {
                 sidebar.classList.remove('show');
                 tab.classList.add('show');
+                tab.classList.remove('auto-hidden');
+                
+                // Start auto-hide timer
+                startAutoHideTimer();
             }
         }
 
         function closeAwarenessPopup() {
             minimizeAwarenessSidebar();
+        }
+
+        function startAutoHideTimer() {
+            // Clear any existing timer
+            if (awarenessAutoHideTimer) {
+                clearTimeout(awarenessAutoHideTimer);
+            }
+            
+            // Set new timer for 5 seconds
+            awarenessAutoHideTimer = setTimeout(() => {
+                const tab = document.getElementById('awarenessTab');
+                if (tab && tab.classList.contains('show')) {
+                    tab.classList.add('auto-hidden');
+                }
+            }, 5000);
+        }
+
+        function stopAutoHideTimer() {
+            if (awarenessAutoHideTimer) {
+                clearTimeout(awarenessAutoHideTimer);
+                awarenessAutoHideTimer = null;
+            }
+        }
+
+        function revealTabOnHover() {
+            const tab = document.getElementById('awarenessTab');
+            if (tab && tab.classList.contains('auto-hidden')) {
+                // Temporarily show tab on hover, will re-hide when mouse leaves
+                stopAutoHideTimer();
+                startAutoHideTimer(); // Restart timer
+            }
         }
 
         // Header scroll effect
