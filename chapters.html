@@ -890,7 +890,7 @@
 
     <script>
         // Set Mapbox access token
-        const MAPBOX_TOKEN = 'pk.eyJ1IjoiamVudXNtYXBib3giLCJhIjoiY21iZDViZW8yMjUyMjUyc1BqZHp1OWo2ayJ9.rkaMdUQBhhtKix6Xv1YV7g';
+        const MAPBOX_TOKEN = 'pk.eyJ1IjoiamVudXNtYXBib3giLCJhIjoiY21iZDViZW8yMjJrMjJycTBqZHp1OWo2ayJ9.rkaMdJQBhhtKix6Xv1YV7g';
 
         // Wait for Mapbox to load
         function waitForMapbox() {
@@ -1031,19 +1031,22 @@
                     center: [-30.0, 30.0],
                     zoom: 1.5,
                     minZoom: 1,
-                    maxZoom: 18
+                    maxZoom: 18,
+                    projection: 'mercator'
                 });
 
                 var chapters = [
                     {
-                        coords: [-84.4837, 42.7318],
+                        lng: -84.4837,
+                        lat: 42.7318,
                         name: "Michigan State University",
                         members: 8,
                         description: "University chapter exploring consciousness and hidden experiences",
                         country: "us"
                     },
                     {
-                        coords: [15.5420, 45.4870],
+                        lng: 15.5420,
+                        lat: 45.4870,
                         name: "Karlovac, Croatia",
                         members: 2,
                         description: "European chapter bringing international perspectives",
@@ -1055,48 +1058,73 @@
 
                 map.on('load', function() {
                     chapters.forEach(function(chapter) {
+                        // Create custom marker element
                         const markerEl = document.createElement('div');
                         markerEl.className = 'custom-marker';
+                        markerEl.innerHTML = '<div class="marker-inner"></div>';
                         markerEl.style.cssText = `
-                            width: 20px;
-                            height: 20px;
+                            width: 30px;
+                            height: 30px;
+                            cursor: pointer;
+                            position: relative;
+                            will-change: transform;
+                        `;
+
+                        const markerInner = markerEl.querySelector('.marker-inner');
+                        markerInner.style.cssText = `
+                            width: 100%;
+                            height: 100%;
                             border-radius: 50%;
                             background: #b86b2b;
                             border: 3px solid #ffffff;
-                            cursor: pointer;
                             box-shadow: 0 2px 10px rgba(184, 107, 43, 0.4);
-                            transition: all 0.3s ease;
+                            transition: transform 0.2s ease, box-shadow 0.2s ease;
+                            transform-origin: center;
                         `;
 
-                        markerEl.addEventListener('mouseenter', function() {
-                            this.style.transform = 'scale(1.2)';
-                            this.style.boxShadow = '0 4px 15px rgba(184, 107, 43, 0.6)';
-                        });
-
-                        markerEl.addEventListener('mouseleave', function() {
-                            this.style.transform = 'scale(1)';
-                            this.style.boxShadow = '0 2px 10px rgba(184, 107, 43, 0.4)';
-                        });
-
                         var popupContent = 
-                            '<div style="text-align: center; font-family: Inter, sans-serif;">' +
-                            '<h3 style="margin: 0 0 8px 0; color: #b86b2b; font-size: 1.1rem; font-weight: 700; font-family: Playfair Display, serif;">' + chapter.name + '</h3>' +
-                            '<p style="margin: 0; color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4;">' + chapter.description + '</p>' +
+                            '<div style="color: var(--text-primary); text-align: center; padding: 15px; background: var(--white); border-radius: 12px; border: 1px solid var(--border); min-width: 200px;">' +
+                            '<h3 style="margin: 0 0 10px 0; color: #b86b2b; font-size: 1.2rem; font-weight: 600; font-family: Playfair Display, serif;">' + chapter.name + '</h3>' +
+                            '<p style="margin: 0; color: var(--text-secondary); font-size: 1rem; line-height: 1.4; font-family: Inter, sans-serif;">' + chapter.description + '</p>' +
                             '</div>';
 
                         var popup = new mapboxgl.Popup({
                             offset: 25,
-                            className: 'custom-popup'
+                            closeButton: true,
+                            closeOnClick: false,
+                            maxWidth: '300px'
                         }).setHTML(popupContent);
 
-                        var marker = new mapboxgl.Marker(markerEl)
-                            .setLngLat(chapter.coords)
+                        var marker = new mapboxgl.Marker({
+                            element: markerEl,
+                            draggable: false,
+                            anchor: 'center'
+                        })
+                            .setLngLat([chapter.lng, chapter.lat])
                             .setPopup(popup)
                             .addTo(map);
 
+                        // Add hover effects with CSS
+                        markerEl.addEventListener('mouseenter', function() {
+                            markerInner.style.transform = 'scale(1.2)';
+                            markerInner.style.boxShadow = '0 6px 20px rgba(184, 107, 43, 0.3)';
+                        });
+
+                        markerEl.addEventListener('mouseleave', function() {
+                            markerInner.style.transform = 'scale(1)';
+                            markerInner.style.boxShadow = '0 2px 10px rgba(184, 107, 43, 0.4)';
+                        });
+
+                        // Show popup on click
+                        markerEl.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            popup.addTo(map);
+                        });
+
                         markers.push({
                             marker: marker,
-                            chapter: chapter
+                            chapter: chapter,
+                            popup: popup
                         });
                     });
 
@@ -1241,6 +1269,7 @@
         function enterFullscreen() {
             if (!mapContainer) return;
             
+            // Store original styles
             mapContainer.dataset.originalPosition = mapContainer.style.position || '';
             mapContainer.dataset.originalTop = mapContainer.style.top || '';
             mapContainer.dataset.originalLeft = mapContainer.style.left || '';
@@ -1250,6 +1279,7 @@
             mapContainer.dataset.originalBorderRadius = mapContainer.style.borderRadius || '';
             mapContainer.dataset.originalTransform = mapContainer.style.transform || '';
             
+            // Apply fullscreen styles
             mapContainer.style.position = 'fixed';
             mapContainer.style.top = '0';
             mapContainer.style.left = '0';
@@ -1266,16 +1296,89 @@
                 mapElement.style.borderRadius = '0';
             }
             
+            // Update button text
             const fullscreenBtn = document.getElementById('fullscreen-btn');
             if (fullscreenBtn) {
-                fullscreenBtn.textContent = '⛶ Exit';
+                fullscreenBtn.textContent = '✕ Exit';
+                fullscreenBtn.style.background = 'rgba(255, 255, 255, 0.9)';
+                fullscreenBtn.style.color = 'var(--accent)';
             }
+            
+            // Create mobile exit overlay for easier touch access
+            const exitOverlay = document.createElement('div');
+            exitOverlay.id = 'fullscreen-exit-overlay';
+            exitOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 60px;
+                background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+                z-index: 1000000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const exitButton = document.createElement('button');
+            exitButton.textContent = '✕ Exit Fullscreen';
+            exitButton.style.cssText = `
+                background: rgba(255, 255, 255, 0.95);
+                color: var(--accent);
+                border: 2px solid var(--accent);
+                padding: 12px 24px;
+                border-radius: 25px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                pointer-events: auto;
+                font-family: 'Inter', sans-serif;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                transition: all 0.3s ease;
+            `;
+            
+            exitButton.addEventListener('click', exitFullscreen);
+            exitOverlay.appendChild(exitButton);
+            document.body.appendChild(exitOverlay);
+            
+            // Show exit overlay briefly, then on interaction
+            setTimeout(() => {
+                exitOverlay.style.opacity = '1';
+                setTimeout(() => {
+                    exitOverlay.style.opacity = '0';
+                }, 3000);
+            }, 500);
+            
+            // Show exit overlay on touch/mouse move
+            let hideTimeout;
+            const showExitOverlay = () => {
+                exitOverlay.style.opacity = '1';
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(() => {
+                    exitOverlay.style.opacity = '0';
+                }, 3000);
+            };
+            
+            mapContainer.addEventListener('touchstart', showExitOverlay);
+            mapContainer.addEventListener('mousemove', showExitOverlay);
+            
             isFullscreen = true;
 
+            // Try to request browser fullscreen (works better on desktop)
             if (mapContainer.requestFullscreen) {
                 mapContainer.requestFullscreen().catch(() => {});
+            } else if (mapContainer.webkitRequestFullscreen) {
+                mapContainer.webkitRequestFullscreen().catch(() => {});
+            } else if (mapContainer.mozRequestFullScreen) {
+                mapContainer.mozRequestFullScreen().catch(() => {});
+            } else if (mapContainer.msRequestFullscreen) {
+                mapContainer.msRequestFullscreen().catch(() => {});
             }
 
+            // Resize map and adjust view
             setTimeout(function() {
                 if (map && map.resize) {
                     map.resize();
@@ -1299,6 +1402,7 @@
         function exitFullscreen() {
             if (!mapContainer) return;
             
+            // Restore original styles
             mapContainer.style.position = mapContainer.dataset.originalPosition || '';
             mapContainer.style.top = mapContainer.dataset.originalTop || '';
             mapContainer.style.left = mapContainer.dataset.originalLeft || '';
@@ -1315,34 +1419,76 @@
                 mapElement.style.borderRadius = '17px';
             }
             
+            // Reset button
             const fullscreenBtn = document.getElementById('fullscreen-btn');
             if (fullscreenBtn) {
                 fullscreenBtn.textContent = '⛶ Full';
+                fullscreenBtn.style.background = '';
+                fullscreenBtn.style.color = '';
             }
+            
+            // Remove mobile exit overlay
+            const exitOverlay = document.getElementById('fullscreen-exit-overlay');
+            if (exitOverlay) {
+                exitOverlay.remove();
+            }
+            
             isFullscreen = false;
 
+            // Exit browser fullscreen
             if (document.exitFullscreen) {
                 document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen().catch(() => {});
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen().catch(() => {});
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen().catch(() => {});
             }
 
-            setTimeout(function() {
+            // Resize map and adjust view - multiple attempts for better reliability
+            const resizeMapAfterExit = () => {
                 if (map && map.resize) {
-                    map.resize();
-                    if (showUSOnly) {
-                        map.flyTo({
-                            center: [-98.5795, 39.8283],
-                            zoom: 3.5,
-                            duration: 1000
-                        });
-                    } else {
-                        map.flyTo({
-                            center: [-30.0, 30.0],
-                            zoom: 1.5,
-                            duration: 1000
-                        });
+                    try {
+                        // Force a repaint by briefly hiding/showing
+                        const mapElement = map.getContainer();
+                        mapElement.style.visibility = 'hidden';
+                        mapElement.offsetHeight; // Trigger reflow
+                        mapElement.style.visibility = 'visible';
+                        
+                        // Resize the map
+                        map.resize();
+                        
+                        // Restore view
+                        if (showUSOnly) {
+                            map.flyTo({
+                                center: [-98.5795, 39.8283],
+                                zoom: 3.5,
+                                duration: 1000
+                            });
+                        } else {
+                            map.flyTo({
+                                center: [-30.0, 30.0],
+                                zoom: 1.5,
+                                duration: 1000
+                            });
+                        }
+                    } catch (error) {
+                        console.log('Map resize after exit failed:', error);
+                        // Fallback: try again after longer delay
+                        setTimeout(() => {
+                            if (map && map.resize) {
+                                map.resize();
+                            }
+                        }, 1000);
                     }
                 }
-            }, 300);
+            };
+            
+            // Try multiple times with increasing delays for reliability
+            setTimeout(resizeMapAfterExit, 50);
+            setTimeout(resizeMapAfterExit, 200);
+            setTimeout(resizeMapAfterExit, 500);
         }
 
         // Initialize everything when page loads
@@ -1352,14 +1498,6 @@
             setTimeout(() => {
                 initMap();
             }, 1000);
-        });
-
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                if (!map) {
-                    initMap();
-                }
-            }, 500);
         });
     </script>
 </body>
