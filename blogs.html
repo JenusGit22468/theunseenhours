@@ -1,1 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unseen Hours - Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --beige-50: #FEFCF7;
+            --beige-100: #F7F3E9;
+            --beige-200: #F0E6D2;
+            --beige-300: #E8D5B7;
+            --beige-400: #D4C5B0;
+            --beige-500: #C5B299;
+            --brown-400: #A67C52;
+            --brown-500: #8B6914;
+            --brown-600: #7A5A0F;
+            --brown-700: #5D4A0F;
+            --brown-900: #3D2F0A;
+            --sage-400: #8FA685;
+            --sage-500: #7A8471;
+            --sage-600: #6B7562;
+            --sage-700: #4A5D41;
+            --sage-900: #2D3A28;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-copper: #B87333;
+            
+            --glass-bg: rgba(254, 252, 247, 0.7);
+            --glass-border: rgba(139, 105, 20, 0.2);
+            --shadow-glass: 0 8px 32px rgba(139, 105, 20, 0.1);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background: var(--beige-50);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-glass);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--brown-600);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-copper));
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 1.5rem;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: rgba(139, 105, 20, 0.08);
+            color: var(--brown-600);
+        }
+
+        .nav-link.active {
+            background: var(--brown-600);
+            color: var(--beige-50);
+        }
+
+        /* Hero Section */
+        .blog-hero {
+            background: linear-gradient(135deg, var(--sage-700) 0%, var(--sage-900) 100%);
+            color: var(--beige-50);
+            padding: 8rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><filter id="noise"><feTurbulence baseFrequency="0.7" numOctaves="1"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.02"/></svg>');
+            pointer-events: none;
+        }
+
+        .blog-hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .blog-hero-badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-gold);
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .blog-hero h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .blog-hero p {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: rgba(254, 252, 247, 0.9);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+        }
+
+        .blog-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .blog-stat {
+            text-align: center;
+        }
+
+        .blog-stat-number {
+            font-family: 'Crimson Text', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-stat-label {
+            color: rgba(254, 252, 247, 0.8);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        /* Search and Filter */
+        .blog-controls {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            align-items: center;
+            flex-wrap: wrap;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 2rem;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glass);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 100;
+        }
+        
+        .blog-controls.sticky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: 0;
+            border-radius: 0;
+            background: rgba(254, 252, 247, 0.95);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 2px 20px rgba(139, 105, 20, 0.1);
+            z-index: 999;
+            max-width: 100%;
+            padding: 1.5rem 2rem;
+        }
+        
+        .blog-controls-placeholder {
+            display: none;
+            height: 120px;
+        }
+        
+        .blog-controls.sticky + .blog-controls-placeholder {
+            display: block;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3.5rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            font-size: 1rem;
+            background: rgba(254, 252, 247, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--brown-600);
+            box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1);
+            background: var(--beige-50);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--charcoal-light);
+            transition: color 0.3s ease;
+        }
+
+        .search-input:focus + .search-icon {
+            color: var(--brown-600);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(254, 252, 247, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: var(--charcoal);
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .filter-btn:hover::before,
+        .filter-btn.active::before {
+            opacity: 1;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--brown-900);
+            border-color: var(--accent-gold);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn span {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        .blog-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .blog-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--sage-400), var(--sage-600));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .blog-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: var(--shadow-heavy);
+            border-color: rgba(139, 105, 20, 0.3);
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-card-image img {
+            transform: scale(1.1);
+        }
+
+        .blog-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 60%,
+                rgba(26, 26, 26, 0.8) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .blog-card:hover .blog-card-overlay {
+            opacity: 1;
+        }
+
+        .blog-card-content {
+            padding: 2.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .blog-card-date {
+            background: rgba(139, 105, 20, 0.1);
+            color: var(--brown-600);
+            padding: 0.4rem 1.2rem;
+            border-radius: 1.5rem;
+            font-weight: 500;
+        }
+
+        .blog-card-category {
+            color: var(--sage-600);
+            font-weight: 500;
+            padding: 0.4rem 1.2rem;
+            background: rgba(122, 132, 113, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        .blog-card-reading-time {
+            color: var(--charcoal-light);
+            font-size: 0.85rem;
+        }
+
+        .blog-card h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .blog-card:hover h3 {
+            color: var(--brown-600);
+        }
+
+        .blog-card-excerpt {
+            color: var(--charcoal-light);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .blog-card-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .author-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brown-900);
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 500;
+            color: var(--charcoal);
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-role {
+            color: var(--charcoal-light);
+            font-size: 0.85rem;
+        }
+
+        .blog-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blog-card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .blog-tag {
+            background: rgba(139, 105, 20, 0.05);
+            color: var(--brown-600);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .blog-card-arrow {
+            color: var(--brown-600);
+            font-weight: 600;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-card-arrow::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover .blog-card-arrow {
+            opacity: 1;
+        }
+
+        .blog-card:hover .blog-card-arrow::after {
+            transform: translateX(8px);
+        }
+
+        /* Featured Post */
+        .featured-post {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 500px;
+            border-radius: 2.5rem;
+        }
+
+        .featured-post .blog-card-image {
+            height: 100%;
+            border-radius: 2rem 0 0 2rem;
+        }
+
+        .featured-post .blog-card-content {
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            padding: 0.6rem 1.8rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            align-self: flex-start;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .featured-post h3 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 2rem;
+        }
+
+        .featured-post .blog-card-excerpt {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+
+        /* Newsletter Signup */
+        .newsletter-signup {
+            background: transparent;
+            padding: 5rem 4rem;
+            text-align: center;
+            margin: 5rem 0;
+            position: relative;
+            overflow: visible;
+        }
+
+
+        .newsletter-signup h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+        }
+
+        .newsletter-signup p {
+            color: var(--charcoal-light);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 2;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            font-size: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--brown-600);
+            box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1);
+            background: var(--beige-50);
+        }
+
+        .newsletter-btn {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .newsletter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2.5rem;
+            }
+
+            .featured-post {
+                grid-template-columns: 1fr;
+                grid-template-rows: 300px 1fr;
+            }
+
+            .featured-post .blog-card-image {
+                border-radius: 2rem 2rem 0 0;
+            }
+
+            .featured-post .blog-card-content {
+                padding: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 4rem 1rem;
+            }
+
+            .blog-hero {
+                padding: 6rem 0 4rem;
+            }
+
+            .blog-controls {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1.5rem;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-signup {
+                padding: 3rem 2rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .blog-stats {
+                gap: 2rem;
+            }
+
+            .blog-stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+            color: var(--charcoal-light);
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--charcoal-light);
+            display: none;
+        }
+
+        .empty-state.active {
+            display: block;
+        }
+
+        .empty-state h3 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2rem;
+            color: var(--brown-600);
+            margin-bottom: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="/" class="logo">The Unseen Hours</a>
+            <a href="/" class="nav-link" style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.75rem 1.5rem; border-radius: 1.5rem; text-decoration: none; font-weight: 500; transition: all 0.3s ease;">← Back to Home</a>
+        </nav>
+    </header>
+
+    <!-- Blog List View -->
+    <div id="blog-list-view">
+        <!-- Hero Section -->
+        <section class="blog-hero">
+            <div class="blog-hero-content">
+                <span class="blog-hero-badge">✨ Insights & Stories</span>
+                <h1>The Unseen Hours Blog</h1>
+                <p>Stories of healing, practical mental health insights, and authentic experiences from our community. Every voice matters, every story has power.</p>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Search and Filter Controls -->
+            <div class="blog-controls">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Search stories, insights, and experiences...">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active"><span>All Posts</span></button>
+                    <button class="filter-btn"><span>Mental Health</span></button>
+                    <button class="filter-btn"><span>Wellness</span></button>
+                    <button class="filter-btn"><span>Community</span></button>
+                    <button class="filter-btn"><span>Personal Stories</span></button>
+                    <button class="filter-btn"><span>Tools & Tips</span></button>
+                </div>
+            </div>
+            
+            <!-- Placeholder for sticky controls -->
+            <div class="blog-controls-placeholder"></div>
+
+            <!-- Blog Posts Grid -->
+            <div class="blog-grid">
+                <!-- Men's Mental Health Awareness Month Post -->
+                <article class="blog-card featured-post">
+                    <div class="blog-card-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='mensHealthGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%234a5d41'/><stop offset='50%' style='stop-color:%237a8471'/><stop offset='100%' style='stop-color:%238fa685'/></linearGradient><pattern id='grid' width='40' height='40' patternUnits='userSpaceOnUse'><path d='M 40 0 L 0 0 0 40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/></pattern></defs><rect width='800' height='500' fill='url(%23mensHealthGrad)'/><rect width='800' height='500' fill='url(%23grid)'/><circle cx='400' cy='250' r='120' fill='none' stroke='rgba(212,175,55,0.8)' stroke-width='3'/><circle cx='400' cy='250' r='100' fill='none' stroke='rgba(212,175,55,0.6)' stroke-width='2'/><circle cx='400' cy='250' r='80' fill='none' stroke='rgba(212,175,55,0.4)' stroke-width='1'/><path d='M320 250 Q400 200 480 250 Q400 300 320 250' fill='rgba(212,175,55,0.3)'/><text x='400' y='420' text-anchor='middle' fill='rgba(254,252,247,0.9)' font-family='serif' font-size='28' font-weight='700' letter-spacing='2'>BREAKING THE SILENCE</text><text x='400' y='450' text-anchor='middle' fill='rgba(254,252,247,0.7)' font-family='sans-serif' font-size='16' font-weight='400'>June 2025</text></svg>" alt="Men's Mental Health Awareness">
+                        <div class="blog-card-overlay"></div>
+                    </div>
+                    <div class="blog-card-content">
+                        <span class="featured-badge">🎯 Awareness Month</span>
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">June 1, 2025</span>
+                            <span class="blog-card-category">Mental Health</span>
+                            <span class="blog-card-reading-time">12 min read</span>
+                        </div>
+                        <h3>The Silent Struggle: Men's Mental Health in 2025</h3>
+                        <p class="blog-card-excerpt">June is Men's Mental Health Awareness Month—a time to spotlight an often-overlooked crisis. While men are nearly four times more likely to die by suicide than women, only 40% with diagnosed mental illness receive treatment. This month serves as a call to break the silence, dismantle stigma, and foster environments where men feel safe to speak up.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar" style="background: linear-gradient(135deg, var(--sage-600), var(--sage-700));">TUH</div>
+                            <div class="author-info">
+                                <div class="author-name">The Unseen Hours Team</div>
+                                <div class="author-role">Mental Health Advocacy</div>
+                            </div>
+                        </div>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-tags">
+                                <span class="blog-tag">Men's Health</span>
+                                <span class="blog-tag">Awareness</span>
+                                <span class="blog-tag">Breaking Stigma</span>
+                            </div>
+                            <span class="blog-card-arrow">Read Full Article</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state">
+                <h3>No posts found</h3>
+                <p>Try adjusting your search or filters to find what you're looking for.</p>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading">
+                <p>Loading more stories...</p>
+            </div>
+
+
+            <!-- Newsletter Signup -->
+            <div class="newsletter-signup">
+                <div id="mc_embed_shell">
+                    <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
+                    <style type="text/css">
+                        #mc_embed_signup{background: var(--glass-bg); backdrop-filter: blur(20px); clear:left; font:14px 'Space Grotesk', Helvetica,Arial,sans-serif; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 2rem; padding: 3rem 3rem 4rem 3rem; border: 1px solid var(--glass-border); box-shadow: var(--shadow-glass); overflow: visible !important;}
+                        #mc_embed_signup h2 {font-family: 'Crimson Text', serif; font-size: 2rem; color: var(--brown-600); margin-bottom: 1rem; font-weight: 600;}
+                        #mc_embed_signup .indicates-required {color: var(--charcoal-light); font-size: 0.9rem; margin-bottom: 1.5rem;}
+                        #mc_embed_signup .mc-field-group {margin-bottom: 1.5rem;}
+                        #mc_embed_signup label {color: var(--charcoal); font-weight: 500; display: block; margin-bottom: 0.5rem;}
+                        #mc_embed_signup input[type="email"], #mc_embed_signup input[type="text"] {width: 100%; padding: 1rem 1.5rem; border: 1px solid var(--glass-border); border-radius: 1.5rem; font-size: 1rem; background: rgba(254, 252, 247, 0.8); backdrop-filter: blur(10px); transition: all 0.3s ease;}
+                        #mc_embed_signup input[type="email"]:focus, #mc_embed_signup input[type="text"]:focus {outline: none; border-color: var(--brown-600); box-shadow: 0 0 0 3px rgba(139, 105, 20, 0.1); background: var(--beige-50);}
+                        #mc_embed_signup .button {background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper)); color: var(--brown-900); padding: 1.25rem 2.5rem !important; border: none; border-radius: 2rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1rem; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); width: auto; display: inline-block; height: auto !important; line-height: 1.4 !important;}
+                        #mc_embed_signup .button:hover {transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);}
+                        #mc_embed_signup .asterisk {color: var(--accent-copper);}
+                        #mc_embed_signup .clear {margin-top: 1.5rem; overflow: visible !important; min-height: 80px; position: relative;}
+                        #mc_embed_signup div.clear {clear: both; display: block; overflow: visible !important;}
+                        #mc_embed_signup #mc_embed_signup_scroll {overflow: visible !important;}
+                        #mc_embed_signup form {overflow: visible !important; padding-bottom: 2rem;}
+                        #mc-embedded-subscribe {position: relative !important; margin-bottom: 0 !important;}
+                        #mc_embed_shell {overflow: visible !important;}
+                    </style>
+                    <div id="mc_embed_signup">
+                        <form action="https://theunseenhours.us14.list-manage.com/subscribe/post?u=bc1c5dec9903e06a841c42ec3&amp;id=e684891be5&amp;f_id=001ce0e0f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+                            <div id="mc_embed_signup_scroll">
+                                <h2>Stay Connected to Our Blogs</h2>
+                                <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                                <div class="mc-field-group">
+                                    <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
+                                    <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value="">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-FNAME">First Name <span class="asterisk">*</span></label>
+                                    <input type="text" name="FNAME" class="required text" id="mce-FNAME" required="" value="">
+                                </div>
+                                <div id="mce-responses" class="clear">
+                                    <div class="response" id="mce-error-response" style="display: none;"></div>
+                                    <div class="response" id="mce-success-response" style="display: none;"></div>
+                                </div>
+                                <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                    <input type="text" name="b_bc1c5dec9903e06a841c42ec3_e684891be5" tabindex="-1" value="">
+                                </div>
+                                <div class="clear">
+                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Subscribe">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+                    <script type="text/javascript">(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';fnames[6]='COMPANY';ftypes[6]='text';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Individual Blog Post View (Hidden by default) -->
+    <div id="blog-post-view" style="display: none;">
+        <div style="max-width: 900px; margin: 0 auto; padding: 4rem 2rem;">
+            <!-- Back Button -->
+            <button onclick="toggleView()" onmouseover="this.style.background='rgba(139, 105, 20, 0.15)'; this.style.transform='translateX(-5px)'" onmouseout="this.style.background='rgba(139, 105, 20, 0.1)'; this.style.transform='translateX(0)'" style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.75rem 1.5rem; border-radius: 1.5rem; border: none; font-weight: 500; cursor: pointer; transition: all 0.3s ease; margin-bottom: 2rem; font-size: 1rem; font-family: 'Space Grotesk', sans-serif; transform: translateX(0);">
+                ← Back to Blog
+            </button>
+            
+            <nav style="margin-bottom: 3rem; color: var(--charcoal-light);">
+                <a href="/" style="color: var(--brown-600); text-decoration: none;">Home</a> / 
+                <a href="/blog" style="color: var(--brown-600); text-decoration: none;">Blog</a> / 
+                The Silent Struggle
+            </nav>
+
+            <header style="text-align: center; margin-bottom: 4rem;">
+                <h1 style="font-family: 'Crimson Text', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--charcoal); margin-bottom: 2rem; font-weight: 600; line-height: 1.2;">The Silent Struggle: Men's Mental Health in 2025</h1>
+                
+                <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; color: var(--charcoal-light); font-size: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--sage-600), var(--sage-700)); display: flex; align-items: center; justify-content: center; color: var(--beige-50); font-weight: 600; font-size: 1.2rem;">TUH</div>
+                        <div>
+                            <div style="font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem;">The Unseen Hours Team</div>
+                            <div style="font-size: 0.9rem;">Mental Health Advocacy</div>
+                        </div>
+                    </div>
+                    <span style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: 500;">June 1, 2025</span>
+                    <span style="color: var(--sage-600);">12 min read</span>
+                </div>
+            </header>
+
+            <article style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal);">
+                <p style="margin-bottom: 2rem;">June is Men's Mental Health Awareness Month—a time to spotlight an often-overlooked crisis affecting millions of men across the globe. While conversations around mental health have grown louder in recent years, men continue to face unique challenges that keep them from seeking help. This month serves as a call to action to break the silence, dismantle stigma, and foster environments where men feel safe to speak up.</p>
+
+                <h2 style="font-family: 'Crimson Text', serif; font-size: 2.2rem; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-weight: 600;">The Silent Crisis: Understanding the Numbers</h2>
+
+                <p style="margin-bottom: 2rem;">Men are nearly four times more likely to die by suicide than women, yet they are significantly less likely to seek mental health treatment. According to the National Institute of Mental Health, only 40% of men with a diagnosed mental illness receive treatment, compared to 52% of women. This disparity is often rooted in societal norms that pressure men to appear strong, self-reliant, and emotionally detached, leaving many untreated.</p>
+
+                <blockquote style="background: rgba(139, 105, 20, 0.05); border-left: 4px solid var(--accent-gold); padding: 2rem 3rem; margin: 3rem 0; border-radius: 0 1rem 1rem 0; font-style: italic; font-size: 1.3rem; color: var(--brown-600);">
+                    "Cultural expectations contribute to a reluctance among men to acknowledge their struggles and ask for help. Mental health stigma can make men feel ashamed or weak for struggling with mental health issues."
+                </blockquote>
+
+                <h2 style="font-family: 'Crimson Text', serif; font-size: 2.2rem; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-weight: 600;">The Cost of Silence</h2>
+
+                <p style="margin-bottom: 2rem;">The consequences of unaddressed mental health issues in men are profound. In the United States, men die by suicide at a rate four times higher than women. Additionally, men are more likely to engage in substance abuse and other high-risk behaviors as coping mechanisms.</p>
+
+                <p style="margin-bottom: 2rem;">A recent Australian study found that one in three men admitted to emotionally or physically abusing a partner, with emotional abuse being the most common. The study highlighted key protective factors against such behavior: good mental health, strong social support, and positive early relationships with a father figure.</p>
+
+                <h2 style="font-family: 'Crimson Text', serif; font-size: 2.2rem; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-weight: 600;">Breaking the Stigma: Initiatives and Support</h2>
+
+                <p style="margin-bottom: 2rem;">Efforts are underway to challenge the stigma surrounding men's mental health and provide support:</p>
+
+                <p style="margin-bottom: 2rem;"><strong style="color: var(--brown-600);">Andy's Man Club:</strong> A UK-based organization offering peer-to-peer support groups for men to discuss mental health issues in a non-judgmental environment.</p>
+
+                <p style="margin-bottom: 2rem;"><strong style="color: var(--brown-600);">Man Therapy:</strong> An American campaign using humor and a fictional therapist, Dr. Rich Mahogany, to engage men in conversations about mental health.</p>
+
+                <p style="margin-bottom: 2rem;"><strong style="color: var(--brown-600);">Men's Sheds:</strong> Community spaces where men can connect, share experiences, and work on projects together, promoting mental well-being through camaraderie.</p>
+
+                <h2 style="font-family: 'Crimson Text', serif; font-size: 2.2rem; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-weight: 600;">Taking Action: How You Can Help</h2>
+
+                <p style="margin-bottom: 2rem;">Addressing men's mental health requires collective effort. Here are ways to contribute:</p>
+
+                <ul style="margin-bottom: 2rem; padding-left: 2rem;">
+                    <li style="margin-bottom: 1rem;"><strong>Start Conversations:</strong> Encourage open discussions about mental health with the men in your life.</li>
+                    <li style="margin-bottom: 1rem;"><strong>Promote Resources:</strong> Share information about support groups, hotlines, and mental health services.</li>
+                    <li style="margin-bottom: 1rem;"><strong>Challenge Stereotypes:</strong> Confront societal norms that discourage men from expressing emotions or seeking help.</li>
+                    <li style="margin-bottom: 1rem;"><strong>Support Policies:</strong> Advocate for mental health policies that address the unique needs of men.</li>
+                </ul>
+
+                <h2 style="font-family: 'Crimson Text', serif; font-size: 2.2rem; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-weight: 600;">Conclusion</h2>
+
+                <p style="margin-bottom: 3rem;">Men's Mental Health Awareness Month is more than a calendar event; it's a movement to acknowledge and address the mental health challenges men face. By fostering open dialogue, challenging harmful stereotypes, and providing support, we can create a society where men feel empowered to seek help and lead healthier lives.</p>
+
+                <div style="background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 2rem; padding: 2.5rem; margin: 3rem 0;">
+                    <h4 style="color: var(--brown-600); margin-bottom: 1.5rem; text-align: center; font-size: 1.4rem;">Resources Available</h4>
+                    <p style="margin-bottom: 2rem; font-size: 1rem; text-align: center;">If you or someone you know is struggling, help is available:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <div style="text-align: center;">
+                            <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">National Suicide Prevention Lifeline</strong>
+                            <a href="tel:988" style="color: var(--accent-gold); text-decoration: none; font-size: 1.2rem; font-weight: 600;">Call or Text 988</a>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">NAMI HelpLine</strong>
+                            <a href="tel:1-800-950-6264" style="color: var(--accent-gold); text-decoration: none; font-size: 1.2rem; font-weight: 600;">1-800-950-NAMI (6264)</a>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">Andy's Man Club</strong>
+                            <a href="https://andysmanclub.co.uk" target="_blank" style="color: var(--accent-gold); text-decoration: none; font-weight: 600;">andysmanclub.co.uk</a>
+                        </div>
+                        <div style="text-align: center;">
+                            <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">Man Therapy</strong>
+                            <a href="https://mantherapy.org" target="_blank" style="color: var(--accent-gold); text-decoration: none; font-weight: 600;">mantherapy.org</a>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 0;">Let's work together to ensure no man suffers in silence.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script>
+        let currentView = 'list';
+        
+        // Sticky header functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const blogControls = document.querySelector('.blog-controls');
+            const header = document.querySelector('.header');
+            const heroSection = document.querySelector('.blog-hero');
+            
+            if (blogControls && header && heroSection) {
+                const originalHeader = header;
+                let blogControlsOffset = 0;
+                
+                function updateOffsets() {
+                    const rect = blogControls.getBoundingClientRect();
+                    const heroRect = heroSection.getBoundingClientRect();
+                    blogControlsOffset = window.pageYOffset + rect.top - heroRect.height;
+                }
+                
+                updateOffsets();
+                window.addEventListener('resize', updateOffsets);
+                
+                window.addEventListener('scroll', function() {
+                    const scrollY = window.pageYOffset;
+                    const heroBottom = heroSection.getBoundingClientRect().bottom;
+                    
+                    if (heroBottom <= 0) {
+                        // Hide original header when hero is out of view
+                        originalHeader.style.opacity = '0';
+                        originalHeader.style.pointerEvents = 'none';
+                        
+                        // Make blog controls sticky
+                        blogControls.classList.add('sticky');
+                    } else {
+                        // Show original header
+                        originalHeader.style.opacity = '1';
+                        originalHeader.style.pointerEvents = 'auto';
+                        
+                        // Remove sticky from blog controls
+                        blogControls.classList.remove('sticky');
+                    }
+                });
+            }
+        });
+
+        function toggleView() {
+            const listView = document.getElementById('blog-list-view');
+            const postView = document.getElementById('blog-post-view');
+            const toggleBtn = document.querySelector('.demo-toggle');
+
+            if (currentView === 'list') {
+                listView.style.display = 'none';
+                postView.style.display = 'block';
+                toggleBtn.textContent = 'Back to Blog List';
+                currentView = 'post';
+            } else {
+                listView.style.display = 'block';
+                postView.style.display = 'none';
+                toggleBtn.textContent = 'Switch to Individual Post';
+                currentView = 'list';
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        // Search functionality
+        document.querySelector('.search-input')?.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const blogCards = document.querySelectorAll('.blog-card');
+            let visibleCount = 0;
+            
+            blogCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const excerpt = card.querySelector('.blog-card-excerpt').textContent.toLowerCase();
+                const category = card.querySelector('.blog-card-category').textContent.toLowerCase();
+                const tags = Array.from(card.querySelectorAll('.blog-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm) || category.includes(searchTerm) || tags.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show empty state if no results
+            const emptyState = document.querySelector('.empty-state');
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                emptyState.classList.add('active');
+            } else {
+                emptyState.classList.remove('active');
+            }
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.textContent.toLowerCase().trim();
+                const blogCards = document.querySelectorAll('.blog-card');
+                let visibleCount = 0;
+                
+                blogCards.forEach(card => {
+                    const category = card.querySelector('.blog-card-category').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.blog-tag')).map(tag => tag.textContent.toLowerCase()).join(' ');
+                    
+                    if (filter === 'all posts' || category.includes(filter.replace(' & tips', '').replace('personal ', '')) || tags.includes(filter.replace(' & tips', '').replace('personal ', ''))) {
+                        card.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                // Clear search when filter is applied
+                document.querySelector('.search-input').value = '';
+
+                // Show empty state if no results
+                const emptyState = document.querySelector('.empty-state');
+                if (visibleCount === 0) {
+                    emptyState.classList.add('active');
+                } else {
+                    emptyState.classList.remove('active');
+                }
+            });
+        });
+
+
+        // Blog card click handler
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleView();
+            });
+        });
+
+
+        // Smooth scroll animation for elements coming into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe blog cards for animation
+        document.querySelectorAll('.blog-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
