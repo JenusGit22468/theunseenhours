@@ -1433,6 +1433,10 @@
                 listView.style.display = 'block';
                 postView.style.display = 'none';
                 currentView = 'list';
+                
+                // Clear URL parameters when going back to blog list
+                const newUrl = window.location.pathname;
+                window.history.pushState({}, document.title, newUrl);
             }
             
             window.scrollTo(0, 0);
@@ -1552,6 +1556,7 @@
             const listView = document.getElementById('blog-list-view');
             const postView = document.getElementById('blog-post-view');
             const postContent = document.getElementById(postId + '-post');
+            const post = postData[postId];
             
             // Hide all post content
             document.querySelectorAll('.post-content').forEach(content => {
@@ -1566,6 +1571,13 @@
             listView.style.display = 'none';
             postView.style.display = 'block';
             currentView = 'post';
+            
+            // Update URL without page reload
+            if (post) {
+                const newUrl = `${window.location.pathname}?post=${post.url}`;
+                window.history.pushState({postId: postId}, post.title, newUrl);
+            }
+            
             window.scrollTo(0, 0);
         }
 
@@ -1573,10 +1585,10 @@
         function getShareUrl(postId) {
             const post = postData[postId];
             // Use current page URL as base
-            const currentUrl = window.location.href.split('#')[0];
+            const currentUrl = window.location.href.split('?')[0].split('#')[0];
             if (post) {
-                // Create a hash-based URL for the specific post
-                return `${currentUrl}#${post.url}`;
+                // Create a URL parameter-based URL for the specific post
+                return `${currentUrl}?post=${post.url}`;
             }
             return currentUrl;
         }
@@ -1646,13 +1658,15 @@
             observer.observe(card);
         });
 
-        // Handle hash navigation for direct links
-        function handleHashNavigation() {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
+        // Handle URL parameter navigation for direct links
+        function handleUrlNavigation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postUrl = urlParams.get('post');
+            
+            if (postUrl) {
                 // Find the post ID from the URL in postData
                 for (const [postId, post] of Object.entries(postData)) {
-                    if (post.url === hash) {
+                    if (post.url === postUrl) {
                         showPost(postId);
                         break;
                     }
@@ -1660,11 +1674,11 @@
             }
         }
 
-        // Check hash on page load
-        window.addEventListener('load', handleHashNavigation);
+        // Check URL parameters on page load
+        window.addEventListener('load', handleUrlNavigation);
         
-        // Handle hash changes
-        window.addEventListener('hashchange', handleHashNavigation);
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', handleUrlNavigation);
     </script>
 </body>
 </html>
