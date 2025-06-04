@@ -550,26 +550,26 @@
             transform: translateX(8px);
         }
 
-        /* Featured Post */
-        .featured-post {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            min-height: 500px;
-            border-radius: 2.5rem;
-        }
-
-        .featured-post .blog-card-image {
-            height: 100%;
-            border-radius: 2rem 0 0 2rem;
-        }
-
-        .featured-post .blog-card-content {
-            padding: 4rem;
+        /* Image overlay badges */
+        .image-badges {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            z-index: 3;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .image-badge {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            padding: 0.4rem 1rem;
+            border-radius: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .featured-badge {
@@ -583,16 +583,6 @@
             margin-bottom: 2rem;
             align-self: flex-start;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .featured-post h3 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
-            margin-bottom: 2rem;
-        }
-
-        .featured-post .blog-card-excerpt {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
         }
 
 
@@ -681,19 +671,6 @@
             .blog-grid {
                 grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
                 gap: 2.5rem;
-            }
-
-            .featured-post {
-                grid-template-columns: 1fr;
-                grid-template-rows: 300px 1fr;
-            }
-
-            .featured-post .blog-card-image {
-                border-radius: 2rem 2rem 0 0;
-            }
-
-            .featured-post .blog-card-content {
-                padding: 3rem;
             }
         }
 
@@ -789,7 +766,7 @@
         <!-- Hero Section -->
         <section class="blog-hero">
             <div class="blog-hero-content">
-                <span class="blog-hero-badge">✨ Insights & Stories</span>
+                <span class="blog-hero-badge">Insights & Stories</span>
                 <h1>The Unseen Hours Blog</h1>
                 <p>Stories of healing, practical mental health insights, and authentic experiences from our community. Every voice matters, every story has power.</p>
             </div>
@@ -822,13 +799,17 @@
             <!-- Blog Posts Grid -->
             <div class="blog-grid">
                 <!-- Men's Mental Health Awareness Month Post -->
-                <article class="blog-card featured-post">
+                <a href="#the-silent-struggle-mens-mental-health-2025" class="blog-card" data-post="mental-health">
                     <div class="blog-card-image">
                         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='mensHealthGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%234a5d41'/><stop offset='50%' style='stop-color:%237a8471'/><stop offset='100%' style='stop-color:%238fa685'/></linearGradient><pattern id='grid' width='40' height='40' patternUnits='userSpaceOnUse'><path d='M 40 0 L 0 0 0 40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/></pattern></defs><rect width='800' height='500' fill='url(%23mensHealthGrad)'/><rect width='800' height='500' fill='url(%23grid)'/><circle cx='400' cy='250' r='120' fill='none' stroke='rgba(212,175,55,0.8)' stroke-width='3'/><circle cx='400' cy='250' r='100' fill='none' stroke='rgba(212,175,55,0.6)' stroke-width='2'/><circle cx='400' cy='250' r='80' fill='none' stroke='rgba(212,175,55,0.4)' stroke-width='1'/><path d='M320 250 Q400 200 480 250 Q400 300 320 250' fill='rgba(212,175,55,0.3)'/><text x='400' y='420' text-anchor='middle' fill='rgba(254,252,247,0.9)' font-family='serif' font-size='28' font-weight='700' letter-spacing='2'>BREAKING THE SILENCE</text><text x='400' y='450' text-anchor='middle' fill='rgba(254,252,247,0.7)' font-family='sans-serif' font-size='16' font-weight='400'>June 2025</text></svg>" alt="Men's Mental Health Awareness">
+                        <div class="image-badges">
+                            <span class="image-badge">🔥 Featured</span>
+                            <span class="image-badge">Trending</span>
+                        </div>
                         <div class="blog-card-overlay"></div>
                     </div>
                     <div class="blog-card-content">
-                        <span class="featured-badge">🎯 Awareness Month</span>
+                        <span class="featured-badge">Awareness Month</span>
                         <div class="blog-card-meta">
                             <span class="blog-card-date">June 1, 2025</span>
                             <span class="blog-card-category">Mental Health</span>
@@ -852,7 +833,72 @@
                             <span class="blog-card-arrow">Read Full Article</span>
                         </div>
                     </div>
-                </article>
+                </a>
+
+                <!-- Mental Health Awareness Month 2025 Post -->
+                <a href="#mental-health-awareness-month-2025-turning-awareness-into-action" class="blog-card" data-post="mh-awareness-2025">
+                    <div class="blog-card-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='awarenessGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%237A5A0F'/><stop offset='30%' style='stop-color:%238B6914'/><stop offset='70%' style='stop-color:%23A67C52'/><stop offset='100%' style='stop-color:%23D4C5B0'/></linearGradient><pattern id='waves' width='120' height='60' patternUnits='userSpaceOnUse'><path d='M0 30 Q30 10 60 30 T120 30' stroke='rgba(254,252,247,0.15)' stroke-width='2' fill='none'/><path d='M0 40 Q30 20 60 40 T120 40' stroke='rgba(254,252,247,0.1)' stroke-width='2' fill='none'/></pattern></defs><rect width='800' height='500' fill='url(%23awarenessGrad)'/><rect width='800' height='500' fill='url(%23waves)'/><circle cx='200' cy='150' r='15' fill='rgba(212,175,55,0.8)'/><circle cx='600' cy='180' r='12' fill='rgba(212,175,55,0.6)'/><circle cx='350' cy='120' r='8' fill='rgba(212,175,55,0.4)'/><circle cx='550' cy='350' r='10' fill='rgba(212,175,55,0.7)'/><circle cx='150' cy='320' r='6' fill='rgba(212,175,55,0.5)'/><text x='400' y='280' text-anchor='middle' fill='rgba(254,252,247,0.95)' font-family='serif' font-size='42' font-weight='700'>AWARENESS</text><text x='400' y='320' text-anchor='middle' fill='rgba(254,252,247,0.95)' font-family='serif' font-size='42' font-weight='700'>INTO ACTION</text><text x='400' y='420' text-anchor='middle' fill='rgba(254,252,247,0.8)' font-family='sans-serif' font-size='18' font-weight='500'>Mental Health Awareness Month</text><text x='400' y='450' text-anchor='middle' fill='rgba(254,252,247,0.6)' font-family='sans-serif' font-size='14' font-weight='400'>May 2025</text></svg>" alt="Mental Health Awareness Month 2025">
+                        <div class="blog-card-overlay"></div>
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">May 1, 2025</span>
+                            <span class="blog-card-category">Mental Health</span>
+                            <span class="blog-card-reading-time">12 min read</span>
+                        </div>
+                        <h3>Mental Health Awareness Month 2025: Turning Awareness into Action</h3>
+                        <p class="blog-card-excerpt">May is Mental Health Awareness Month, a time to shine a light on the real, often hidden struggles many of us live with every day. While there's more visibility around mental health than ever before, the numbers tell us there's still a long way to go. Here's what the data reveals and how we can move from awareness to action.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar">TUH</div>
+                            <div class="author-info">
+                                <div class="author-name">The Unseen Hours Team</div>
+                                <div class="author-role">Mental Health Advocacy</div>
+                            </div>
+                        </div>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-tags">
+                                <span class="blog-tag">Awareness</span>
+                                <span class="blog-tag">Statistics</span>
+                                <span class="blog-tag">Youth Mental Health</span>
+                                <span class="blog-tag">Action</span>
+                            </div>
+                            <span class="blog-card-arrow">Read Full Article</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Finals Season Burnout Post -->
+                <a href="#surviving-finals-season-burnout-is-real" class="blog-card" data-post="finals-burnout">
+                    <div class="blog-card-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='burnoutGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23A67C52'/><stop offset='50%' style='stop-color:%238B6914'/><stop offset='100%' style='stop-color:%237A5A0F'/></linearGradient><pattern id='books' width='100' height='100' patternUnits='userSpaceOnUse'><rect width='100' height='100' fill='none'/><rect x='20' y='30' width='8' height='40' fill='rgba(254,252,247,0.1)'/><rect x='30' y='25' width='8' height='45' fill='rgba(254,252,247,0.08)'/><rect x='40' y='35' width='8' height='35' fill='rgba(254,252,247,0.12)'/><rect x='60' y='20' width='8' height='50' fill='rgba(254,252,247,0.1)'/><rect x='70' y='30' width='8' height='40' fill='rgba(254,252,247,0.09)'/></pattern></defs><rect width='800' height='500' fill='url(%23burnoutGrad)'/><rect width='800' height='500' fill='url(%23books)'/><circle cx='400' cy='250' r='150' fill='none' stroke='rgba(212,175,55,0.6)' stroke-width='2' stroke-dasharray='10,5'/><circle cx='400' cy='250' r='100' fill='none' stroke='rgba(212,175,55,0.8)' stroke-width='1'/><path d='M350 220 Q400 180 450 220 Q400 260 350 220' fill='rgba(212,175,55,0.2)'/><text x='400' y='380' text-anchor='middle' fill='rgba(254,252,247,0.9)' font-family='serif' font-size='32' font-weight='700'>FINALS SURVIVAL</text><text x='400' y='410' text-anchor='middle' fill='rgba(254,252,247,0.7)' font-family='sans-serif' font-size='18' font-weight='400'>Burnout Is Real</text><text x='400' y='440' text-anchor='middle' fill='rgba(254,252,247,0.6)' font-family='sans-serif' font-size='14' font-weight='400'>April 2025</text></svg>" alt="Finals Season Burnout">
+                        <div class="blog-card-overlay"></div>
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">April 25, 2025</span>
+                            <span class="blog-card-category">Academics</span>
+                            <span class="blog-card-reading-time">8 min read</span>
+                        </div>
+                        <h3>Surviving Finals Season: Burnout Is Real, and You're Not Alone</h3>
+                        <p class="blog-card-excerpt">It's that time of year again. The library is packed, coffee sales are up, and sleep schedules are practically non-existent. Let's call it what it is—finals season isn't just stressful, it's physically and emotionally exhausting. Here's how to survive it without losing yourself.</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar">TUH</div>
+                            <div class="author-info">
+                                <div class="author-name">The Unseen Hours Team</div>
+                                <div class="author-role">Student Mental Health</div>
+                            </div>
+                        </div>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-tags">
+                                <span class="blog-tag">Finals</span>
+                                <span class="blog-tag">Burnout</span>
+                                <span class="blog-tag">Student Life</span>
+                            </div>
+                            <span class="blog-card-arrow">Read Full Article</span>
+                        </div>
+                    </div>
+                </a>
             </div>
 
             <!-- Empty State -->
@@ -930,6 +976,8 @@
                 ← Back to Blog
             </button>
             
+            <!-- Mental Health Post -->
+            <div id="mental-health-post" class="post-content" style="display: none;">
             <nav style="margin-bottom: 3rem; color: var(--charcoal-light);">
                 <a href="/" style="color: var(--brown-600); text-decoration: none;">Home</a> / 
                 <a href="/blog" style="color: var(--brown-600); text-decoration: none;">Blog</a> / 
@@ -949,6 +997,17 @@
                     </div>
                     <span style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: 500;">June 1, 2025</span>
                     <span style="color: var(--sage-600);">12 min read</span>
+                </div>
+
+                <!-- Share Section -->
+                <div style="text-align: center; margin-bottom: 3rem; padding: 1.5rem; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 2rem;">
+                    <h4 style="color: var(--brown-600); margin-bottom: 1rem; font-size: 1.1rem;">Share This Article</h4>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                        <button onclick="shareOnTwitter('mental-health')" style="background: #1DA1F2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on X</button>
+                        <button onclick="shareOnFacebook('mental-health')" style="background: #4267B2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on Facebook</button>
+                        <button onclick="shareOnLinkedIn('mental-health')" style="background: #0077B5; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on LinkedIn</button>
+                        <button onclick="copyShareLink('mental-health')" style="background: var(--brown-600); color: var(--beige-50); border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Copy Link</button>
+                    </div>
                 </div>
             </header>
 
@@ -1051,6 +1110,269 @@
                     </div>
                 </div>
             </article>
+            </div>
+            
+            <!-- Mental Health Awareness Month 2025 Full Post -->
+            <div id="mh-awareness-2025-post" class="post-content" style="display: none;">
+                <nav style="margin-bottom: 3rem; color: var(--charcoal-light);">
+                    <a href="/" style="color: var(--brown-600); text-decoration: none;">Home</a> / 
+                    <a href="/blog" style="color: var(--brown-600); text-decoration: none;">Blog</a> / 
+                    Mental Health Awareness Month 2025
+                </nav>
+
+                <header style="text-align: center; margin-bottom: 4rem;">
+                    <h1 style="font-family: 'Crimson Text', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--charcoal); margin-bottom: 2rem; font-weight: 600; line-height: 1.2;">Mental Health Awareness Month 2025: Turning Awareness into Action</h1>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; color: var(--charcoal-light); font-size: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper)); display: flex; align-items: center; justify-content: center; color: var(--brown-900); font-weight: 600; font-size: 1.2rem;">TUH</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem;">The Unseen Hours Team</div>
+                                <div style="font-size: 0.9rem;">Mental Health Advocacy</div>
+                            </div>
+                        </div>
+                        <span style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: 500;">May 1, 2025</span>
+                        <span style="color: var(--sage-600);">12 min read</span>
+                    </div>
+
+                    <!-- Share Section -->
+                    <div style="text-align: center; margin-bottom: 3rem; padding: 1.5rem; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 2rem;">
+                        <h4 style="color: var(--brown-600); margin-bottom: 1rem; font-size: 1.1rem;">Share This Article</h4>
+                        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="shareOnTwitter('mh-awareness-2025')" style="background: #1DA1F2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on X</button>
+                            <button onclick="shareOnFacebook('mh-awareness-2025')" style="background: #4267B2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on Facebook</button>
+                            <button onclick="shareOnLinkedIn('mh-awareness-2025')" style="background: #0077B5; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on LinkedIn</button>
+                            <button onclick="copyShareLink('mh-awareness-2025')" style="background: var(--brown-600); color: var(--beige-50); border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Copy Link</button>
+                        </div>
+                    </div>
+                </header>
+
+                <article style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal);">
+                    <p style="font-size: 1.3rem; color: var(--brown-600); margin-bottom: 2rem; font-weight: 500;">May is Mental Health Awareness Month, a time to shine a light on the real, often hidden struggles many of us live with every day. While there's more visibility around mental health than ever before, the numbers tell us there's still a long way to go.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">How Common Is Mental Illness?</h2>
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><strong>1 in 5 U.S. adults</strong> experiences mental illness each year. That's around 57.8 million people. <sup><a href="#ref-1" style="color: var(--brown-600); text-decoration: none;">1</a></sup></li>
+                        <li style="margin-bottom: 1rem;">Among youth aged 6–17, <strong>1 in 6</strong> experiences a mental health disorder each year. <sup><a href="#ref-1" style="color: var(--brown-600); text-decoration: none;">1</a></sup></li>
+                        <li style="margin-bottom: 1rem;"><strong>13.1%</strong> of individuals aged 12 and older reported depressive symptoms in a two-week period. <sup><a href="#ref-2" style="color: var(--brown-600); text-decoration: none;">2</a></sup></li>
+                    </ul>
+                    <p style="margin: 2rem 0;">These numbers are more than statistics—they're people, classmates, coworkers, and family members.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">Young People Are Especially at Risk</h2>
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;">In 2024, nearly <strong>50% of youth</strong> who completed mental health screenings reported frequent suicidal ideation. <sup><a href="#ref-3" style="color: var(--brown-600); text-decoration: none;">3</a></sup></li>
+                        <li style="margin-bottom: 1rem;">About <strong>13% of adolescents</strong> aged 12–17 reported serious thoughts of suicide. <sup><a href="#ref-4" style="color: var(--brown-600); text-decoration: none;">4</a></sup></li>
+                    </ul>
+                    <p style="margin: 2rem 0;">Mental health concerns among youth are rising fast, especially in the post-pandemic world.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">Why Aren't More People Getting Help?</h2>
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;">Over <strong>50% of U.S. adults</strong> with mental illness didn't receive treatment in 2021. <sup><a href="#ref-1" style="color: var(--brown-600); text-decoration: none;">1</a></sup></li>
+                        <li style="margin-bottom: 1rem;"><strong>29%</strong> cited cost as the main barrier to getting mental health care. <sup><a href="#ref-5" style="color: var(--brown-600); text-decoration: none;">5</a></sup></li>
+                    </ul>
+                    <p style="margin: 2rem 0;">This isn't just about access—it's about affordability, stigma, and lack of culturally competent care.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">How Finances Impact Mental Health</h2>
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><strong>70% of Americans</strong> report financial anxiety is affecting their mental and physical health. <sup><a href="#ref-5" style="color: var(--brown-600); text-decoration: none;">5</a></sup></li>
+                        <li style="margin-bottom: 1rem;"><strong>40%</strong> have taken mental health days off school or work due to financial stress. <sup><a href="#ref-5" style="color: var(--brown-600); text-decoration: none;">5</a></sup></li>
+                    </ul>
+                    <p style="margin: 2rem 0;">Money problems don't just keep people from getting help—they're often a root cause of anxiety and depression too.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">What Can You Actually Do?</h2>
+                    <p style="margin: 2rem 0;">This month isn't just about awareness. It's about action. Here are a few ideas:</p>
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Talk about it.</strong> With friends, family, in class, or online—break the silence.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Use your resources.</strong> Therapy, support groups, crisis lines, or just one trusted friend can make a difference.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Rest without guilt.</strong> Mental health isn't a reward for productivity. It's a baseline need.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Challenge stigma.</strong> Speak up when people joke about or minimize mental illness.</li>
+                    </ul>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">You're Allowed to Struggle—and to Get Support</h2>
+                    <p style="margin: 2rem 0;">Mental Health Awareness Month is a reminder that healing starts with honesty. If you're navigating your own mental health journey, know this: you're not alone. You matter. You deserve care.</p>
+                    <p style="margin: 2rem 0;">At The Unseen Hours, we believe in telling the truth about what people go through behind closed doors. And we believe stories—shared bravely, even anonymously—can save lives.</p>
+
+                    <!-- Citations Section -->
+                    <div style="background: var(--beige-100); border-radius: 2rem; padding: 3rem; margin: 4rem 0 2rem 0; border: 1px solid var(--glass-border);">
+                        <h3 style="font-family: 'Crimson Text', serif; font-size: 1.8rem; color: var(--brown-600); margin-bottom: 2rem; text-align: center;">Citations & Sources</h3>
+                        
+                        <div style="font-size: 0.95rem; line-height: 1.6; color: var(--charcoal-light);">
+                            <p id="ref-1" style="margin-bottom: 1rem;"><strong>1.</strong> NAMI. (2025). <a href="https://nami.org" target="_blank" style="color: var(--brown-600);">Mental Health By the Numbers</a>.</p>
+                            
+                            <p id="ref-2" style="margin-bottom: 1rem;"><strong>2.</strong> CDC Data Brief No. 527. (2023). <a href="https://cdc.gov" target="_blank" style="color: var(--brown-600);">Depression Symptoms</a>.</p>
+                            
+                            <p id="ref-3" style="margin-bottom: 1rem;"><strong>3.</strong> Mental Health America. (2025). <a href="https://mhanational.org" target="_blank" style="color: var(--brown-600);">2025 Mental Health Toolkit</a>.</p>
+                            
+                            <p id="ref-4" style="margin-bottom: 1rem;"><strong>4.</strong> Bay Area Children's Association (BACA). (2024). <a href="https://bacabayarea.org" target="_blank" style="color: var(--brown-600);">Youth Mental Health Statistics</a>.</p>
+                            
+                            <p id="ref-5" style="margin-bottom: 1rem;"><strong>5.</strong> New York Post. (May 2025). <a href="https://nypost.com" target="_blank" style="color: var(--brown-600);">Financial Anxiety Survey</a>.</p>
+                            
+                            <div style="background: rgba(139, 105, 20, 0.05); border-radius: 1rem; padding: 1.5rem; margin-top: 2rem;">
+                                <p style="margin: 0; font-style: italic; text-align: center; color: var(--charcoal);"><strong>Additional Resources:</strong> National Institute of Mental Health (NIMH), Substance Abuse and Mental Health Services Administration (SAMHSA), American Psychological Association (APA), and Crisis Text Line.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 3rem 0 0 0;">This month, let's move beyond awareness to action. Your voice matters.</p>
+                </article>
+            </div>
+
+            <!-- Finals Season Burnout Full Post -->
+            <div id="finals-burnout-post" class="post-content" style="display: none;">
+                <nav style="margin-bottom: 3rem; color: var(--charcoal-light);">
+                    <a href="/" style="color: var(--brown-600); text-decoration: none;">Home</a> / 
+                    <a href="/blog" style="color: var(--brown-600); text-decoration: none;">Blog</a> / 
+                    Surviving Finals Season
+                </nav>
+
+                <header style="text-align: center; margin-bottom: 4rem;">
+                    <h1 style="font-family: 'Crimson Text', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--charcoal); margin-bottom: 2rem; font-weight: 600; line-height: 1.2;">Surviving Finals Season: Burnout Is Real, and You're Not Alone</h1>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; color: var(--charcoal-light); font-size: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper)); display: flex; align-items: center; justify-content: center; color: var(--brown-900); font-weight: 600; font-size: 1.2rem;">TUH</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem;">The Unseen Hours Team</div>
+                                <div style="font-size: 0.9rem;">Student Mental Health</div>
+                            </div>
+                        </div>
+                        <span style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: 500;">April 25, 2025</span>
+                        <span style="color: var(--sage-600);">8 min read</span>
+                    </div>
+
+                    <!-- Share Section -->
+                    <div style="text-align: center; margin-bottom: 3rem; padding: 1.5rem; background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 2rem;">
+                        <h4 style="color: var(--brown-600); margin-bottom: 1rem; font-size: 1.1rem;">Share This Article</h4>
+                        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="shareOnTwitter('finals-burnout')" style="background: #1DA1F2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on X</button>
+                            <button onclick="shareOnFacebook('finals-burnout')" style="background: #4267B2; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on Facebook</button>
+                            <button onclick="shareOnLinkedIn('finals-burnout')" style="background: #0077B5; color: white; border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Share on LinkedIn</button>
+                            <button onclick="copyShareLink('finals-burnout')" style="background: var(--brown-600); color: var(--beige-50); border: none; padding: 0.5rem 1rem; border-radius: 1rem; cursor: pointer; font-weight: 500; transition: transform 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Copy Link</button>
+                        </div>
+                    </div>
+                </header>
+
+                <article style="font-size: 1.2rem; line-height: 1.8; color: var(--charcoal);">
+                    <p style="font-size: 1.3rem; color: var(--brown-600); margin-bottom: 2rem; font-weight: 500;">It's that time of year again. The library is packed, coffee sales are up, and sleep schedules are practically non-existent. Let's call it what it is—finals season isn't just stressful, it's physically and emotionally exhausting.</p>
+
+                    <p style="margin: 2rem 0;">If you're reading this while cramming for an exam at 2 AM, first off: you're not alone. Second: this isn't sustainable, and your mental health matters more than your GPA.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">The Reality of Academic Burnout</h2>
+
+                    <p style="margin: 2rem 0;">Academic burnout isn't just being tired after studying. It's a state of physical, emotional, and mental exhaustion caused by prolonged exposure to academic stress. <sup><a href="#ref-1" style="color: var(--brown-600); text-decoration: none;">1</a></sup></p>
+
+                    <p style="margin: 2rem 0;">Research shows that <strong>45% of college students</strong> report experiencing more than average stress, and <strong>87%</strong> say they could benefit from help managing stress. <sup><a href="#ref-2" style="color: var(--brown-600); text-decoration: none;">2</a></sup></p>
+
+                    <blockquote style="background: rgba(139, 105, 20, 0.05); border-left: 4px solid var(--accent-gold); padding: 2rem 3rem; margin: 3rem 0; border-radius: 0 1rem 1rem 0; font-style: italic; font-size: 1.3rem; color: var(--brown-600);">
+                        "Burnout is what happens when you try to avoid being human for too long." — Michael Gungor
+                    </blockquote>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">Signs You're Burning Out</h2>
+
+                    <p style="margin: 2rem 0;">Academic burnout doesn't happen overnight. Here are the warning signs:</p>
+
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Physical exhaustion</strong> that sleep doesn't fix</li>
+                        <li style="margin-bottom: 1rem;"><strong>Emotional numbness</strong> or feeling overwhelmed by small tasks</li>
+                        <li style="margin-bottom: 1rem;"><strong>Cynicism</strong> about your studies or future career</li>
+                        <li style="margin-bottom: 1rem;"><strong>Difficulty concentrating</strong> even on subjects you normally enjoy</li>
+                        <li style="margin-bottom: 1rem;"><strong>Procrastination</strong> becoming your default mode</li>
+                        <li style="margin-bottom: 1rem;"><strong>Physical symptoms</strong> like headaches, stomach issues, or getting sick frequently</li>
+                    </ul>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">Survival Strategies That Actually Work</h2>
+
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 2rem 0 1rem 0; font-size: 1.6rem; font-weight: 600;">1. The 50/10 Rule</h3>
+                    <p style="margin: 1.5rem 0;">Study for 50 minutes, then take a 10-minute break. Your brain needs time to process information. <sup><a href="#ref-3" style="color: var(--brown-600); text-decoration: none;">3</a></sup></p>
+
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 2rem 0 1rem 0; font-size: 1.6rem; font-weight: 600;">2. Sleep Is Not Optional</h3>
+                    <p style="margin: 1.5rem 0;">All-nighters might feel productive, but they actually impair memory consolidation and cognitive function. Aim for 7-9 hours of sleep, especially before exams. <sup><a href="#ref-4" style="color: var(--brown-600); text-decoration: none;">4</a></sup></p>
+
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 2rem 0 1rem 0; font-size: 1.6rem; font-weight: 600;">3. Movement Matters</h3>
+                    <p style="margin: 1.5rem 0;">Even 10 minutes of walking can reduce stress hormones and improve focus. Exercise is literally medicine for your brain. <sup><a href="#ref-5" style="color: var(--brown-600); text-decoration: none;">5</a></sup></p>
+
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 2rem 0 1rem 0; font-size: 1.6rem; font-weight: 600;">4. Eat Real Food</h3>
+                    <p style="margin: 1.5rem 0;">Your brain runs on glucose. Skipping meals or living on energy drinks and chips will make everything harder. Pack brain-friendly snacks like nuts, fruit, or yogurt.</p>
+
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 2rem 0 1rem 0; font-size: 1.6rem; font-weight: 600;">5. Practice the "Good Enough" Mentality</h3>
+                    <p style="margin: 1.5rem 0;">Perfectionism is burnout fuel. Sometimes a B+ paper you turn in on time is better than an A+ paper that never gets finished because you're paralyzed by perfectionist anxiety.</p>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">When to Ask for Help</h2>
+
+                    <p style="margin: 2rem 0;">If you're experiencing any of these, it's time to reach out:</p>
+
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;">Thoughts of self-harm or suicide</li>
+                        <li style="margin-bottom: 1rem;">Panic attacks or severe anxiety</li>
+                        <li style="margin-bottom: 1rem;">Complete inability to function or get out of bed</li>
+                        <li style="margin-bottom: 1rem;">Substance use as a coping mechanism</li>
+                        <li style="margin-bottom: 1rem;">Persistent thoughts that you're a failure or worthless</li>
+                    </ul>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">After Finals: Recovery Mode</h2>
+
+                    <p style="margin: 2rem 0;">When finals end, resist the urge to immediately jump into summer plans or the next semester. Your brain and body need recovery time:</p>
+
+                    <ul style="margin: 2rem 0; padding-left: 2rem; font-size: 1.1rem;">
+                        <li style="margin-bottom: 1rem;"><strong>Sleep.</strong> A lot. Let your body catch up.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Move gently.</strong> Take walks, stretch, do yoga.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Reconnect with people.</strong> You probably neglected relationships during crunch time.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Do something creative.</strong> Art, music, cooking—anything that uses a different part of your brain.</li>
+                        <li style="margin-bottom: 1rem;"><strong>Reflect.</strong> What worked this semester? What didn't? How can you set yourself up for success next time?</li>
+                    </ul>
+
+                    <h2 style="font-family: 'Crimson Text', serif; color: var(--brown-600); margin: 3rem 0 1.5rem 0; font-size: 2.2rem; font-weight: 600;">Remember This</h2>
+
+                    <p style="margin: 2rem 0;">Your worth isn't determined by your GPA. Your future isn't ruined by one bad exam. Your mental health is more important than any grade.</p>
+
+                    <p style="margin: 2rem 0;">Finals season is temporary. Burnout doesn't have to be permanent. You're going to get through this, and we're rooting for you.</p>
+
+                    <div style="background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 2rem; padding: 2.5rem; margin: 3rem 0;">
+                        <h4 style="color: var(--brown-600); margin-bottom: 1.5rem; text-align: center; font-size: 1.4rem;">Crisis Resources</h4>
+                        <p style="margin-bottom: 2rem; font-size: 1rem; text-align: center;">If you're in crisis, help is available 24/7:</p>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                            <div style="text-align: center;">
+                                <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">Crisis Text Line</strong>
+                                <a href="sms:741741" style="color: var(--accent-gold); text-decoration: none; font-size: 1.2rem; font-weight: 600;">Text HOME to 741741</a>
+                            </div>
+                            <div style="text-align: center;">
+                                <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">National Suicide Prevention Lifeline</strong>
+                                <a href="tel:988" style="color: var(--accent-gold); text-decoration: none; font-size: 1.2rem; font-weight: 600;">Call or Text 988</a>
+                            </div>
+                            <div style="text-align: center;">
+                                <strong style="color: var(--brown-600); display: block; margin-bottom: 0.5rem;">Your Campus Counseling Center</strong>
+                                <span style="color: var(--charcoal-light); font-size: 1rem;">Check your student portal for contact info</span>
+                            </div>
+                        </div>
+                        
+                        <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 0;">Remember: You're not alone in this. Reach out if you need support.</p>
+                    </div>
+
+                    <!-- Citations Section -->
+                    <div style="background: var(--beige-100); border-radius: 2rem; padding: 3rem; margin: 4rem 0 2rem 0; border: 1px solid var(--glass-border);">
+                        <h3 style="font-family: 'Crimson Text', serif; font-size: 1.8rem; color: var(--brown-600); margin-bottom: 2rem; text-align: center;">Citations & Sources</h3>
+                        
+                        <div style="font-size: 0.95rem; line-height: 1.6; color: var(--charcoal-light);">
+                            <p id="ref-1" style="margin-bottom: 1rem;"><strong>1.</strong> American Psychological Association. (2023). <a href="https://apa.org" target="_blank" style="color: var(--brown-600);">Stress and Academic Performance</a>.</p>
+                            
+                            <p id="ref-2" style="margin-bottom: 1rem;"><strong>2.</strong> American College Health Association. (2024). <a href="https://acha.org" target="_blank" style="color: var(--brown-600);">National College Health Assessment Spring 2024</a>.</p>
+                            
+                            <p id="ref-3" style="margin-bottom: 1rem;"><strong>3.</strong> Ultradian Rhythms Research. <a href="https://journals.example.com" target="_blank" style="color: var(--brown-600);">Optimal Learning Intervals and Cognitive Performance</a>.</p>
+                            
+                            <p id="ref-4" style="margin-bottom: 1rem;"><strong>4.</strong> National Sleep Foundation. (2024). <a href="https://sleepfoundation.org" target="_blank" style="color: var(--brown-600);">Sleep and Academic Performance in College Students</a>.</p>
+                            
+                            <p id="ref-5" style="margin-bottom: 1rem;"><strong>5.</strong> Harvard Health Publishing. (2023). <a href="https://health.harvard.edu" target="_blank" style="color: var(--brown-600);">Exercise and Mental Health</a>.</p>
+                            
+                            <div style="background: rgba(139, 105, 20, 0.05); border-radius: 1rem; padding: 1.5rem; margin-top: 2rem;">
+                                <p style="margin: 0; font-style: italic; text-align: center; color: var(--charcoal);"><strong>Additional Resources:</strong> Your campus counseling center, student success center, academic advisors, and trusted mentors.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 3rem 0 0 0;">Take care of yourself. You matter more than any exam.</p>
+                </article>
+            </div>
         </div>
     </div>
 
@@ -1190,13 +1512,112 @@
         });
 
 
+        // Post data for navigation and sharing
+        const postData = {
+            'mental-health': {
+                title: 'The Silent Struggle',
+                breadcrumb: 'The Silent Struggle',
+                url: 'the-silent-struggle-mens-mental-health-2025',
+                fullTitle: 'The Silent Struggle: Men\'s Mental Health in 2025'
+            },
+            'mh-awareness-2025': {
+                title: 'Mental Health Awareness Month 2025',
+                breadcrumb: 'Mental Health Awareness Month 2025',
+                url: 'mental-health-awareness-month-2025-turning-awareness-into-action',
+                fullTitle: 'Mental Health Awareness Month 2025: Turning Awareness into Action'
+            },
+            'finals-burnout': {
+                title: 'Surviving Finals Season',
+                breadcrumb: 'Surviving Finals Season',
+                url: 'surviving-finals-season-burnout-is-real',
+                fullTitle: 'Surviving Finals Season: Burnout Is Real, and You\'re Not Alone'
+            }
+        };
+
         // Blog card click handler
         document.querySelectorAll('.blog-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 e.preventDefault();
-                toggleView();
+                const postId = this.dataset.post;
+                if (postId) {
+                    showPost(postId);
+                } else {
+                    toggleView();
+                }
             });
         });
+
+        // Show specific post
+        function showPost(postId) {
+            const listView = document.getElementById('blog-list-view');
+            const postView = document.getElementById('blog-post-view');
+            const postContent = document.getElementById(postId + '-post');
+            
+            // Hide all post content
+            document.querySelectorAll('.post-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected post content
+            if (postContent) {
+                postContent.style.display = 'block';
+            }
+            
+            listView.style.display = 'none';
+            postView.style.display = 'block';
+            currentView = 'post';
+            window.scrollTo(0, 0);
+        }
+
+        // Share functions
+        function getShareUrl(postId) {
+            const post = postData[postId];
+            if (post) {
+                return `https://theunseenhours.org/blog/${post.url}`;
+            }
+            return 'https://theunseenhours.org/blog';
+        }
+
+        function shareOnTwitter(postId) {
+            const post = postData[postId];
+            const url = getShareUrl(postId);
+            const text = post ? `Check out "${post.fullTitle}" from @TheUnseenHours` : 'Check out this article from @TheUnseenHours';
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnFacebook(postId) {
+            const url = getShareUrl(postId);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnLinkedIn(postId) {
+            const post = postData[postId];
+            const url = getShareUrl(postId);
+            const title = post ? post.fullTitle : 'Mental Health Article';
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`, '_blank', 'width=600,height=400');
+        }
+
+        function copyShareLink(postId) {
+            const url = getShareUrl(postId);
+            navigator.clipboard.writeText(url).then(() => {
+                // Find the copy button and provide feedback
+                const buttons = document.querySelectorAll(`button[onclick*="${postId}"]`);
+                buttons.forEach(button => {
+                    if (button.textContent === 'Copy Link') {
+                        const originalText = button.textContent;
+                        const originalColor = button.style.background;
+                        button.textContent = 'Copied!';
+                        button.style.background = '#22c55e';
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.style.background = originalColor;
+                        }, 2000);
+                    }
+                });
+            }).catch(() => {
+                alert('Could not copy link to clipboard');
+            });
+        }
 
 
         // Smooth scroll animation for elements coming into view
