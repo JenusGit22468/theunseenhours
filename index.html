@@ -277,6 +277,48 @@
             color: var(--brown-600);
         }
 
+        /* Special Blogs Button Styling */
+        .blogs-btn {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900) !important;
+            font-weight: 600;
+            transform: scale(1);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.25);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .blogs-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .blogs-btn:hover {
+            background: linear-gradient(135deg, var(--brown-600), var(--brown-700)) !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
+            color: var(--beige-50) !important;
+        }
+
+        .blogs-btn:hover::before {
+            opacity: 1;
+        }
+
+        .blogs-btn:active {
+            transform: translateY(0);
+            transition: transform 0.1s ease;
+        }
+
         /* Dropdown Styles */
         .dropdown {
             position: absolute;
@@ -569,12 +611,17 @@
 
         .hero h1 {
             font-family: 'Crimson Text', serif;
-            font-size: clamp(3rem, 7vw, 6rem);
+            font-size: clamp(2.5rem, 5.5vw, 4.5rem);
             font-weight: 600;
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 2rem;
             letter-spacing: -0.02em;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-height: calc(2 * 1.2em);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .hero p {
@@ -1983,7 +2030,7 @@
         <div class="welcome-content">
             <h1>Welcome to The Unseen Hours</h1>
             <p>We are so glad to have you. Your experiences matter. You matter.</p>
-            <button class="welcome-btn" onclick="enterSite()">Continue</button>
+            <button class="welcome-btn" onclick="enterSite()">Continue Your Journey</button>
         </div>
     </div>
 
@@ -2026,6 +2073,7 @@
                 <li class="nav-item"><a href="#resources" class="nav-link">Resources</a></li>
                 <li class="nav-item"><a href="https://www.theunseenhours.org/contact" class="nav-link">Contact</a></li>
                 <li class="nav-item"><a href="https://www.theunseenhours.org/about-us" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="/Users/jenus/Claude/blogs.html" class="nav-link blogs-btn">Blogs</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
         </nav>
@@ -2101,7 +2149,7 @@
                 <button class="awareness-minimize" id="awarenessMinimize" title="Close">×</button>
                 <div class="awareness-sidebar-header">
                     <div class="awareness-sidebar-icon">💙</div>
-                    <h3>Men's Mental Health Awareness</h3>
+                    <h3>Men's Mental Health Awareness Month</h3>
                 </div>
                 <p>June is dedicated to breaking the silence around men's mental health.</p>
                 <div class="awareness-sidebar-actions">
@@ -2114,14 +2162,13 @@
         <div class="awareness-tab" id="awarenessTab">
             <div class="awareness-tab-content">
                 <span class="awareness-tab-icon">💙</span>
-                <span class="awareness-tab-text">Men's Mental Health</span>
+                <span class="awareness-tab-text">Men's Mental Health Month</span>
             </div>
         </div>
         
         <div class="hero-content">
             <div class="hero-text">
-                <span class="hero-badge">Supporting Mental Health & Wellness</span>
-                <h1>Your healing matters to all of us</h1>
+                <h1 id="rotatingMessage">Your healing matters to all of us</h1>
                 <p>A compassionate community for hidden struggles, gentle support, and authentic stories. Find connection in the moments when the world feels too heavy.</p>
                 <div class="hero-buttons">
                     <a href="https://www.theunseenhours.org/chapters" class="btn btn-primary">Join Our Community</a>
@@ -2442,8 +2489,33 @@
             }
         ];
 
+        // Rotating messages array
+        const INSPIRATIONAL_MESSAGES = [
+            "The bravest battles are fought in silence",
+            "Invisible strength carries the heaviest weight",
+            "Your quiet persistence is louder than any applause",
+            "The victories no one sees matter most"
+        ];
+
+        // Function to set cycling rotating message
+        function setRotatingMessage() {
+            const messageElement = document.getElementById('rotatingMessage');
+            if (messageElement) {
+                // Get or initialize the message index from localStorage
+                let currentIndex = parseInt(localStorage.getItem('heroMessageIndex') || '0');
+                
+                // Set the message
+                messageElement.textContent = INSPIRATIONAL_MESSAGES[currentIndex];
+                
+                // Increment index for next reload, cycling back to 0 after the last message
+                const nextIndex = (currentIndex + 1) % INSPIRATIONAL_MESSAGES.length;
+                localStorage.setItem('heroMessageIndex', nextIndex.toString());
+            }
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            setRotatingMessage();
             initializeAnimations();
             initializeMap();
             setupHeaderScroll();
@@ -2467,6 +2539,12 @@
                     const sidebar = document.getElementById('awarenessSidebar');
                     if (sidebar && !sidebar.classList.contains('show')) {
                         showAwarenessPopup();
+                        // Auto-hide after 5 seconds
+                        setTimeout(() => {
+                            if (sidebar.classList.contains('show')) {
+                                minimizeAwarenessSidebar();
+                            }
+                        }, 5000);
                     }
                 }, 3000);
             }, 1000);
@@ -2538,7 +2616,7 @@
                 tab.classList.add('show');
                 tab.classList.remove('auto-hidden');
                 
-                // Start auto-hide timer
+                // Start auto-hide timer for the tab
                 startAutoHideTimer();
             }
         }
@@ -3194,7 +3272,38 @@
 
     <!-- Chatbase Chat Widget -->
     <script>
-        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="OP8NKRxAQmXnUlJdYo5IU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    (function(){
+        if (!window.chatbase || window.chatbase("getState") !== "initialized") {
+            window.chatbase = (...arguments) => {
+                if (!window.chatbase.q) {
+                    window.chatbase.q = [];
+                }
+                window.chatbase.q.push(arguments);
+            };
+            window.chatbase = new Proxy(window.chatbase, {
+                get(target, prop) {
+                    if (prop === "q") {
+                        return target.q;
+                    }
+                    return (...args) => target(prop, ...args);
+                }
+            });
+        }
+
+        const onLoad = function () {
+            const script = document.createElement("script");
+            script.src = "https://www.chatbase.co/embed.min.js";
+            script.id = "etezu22oxeo3xnwen4oiqb89s03b8seg";  // ✅ Your bot ID here
+            script.domain = "www.chatbase.co";
+            document.body.appendChild(script);
+        };
+
+        if (document.readyState === "complete") {
+            onLoad();
+        } else {
+            window.addEventListener("load", onLoad);
+        }
+    })();
     </script>
 
     <!-- MailChimp Script -->
