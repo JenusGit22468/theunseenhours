@@ -1572,10 +1572,13 @@
         // Share functions
         function getShareUrl(postId) {
             const post = postData[postId];
+            // Use current page URL as base
+            const currentUrl = window.location.href.split('#')[0];
             if (post) {
-                return `https://theunseenhours.org/blog/${post.url}`;
+                // Create a hash-based URL for the specific post
+                return `${currentUrl}#${post.url}`;
             }
-            return 'https://theunseenhours.org/blog';
+            return currentUrl;
         }
 
         function shareOnTwitter(postId) {
@@ -1642,6 +1645,26 @@
             card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
             observer.observe(card);
         });
+
+        // Handle hash navigation for direct links
+        function handleHashNavigation() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                // Find the post ID from the URL in postData
+                for (const [postId, post] of Object.entries(postData)) {
+                    if (post.url === hash) {
+                        showPost(postId);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Check hash on page load
+        window.addEventListener('load', handleHashNavigation);
+        
+        // Handle hash changes
+        window.addEventListener('hashchange', handleHashNavigation);
     </script>
 </body>
 </html>
