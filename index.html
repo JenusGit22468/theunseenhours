@@ -237,7 +237,7 @@
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1),
                         0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
 
         .header::before {
@@ -392,11 +392,12 @@
             border-radius: 1.5rem;
             padding: 2rem;
             min-width: 600px;
+            max-width: calc(100vw - 2rem);
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 20px 60px rgba(139, 105, 20, 0.15);
-            z-index: 1001;
+            z-index: 10001;
         }
 
         /* When header is sticky (at top), dropdown appears below */
@@ -409,6 +410,10 @@
         .nav-item:hover .dropdown {
             opacity: 1;
             visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .header.sticky .nav-item:hover .dropdown {
             transform: translateX(-50%) translateY(0);
         }
 
@@ -896,7 +901,7 @@
         .mental-health-banner {
             position: fixed;
             top: 50%;
-            left: -280px;
+            left: -305px;
             transform: translateY(-50%);
             width: 320px;
             background: linear-gradient(135deg, var(--sage-600), var(--sage-700));
@@ -919,10 +924,10 @@
         }
 
         @keyframes initialUnfurl {
-            0% { left: -280px; }
+            0% { left: -305px; }
             15% { left: 0; }
             85% { left: 0; }
-            100% { left: -280px; }
+            100% { left: -305px; }
         }
 
         .mental-health-banner-content {
@@ -1007,7 +1012,7 @@
         @media (max-width: 768px) {
             .mental-health-banner {
                 width: 280px;
-                left: -240px;
+                left: -265px;
                 top: 30%;
             }
             
@@ -1016,10 +1021,10 @@
             }
 
             @keyframes initialUnfurlMobile {
-                0% { left: -240px; }
+                0% { left: -265px; }
                 15% { left: 0; }
                 85% { left: 0; }
-                100% { left: -240px; }
+                100% { left: -265px; }
             }
 
             .mental-health-banner-content {
