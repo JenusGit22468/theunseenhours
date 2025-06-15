@@ -32,6 +32,7 @@
       <meta name="theme-color" content="#ffffff">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
     <style>
         * {
             margin: 0;
@@ -825,6 +826,230 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        /* AI Companion Styles */
+        .ai-companion-container {
+            width: 100%;
+            max-width: 320px;
+            background: rgba(254, 252, 247, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 1.25rem;
+            padding: 1.25rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 
+                        0 0 60px rgba(212, 175, 55, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: aiCompanionFloat 0.8s cubic-bezier(0.4, 0, 0.2, 1) 1.5s forwards,
+                       aiCompanionGlow 3s ease-in-out infinite alternate;
+        }
+
+        .ai-companion-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .ai-pulse {
+            width: 10px;
+            height: 10px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .ai-pulse::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseRing 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .ai-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--beige-50);
+            letter-spacing: -0.01em;
+        }
+
+        .ai-companion-description {
+            margin-bottom: 1rem;
+        }
+
+        .ai-companion-description p {
+            font-size: 0.85rem;
+            color: rgba(254, 252, 247, 0.8);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* ElevenLabs Widget - Top Right Positioning */
+        .ai-widget-simple {
+            position: fixed;
+            top: 100px; /* Below header */
+            right: 20px;
+            z-index: 999;
+            transition: top 0.3s ease;
+        }
+
+        /* Adjust position when header is sticky */
+        .header.sticky + .ai-widget-simple {
+            top: 80px; /* Adjusted for sticky header height */
+        }
+
+        .ai-widget-label {
+            display: none; /* Hide the label text */
+        }
+
+        .ai-widget-simple elevenlabs-convai {
+            /* Remove background styling, let widget be natural */
+        }
+
+        /* Mobile responsive styles for AI widget */
+        @media (max-width: 768px) {
+            .ai-widget-simple {
+                top: 80px; /* Adjust for mobile header */
+                right: 15px;
+                transform: scale(0.9); /* Slightly smaller on mobile */
+            }
+            
+            .header.sticky + .ai-widget-simple {
+                top: 70px; /* Adjusted for mobile sticky header */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ai-widget-simple {
+                top: 75px;
+                right: 10px;
+                transform: scale(0.8); /* Even smaller on very small screens */
+            }
+            
+            .header.sticky + .ai-widget-simple {
+                top: 65px;
+            }
+        }
+
+        @keyframes aiCompanionFloat {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes aiCompanionGlow {
+            0% {
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 
+                            0 0 80px rgba(212, 175, 55, 0.1);
+            }
+            100% {
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 
+                            0 0 120px rgba(212, 175, 55, 0.2);
+            }
+        }
+
+        /* AI Companion Responsive */
+        @media (min-width: 1024px) {
+            .hero-content {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 4rem;
+                padding-top: 5rem;
+            }
+
+            .hero-text {
+                flex: 1;
+                max-width: 600px;
+                text-align: left;
+                margin: 0;
+            }
+
+            .ai-companion-container {
+                flex-shrink: 0;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .hero-content {
+                padding-top: 3rem;
+                gap: 2.5rem;
+            }
+
+            .ai-companion-container {
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                gap: 2rem;
+                padding-top: 2rem;
+            }
+
+            .ai-companion-container {
+                max-width: 280px;
+                padding: 1rem;
+            }
+
+            .ai-title {
+                font-size: 0.95rem;
+            }
+
+            .ai-companion-description p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content {
+                gap: 1.5rem;
+                padding: 1rem;
+            }
+
+            .ai-companion-container {
+                padding: 1rem;
+                max-width: 100%;
+            }
+
+            .ai-title {
+                font-size: 0.9rem;
+            }
+
+            .ai-companion-description p {
+                font-size: 0.75rem;
+            }
+
+            .ai-widget-wrapper {
+                padding: 0.5rem;
+                min-height: 45px;
             }
         }
 
@@ -2145,6 +2370,12 @@
         </nav>
     </header>
 
+    <!-- ElevenLabs AI Widget -->
+    <div class="ai-widget-simple">
+        <p class="ai-widget-label">Talk to our AI companion</p>
+        <elevenlabs-convai agent-id="agent_01jxrq7yebeqm835ez8cn19636"></elevenlabs-convai>
+    </div>
+
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
@@ -2231,7 +2462,9 @@
                     <a href="https://www.theunseenhours.org/about-us" class="btn btn-secondary">About Us</a>
                 </div>
             </div>
+            
         </div>
+        
     </main>
 
     <!-- Video Control -->
@@ -3245,10 +3478,6 @@
         });
     </script>
 
-    <!-- Chatbase Chat Widget -->
-    <script>
-        (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="OP8NKRxAQmXnUlJdYo5IU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-    </script>
 
     <!-- MailChimp Script -->
     <script id="mcjs">!function(c,h,i,m,p){m=c.createElement(h),p=c.getElementsByTagName(h)[0],m.async=1,m.src=i,p.parentNode.insertBefore(m,p)}(document,"script","https://chimpstatic.com/mcjs-connected/js/users/bc1c5dec9903e06a841c42ec3/718abdbcf26b5a2c58d86203a.js");</script>
