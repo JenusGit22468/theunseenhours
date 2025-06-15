@@ -739,15 +739,16 @@
             font-family: 'Crimson Text', serif;
             font-size: clamp(2.5rem, 5.5vw, 4.5rem);
             font-weight: 600;
-            line-height: 1.2;
+            line-height: 1.1;
             margin-bottom: 2rem;
             letter-spacing: -0.02em;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            max-height: calc(2 * 1.2em);
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            text-align: center;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 2rem;
+            white-space: pre-line;
         }
 
         .hero p {
@@ -909,51 +910,13 @@
             margin: 0;
         }
 
-        /* ElevenLabs Widget - Top Right Positioning */
+        /* ElevenLabs Widget - Default styling */
         .ai-widget-simple {
-            position: fixed;
-            top: 100px; /* Below header */
-            right: 20px;
-            z-index: 999;
-            transition: top 0.3s ease;
-        }
-
-        /* Adjust position when header is sticky */
-        .header.sticky + .ai-widget-simple {
-            top: 80px; /* Adjusted for sticky header height */
+            /* Let ElevenLabs handle all positioning and styling */
         }
 
         .ai-widget-label {
             display: none; /* Hide the label text */
-        }
-
-        .ai-widget-simple elevenlabs-convai {
-            /* Remove background styling, let widget be natural */
-        }
-
-        /* Mobile responsive styles for AI widget */
-        @media (max-width: 768px) {
-            .ai-widget-simple {
-                top: 80px; /* Adjust for mobile header */
-                right: 15px;
-                transform: scale(0.9); /* Slightly smaller on mobile */
-            }
-            
-            .header.sticky + .ai-widget-simple {
-                top: 70px; /* Adjusted for mobile sticky header */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .ai-widget-simple {
-                top: 75px;
-                right: 10px;
-                transform: scale(0.8); /* Even smaller on very small screens */
-            }
-            
-            .header.sticky + .ai-widget-simple {
-                top: 65px;
-            }
         }
 
         @keyframes aiCompanionFloat {
@@ -2781,7 +2744,7 @@
         const INSPIRATIONAL_MESSAGES = [
             "The bravest battles are fought in silence",
             "Invisible strength carries the heaviest weight",
-            "Your quiet persistence is louder than any applause",
+            "Your quiet persistence is louder\nthan any applause",
             "The victories no one sees matter most"
         ];
 
