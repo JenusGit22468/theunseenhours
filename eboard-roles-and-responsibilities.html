@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Board Roles & Responsibilities - The Unseen Hours</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --beige-50: #FEFCF7;
+            --beige-100: #F7F3E9;
+            --beige-200: #F0E6D2;
+            --beige-300: #E8D5B7;
+            --brown-600: #7A5A0F;
+            --brown-900: #3D2F0A;
+            --sage-600: #6B7562;
+            --sage-700: #4A5D41;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-copper: #B87333;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background: var(--beige-50);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--beige-300);
+        }
+
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--brown-600);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: var(--sage-700);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: var(--charcoal-light);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Overview Section */
+        .overview {
+            background: linear-gradient(135deg, var(--beige-100), var(--beige-200));
+            padding: 2rem;
+            border-radius: 1.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid var(--beige-300);
+        }
+
+        .overview h2 {
+            font-family: 'Crimson Text', serif;
+            color: var(--brown-600);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .overview p {
+            color: var(--charcoal-light);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Role Cards */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .role-card {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--beige-200);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-copper));
+        }
+
+        .role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .role-title {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            color: var(--brown-600);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .role-category {
+            font-size: 0.9rem;
+            color: var(--sage-600);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .responsibilities-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .responsibilities-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--charcoal-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .responsibilities-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-weight: bold;
+        }
+
+        .ideal-candidate {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(183, 115, 51, 0.1));
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .ideal-candidate h4 {
+            color: var(--brown-600);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .ideal-candidate p {
+            color: var(--charcoal-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* General Expectations */
+        .expectations {
+            background: var(--sage-700);
+            color: var(--beige-50);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .expectations h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--beige-50);
+        }
+
+        .expectations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .expectation-item {
+            background: rgba(254, 252, 247, 0.1);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(254, 252, 247, 0.2);
+        }
+
+        .expectation-item h3 {
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .expectation-item p {
+            color: rgba(254, 252, 247, 0.9);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 2px solid var(--beige-300);
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            color: var(--charcoal-light);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            color: var(--brown-600);
+            font-weight: 500;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                padding: 0;
+            }
+            
+            .role-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            
+            .expectations {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .roles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.5rem;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">The Unseen Hours</h1>
+            <h2 class="subtitle">Executive Board Roles & Responsibilities</h2>
+            <p class="tagline">Building a community of support, understanding, and growth</p>
+        </header>
+
+        <!-- Overview -->
+        <section class="overview">
+            <h2>Our Mission</h2>
+            <p>The Unseen Hours E-Board works collaboratively to create safe spaces for students navigating life's invisible battles. Each role is designed to support our community through different aspects of mental health awareness, peer support, and wellness programming. We believe in shared leadership where every voice matters and every contribution makes a difference.</p>
+        </section>
+
+        <!-- Roles Grid -->
+        <div class="roles-grid">
+            <!-- President -->
+            <div class="role-card">
+                <h3 class="role-title">President</h3>
+                <p class="role-category">Executive Leadership</p>
+                <ul class="responsibilities-list">
+                    <li>Lead weekly E-Board meetings and monthly general meetings</li>
+                    <li>Serve as primary liaison with university administration</li>
+                    <li>Oversee strategic planning and organizational vision</li>
+                    <li>Support and coordinate all E-Board members</li>
+                    <li>Represent The Unseen Hours at campus events</li>
+                    <li>Ensure alignment with mission and values</li>
+                </ul>
+            </div>
+
+            <!-- VP of Community Engagement -->
+            <div class="role-card">
+                <h3 class="role-title">VP of Community Engagement & Outreach</h3>
+                <p class="role-category">Programming Leadership</p>
+                <ul class="responsibilities-list">
+                    <li>Plan and execute community service projects</li>
+                    <li>Develop partnerships with local organizations</li>
+                    <li>Coordinate outreach initiatives and awareness campaigns</li>
+                    <li>Organize workshops and guest speaker events</li>
+                    <li>Build relationships with other campus organizations</li>
+                </ul>
+
+            </div>
+
+            <!-- VP of Member Relations -->
+            <div class="role-card">
+                <h3 class="role-title">VP of Member Relations</h3>
+                <p class="role-category">Member Support</p>
+                <ul class="responsibilities-list">
+                    <li>Develop member retention and engagement strategies</li>
+                    <li>Organize small group discussions and peer circles</li>
+                    <li>Conduct regular member check-ins and feedback sessions</li>
+                    <li>Create welcoming environment for new members</li>
+                    <li>Coordinate peer mentoring programs</li>
+                </ul>
+
+            </div>
+
+            <!-- VP of Academic Support -->
+            <div class="role-card">
+                <h3 class="role-title">VP of Academic Support & First-Gen Advocacy</h3>
+                <p class="role-category">Academic Wellness</p>
+                <ul class="responsibilities-list">
+                    <li>Develop resources for academic stress management</li>
+                    <li>Create first-generation student support programs</li>
+                    <li>Organize study groups and academic workshops</li>
+                    <li>Address imposter syndrome through targeted programming</li>
+                    <li>Connect students with campus academic resources</li>
+                </ul>
+
+            </div>
+
+            <!-- Secretary -->
+            <div class="role-card">
+                <h3 class="role-title">Secretary</h3>
+                <p class="role-category">Administrative</p>
+                <ul class="responsibilities-list">
+                    <li>Record and distribute meeting minutes</li>
+                    <li>Manage organizational calendar and scheduling</li>
+                    <li>Maintain member database and attendance records</li>
+                    <li>Handle official correspondence and communications</li>
+                    <li>Organize digital files and documentation</li>
+                </ul>
+            </div>
+
+            <!-- Treasurer -->
+            <div class="role-card">
+                <h3 class="role-title">Treasurer</h3>
+                <p class="role-category">Financial Management</p>
+                <ul class="responsibilities-list">
+                    <li>Manage organization budget and expenses</li>
+                    <li>Process reimbursements and financial requests</li>
+                    <li>Prepare financial reports for E-Board</li>
+                    <li>Coordinate fundraising efforts</li>
+                    <li>Apply for grants and university funding</li>
+                    <li>Ensure financial transparency and accountability</li>
+                </ul>
+            </div>
+
+            <!-- Social Media Chair -->
+            <div class="role-card">
+                <h3 class="role-title">Social Media Chair</h3>
+                <p class="role-category">Communications</p>
+                <ul class="responsibilities-list">
+                    <li>Manage all social media platforms</li>
+                    <li>Create engaging content calendar</li>
+                    <li>Design graphics and promotional materials</li>
+                    <li>Monitor and respond to online engagement</li>
+                    <li>Track analytics and growth metrics</li>
+                    <li>Coordinate with Creative Director on branding</li>
+                </ul>
+            </div>
+
+            <!-- Creative Director -->
+            <div class="role-card">
+                <h3 class="role-title">Creative Director</h3>
+                <p class="role-category">Creative Leadership</p>
+                <ul class="responsibilities-list">
+                    <li>Oversee visual branding and design consistency</li>
+                    <li>Lead creative wellness workshops (art, music, writing)</li>
+                    <li>Design merchandise and promotional materials</li>
+                    <li>Coordinate creative therapy sessions</li>
+                    <li>Develop innovative programming ideas</li>
+                </ul>
+
+            </div>
+
+            <!-- Events Coordinator -->
+            <div class="role-card">
+                <h3 class="role-title">Events Coordinator</h3>
+                <p class="role-category">Event Planning</p>
+                <ul class="responsibilities-list">
+                    <li>Plan and execute all organizational events</li>
+                    <li>Coordinate logistics, venues, and supplies</li>
+                    <li>Manage event budgets and timelines</li>
+                    <li>Recruit and coordinate event volunteers</li>
+                    <li>Evaluate event success and gather feedback</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- General Expectations -->
+        <section class="expectations">
+            <h2>General E-Board Expectations</h2>
+            <div class="expectations-grid">
+                <div class="expectation-item">
+                    <h3>Commitment</h3>
+                    <p>Attend weekly E-Board meetings, fulfill role responsibilities, and maintain good academic standing while serving</p>
+                </div>
+                <div class="expectation-item">
+                    <h3>Communication</h3>
+                    <p>Respond to messages within 48 hours, communicate challenges openly, and maintain professional relationships</p>
+                </div>
+                <div class="expectation-item">
+                    <h3>Collaboration</h3>
+                    <p>Work as a team, support fellow E-Board members, and contribute to a positive organizational culture</p>
+                </div>
+                <div class="expectation-item">
+                    <h3>Innovation</h3>
+                    <p>Bring fresh ideas, seek continuous improvement, and adapt to meet community needs</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Questions about these roles? We'd love to hear from you!</p>
+            <p class="contact-info">Email: contact@theunseenhours.org | Phone: (810) 569-3159</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--charcoal-light);">
+                The Unseen Hours is a student-led volunteer initiative dedicated to mental health awareness and support.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
