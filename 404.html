@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found - The Unseen Hours</title>
+    <meta name="description" content="The page you're looking for seems to be taking a different path. Let's help you find your way back.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Favicon links -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --beige-50: #FEFCF7;
+            --beige-100: #F7F3E9;
+            --beige-200: #F0E6D2;
+            --beige-300: #E8D5B7;
+            --beige-400: #D4C5B0;
+            --beige-500: #C5B299;
+            --brown-400: #A67C52;
+            --brown-500: #8B6914;
+            --brown-600: #7A5A0F;
+            --brown-700: #5D4A0F;
+            --brown-900: #3D2F0A;
+            --sage-400: #8FA685;
+            --sage-500: #7A8471;
+            --sage-600: #6B7562;
+            --sage-700: #4A5D41;
+            --sage-900: #2D3A28;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-copper: #B87333;
+            
+            --glass-bg: rgba(254, 252, 247, 0.7);
+            --glass-border: rgba(139, 105, 20, 0.2);
+            --shadow-glass: 0 8px 32px rgba(139, 105, 20, 0.1);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background: linear-gradient(135deg, var(--sage-700) 0%, var(--sage-900) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.03"/></svg>');
+            pointer-events: none;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            color: var(--beige-50);
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 15%;
+            font-size: 3rem;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 70%;
+            right: 20%;
+            font-size: 2.5rem;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 10%;
+            font-size: 2rem;
+            animation-delay: 10s;
+        }
+
+        .floating-element:nth-child(4) {
+            top: 40%;
+            right: 10%;
+            font-size: 2.5rem;
+            animation-delay: 15s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-30px) rotate(10deg);
+            }
+            66% {
+                transform: translateY(20px) rotate(-10deg);
+            }
+        }
+
+        /* Main container */
+        .error-container {
+            max-width: 800px;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass card */
+        .error-card {
+            background: rgba(254, 252, 247, 0.1);
+            backdrop-filter: blur(30px);
+            border-radius: 3rem;
+            padding: 4rem 3rem;
+            border: 1px solid rgba(254, 252, 247, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2),
+                        0 0 100px rgba(212, 175, 55, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shimmer effect */
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(212, 175, 55, 0.1) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        /* 404 Number */
+        .error-number {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(6rem, 15vw, 10rem);
+            font-weight: 600;
+            color: var(--beige-50);
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                            0 0 60px rgba(212, 175, 55, 0.2);
+            }
+            to {
+                text-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                            0 0 80px rgba(212, 175, 55, 0.4);
+            }
+        }
+
+        /* Content */
+        h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 600;
+            color: var(--beige-50);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            position: relative;
+            z-index: 2;
+        }
+
+        .error-message {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: rgba(254, 252, 247, 0.85);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Buttons */
+        .error-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(254, 252, 247, 0.1);
+            color: var(--beige-50);
+            border: 2px solid rgba(254, 252, 247, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(254, 252, 247, 0.2);
+            border-color: rgba(254, 252, 247, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Quick links */
+        .quick-links {
+            margin-top: 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quick-links h3 {
+            color: var(--beige-50);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quick-link {
+            background: rgba(254, 252, 247, 0.05);
+            border: 1px solid rgba(254, 252, 247, 0.15);
+            padding: 1rem 1.5rem;
+            border-radius: 1rem;
+            color: rgba(254, 252, 247, 0.8);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quick-link:hover {
+            background: rgba(254, 252, 247, 0.1);
+            border-color: rgba(254, 252, 247, 0.3);
+            color: var(--beige-50);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-card {
+                padding: 3rem 2rem;
+                border-radius: 2rem;
+            }
+
+            .error-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                min-width: 200px;
+                justify-content: center;
+            }
+
+            .link-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading animation for redirects */
+        .redirect-message {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(20px);
+            color: var(--beige-50);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.95rem;
+            opacity: 0;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating decorative elements -->
+    <div class="floating-element">🌙</div>
+    <div class="floating-element">✨</div>
+    <div class="floating-element">🌟</div>
+    <div class="floating-element">💫</div>
+
+    <div class="error-container">
+        <div class="error-card">
+            <div class="error-number">404</div>
+            <h1>This Path Remains Unseen</h1>
+            <p class="error-message">
+                Just like the struggles we face, some paths lead to unexpected places. 
+                The page you're looking for might have moved, or perhaps it's taking a moment to find itself. 
+                Let's guide you back to familiar ground.
+            </p>
+            
+            <div class="error-buttons">
+                <a href="https://theunseenhours.org/" class="btn btn-primary">Return Home</a>
+                <a href="https://theunseenhours.org/chapters" class="btn btn-secondary">Find Your Chapter</a>
+            </div>
+            
+            <div class="quick-links">
+                <h3>Popular Destinations</h3>
+                <div class="link-grid">
+                    <a href="https://theunseenhours.org/box-breathing" class="quick-link">
+                        <span>🫁</span> Box Breathing
+                    </a>
+                    <a href="https://forums.theunseenhours.org" class="quick-link">
+                        <span>💬</span> Community Forums
+                    </a>
+                    <a href="https://theunseenhours.org/resources" class="quick-link">
+                        <span>📚</span> Resources
+                    </a>
+                    <a href="https://theunseenhours.org/contact" class="quick-link">
+                        <span>📧</span> Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if we should try to redirect
+        const path = window.location.pathname;
+        const knownRedirects = {
+            '/breathing': '/box-breathing',
+            '/grounding': '/54321-sensory-grounding',
+            '/panic': '/panic-attack-sos',
+            '/timer': '/pomodoro',
+            '/forum': '/forums',
+            '/chapter': '/chapters',
+            '/blog': '/blogs'
+        };
+
+        // Check for partial matches
+        for (const [partial, redirect] of Object.entries(knownRedirects)) {
+            if (path.includes(partial)) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'redirect-message';
+                messageDiv.textContent = `Redirecting to ${redirect}...`;
+                document.body.appendChild(messageDiv);
+                
+                setTimeout(() => {
+                    window.location.href = redirect;
+                }, 2000);
+                break;
+            }
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Parallax effect on mouse move
+            const floatingElements = document.querySelectorAll('.floating-element');
+            
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                floatingElements.forEach((el, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const xOffset = (x - 0.5) * 50 * speed;
+                    const yOffset = (y - 0.5) * 50 * speed;
+                    
+                    el.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
