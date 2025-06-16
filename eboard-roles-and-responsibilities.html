@@ -47,6 +47,36 @@
             margin-bottom: 4rem;
             padding-bottom: 2rem;
             border-bottom: 3px solid var(--beige-300);
+            position: relative;
+        }
+
+        /* Home button */
+        .home-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .home-btn::before {
+            content: '←';
+            font-size: 1.2rem;
         }
 
         .logo {
@@ -280,6 +310,16 @@
             body {
                 padding: 1rem;
             }
+            
+            .home-btn {
+                position: static;
+                margin-bottom: 2rem;
+                display: inline-flex;
+            }
+            
+            .header {
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -287,6 +327,7 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
+            <a href="https://theunseenhours.org" class="home-btn">Home</a>
             <h1 class="logo">The Unseen Hours</h1>
             <h2 class="subtitle">Executive Board Roles & Responsibilities</h2>
             <p class="tagline">Building a community of support, understanding, and growth</p>
