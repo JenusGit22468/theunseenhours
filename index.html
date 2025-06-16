@@ -913,6 +913,20 @@
         /* ElevenLabs Widget - Default styling */
         .ai-widget-simple {
             /* Let ElevenLabs handle all positioning and styling */
+            z-index: 10000 !important; /* Ensure it appears above scroll nav */
+        }
+
+        /* ElevenLabs widget elements - force higher z-index */
+        .ai-widget-simple * {
+            z-index: 10000 !important;
+        }
+
+        /* Target ElevenLabs specific elements */
+        elevenlabs-convai,
+        [data-elevenlabs-widget],
+        .elevenlabs-widget,
+        .convai-widget {
+            z-index: 10000 !important;
         }
 
         .ai-widget-label {
