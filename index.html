@@ -1269,6 +1269,238 @@
             }
         }
 
+        /* Partners Section */
+        .partners {
+            background: var(--beige-50);
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .partners::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(139, 105, 20, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .partners-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .partners h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 600;
+            color: var(--brown-600);
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+            position: relative;
+        }
+
+        .partners h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-copper));
+            border-radius: 2px;
+        }
+
+        .partners-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .partner-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            max-width: 300px;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        a.partner-item {
+            text-decoration: none;
+        }
+
+        .partner-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .partner-item:hover::before {
+            opacity: 0.05;
+        }
+
+        .partner-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(139, 105, 20, 0.15);
+            border-color: rgba(139, 105, 20, 0.3);
+        }
+
+        .partner-item * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .partner-logo {
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: brightness(0.9) contrast(1.1);
+            transition: all 0.3s ease;
+        }
+
+        .partner-item:hover .partner-logo {
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        .partner-name {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brown-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .partner-description {
+            color: var(--charcoal-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        /* Partners wrapper for navigation */
+        .partners-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Partner navigation buttons */
+        .partner-nav {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            align-items: center;
+            justify-content: center;
+            color: var(--brown-600);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .partner-nav:hover:not(:disabled) {
+            background: var(--beige-100);
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 6px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .partner-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .partner-nav-prev {
+            left: 0;
+        }
+
+        .partner-nav-next {
+            right: 0;
+        }
+
+        .partner-nav svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .partners {
+                padding: 4rem 0;
+                overflow: hidden;
+            }
+
+            .partners-container {
+                padding: 0 1rem;
+            }
+
+            .partners-wrapper {
+                position: relative;
+                overflow: hidden;
+                width: 100%;
+                padding: 0 60px; /* Space for nav buttons */
+            }
+
+            .partners-grid {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            .partner-item {
+                display: none;
+                width: 100%;
+                padding: 1.5rem;
+                box-sizing: border-box;
+            }
+            
+            .partner-item.active {
+                display: block;
+                animation: fadeIn 0.3s ease-in-out;
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            /* Show navigation buttons on mobile */
+            .partner-nav {
+                display: flex;
+            }
+        }
+
         /* Section Styles */
         .section {
             padding: 8rem 0;
@@ -2481,6 +2713,7 @@
     <!-- Scroll Navigation -->
     <nav class="scroll-nav" id="scrollNav">
         <div class="scroll-nav-item" data-section="hero" data-label="Home"></div>
+        <div class="scroll-nav-item" data-section="partners" data-label="Partners"></div>
         <div class="scroll-nav-item" data-section="mission" data-label="Mission"></div>
         <div class="scroll-nav-item" data-section="highlights" data-label="Tools"></div>
         <div class="scroll-nav-item" data-section="stories" data-label="Stories"></div>
@@ -2489,6 +2722,36 @@
         <div class="scroll-nav-item" data-section="events" data-label="Events"></div>
     </nav>
 
+    <!-- Partners Section -->
+    <section class="partners" id="partners">
+        <div class="partners-container">
+            <h2>Our Partners</h2>
+            <div class="partners-wrapper">
+                <button class="partner-nav partner-nav-prev" aria-label="Previous partner">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <div class="partners-grid">
+                    <a href="https://brainbrewai.com" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
+                        <img src="https://cdn.theunseenhours.org/BrainBrewAILogo-removebg-preview.png" alt="BrainBrew AI Logo" class="partner-logo">
+                        <div class="partner-name">BrainBrew AI</div>
+                        <div class="partner-description">Empowering students with AI&#x2011;based study tools for personalized and efficient learning</div>
+                    </a>
+                    <a href="https://ctrlzstroke.com" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
+                        <img src="https://cdn.theunseenhours.org/CZSTransparentOne.png" alt="Ctrl+Z Stroke Logo" class="partner-logo">
+                        <div class="partner-name">Ctrl+Z Stroke</div>
+                        <div class="partner-description">Innovative stroke recovery solutions using cutting&#x2011;edge technology and personalized care</div>
+                    </a>
+                </div>
+                <button class="partner-nav partner-nav-next" aria-label="Next partner">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Mission Section -->
     <section class="section mission" id="mission">
@@ -2875,6 +3138,7 @@
             setupVideoControl();
             setupScrollNavigation();
             initializeMentalHealthBanner();
+            setupPartnersScroll();
         });
 
         // Welcome screen functionality
@@ -3537,6 +3801,75 @@
                 behavior: 'smooth'
             });
         });
+
+        // Partners carousel functionality
+        function setupPartnersCarousel() {
+            const partnersGrid = document.querySelector('.partners-grid');
+            const prevBtn = document.querySelector('.partner-nav-prev');
+            const nextBtn = document.querySelector('.partner-nav-next');
+            
+            if (partnersGrid && prevBtn && nextBtn) {
+                const partners = partnersGrid.querySelectorAll('.partner-item');
+                let currentIndex = 0;
+                
+                // Update button states
+                function updateButtonStates() {
+                    prevBtn.disabled = currentIndex === 0;
+                    nextBtn.disabled = currentIndex === partners.length - 1;
+                }
+                
+                // Show partner using active class
+                function showPartner(index) {
+                    if (index >= 0 && index < partners.length) {
+                        // Remove active class from all partners
+                        partners.forEach(partner => partner.classList.remove('active'));
+                        // Add active class to current partner
+                        partners[index].classList.add('active');
+                        currentIndex = index;
+                        updateButtonStates();
+                    }
+                }
+                
+                // Button click handlers
+                prevBtn.addEventListener('click', () => {
+                    if (currentIndex > 0) {
+                        showPartner(currentIndex - 1);
+                    }
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    if (currentIndex < partners.length - 1) {
+                        showPartner(currentIndex + 1);
+                    }
+                });
+                
+                // Initialize
+                function initializeCarousel() {
+                    if (window.innerWidth <= 768) {
+                        // Mobile view
+                        prevBtn.style.display = 'flex';
+                        nextBtn.style.display = 'flex';
+                        showPartner(0); // Show first partner
+                    } else {
+                        // Desktop view
+                        prevBtn.style.display = 'none';
+                        nextBtn.style.display = 'none';
+                        // Remove active class for desktop
+                        partners.forEach(partner => {
+                            partner.classList.remove('active');
+                            partner.style.display = ''; // Reset display for desktop
+                        });
+                    }
+                }
+                
+                // Handle resize
+                window.addEventListener('resize', initializeCarousel);
+                initializeCarousel();
+            }
+        }
+        
+        // Initialize partners carousel
+        setupPartnersCarousel();
     </script>
 
 
