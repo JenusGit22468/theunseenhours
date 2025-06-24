@@ -580,7 +580,7 @@
         </section>
 
         <!-- Jenus Section -->
-        <section class="section member-section">
+        <section class="section member-section" id="jenus-shrestha">
             <div class="member-content scroll-reveal-left">
                 <div class="member-header">
                     <h3>JENUS SHRESTHA</h3>
@@ -602,7 +602,7 @@
         </section>
 
         <!-- Carolynn Section -->
-        <section class="section member-section">
+        <section class="section member-section" id="carolynn-calin">
             <div class="member-content scroll-reveal-right">
                 <div class="member-header">
                     <h3>CAROLYNN CALIN</h3>
@@ -624,7 +624,7 @@
         </section>
 
         <!-- Aiden Section -->
-        <section class="section member-section">
+        <section class="section member-section" id="aiden-kochanowski">
             <div class="member-content scroll-reveal-left">
                 <div class="member-header">
                     <h3>AIDEN KOCHANOWSKI</h3>
@@ -639,11 +639,11 @@
                     </p>
                 </div>
             </div>
-            <img src="https://cdn.theunseenhours.org/aiden1.jpeg" alt="Aiden Kochanowski" class="member-image scroll-reveal-right">
+            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/48d3c2f8-e1de-4e96-bd01-3ba923a20523/C35A1579.jpeg?format=2500w" alt="Aiden Kochanowski" class="member-image scroll-reveal-right">
         </section>
 
         <!-- Rafael Section -->
-        <section class="section member-section">
+        <section class="section member-section" id="rafael-deleon">
             <div class="member-content scroll-reveal-right">
                 <div class="member-header">
                     <h3>RAFAEL DELEON</h3>
@@ -749,9 +749,40 @@
             }
         }
 
+        // Function to handle URL-based navigation
+        function handleUrlNavigation() {
+            const path = window.location.pathname;
+            const hash = window.location.hash;
+            const pathParts = path.split('/');
+            
+            // Check if the URL matches the pattern /about-us/[member-name]
+            if (pathParts.length >= 3 && pathParts[1] === 'about-us') {
+                const memberName = pathParts[2];
+                const memberSection = document.getElementById(memberName);
+                
+                if (memberSection) {
+                    // Wait for page to fully load
+                    setTimeout(() => {
+                        memberSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                }
+            }
+            
+            // Alternative: Handle hash-based navigation (e.g., /about-us.html#jenus-shrestha)
+            if (hash) {
+                const memberSection = document.querySelector(hash);
+                if (memberSection) {
+                    setTimeout(() => {
+                        memberSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 500);
+                }
+            }
+        }
+
         // Initialize the about us controller
         document.addEventListener('DOMContentLoaded', () => {
             new AboutUsController();
+            handleUrlNavigation();
         });
 
         // Auto-hide scroll indicator after 5 seconds
