@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall of the Unseen - The Unseen Hours</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --beige-50: #FEFCF7;
+            --beige-100: #F7F3E9;
+            --beige-200: #F0E6D2;
+            --beige-300: #E8D5B7;
+            --brown-400: #A67C52;
+            --brown-500: #8B6914;
+            --brown-600: #7A5A0F;
+            --brown-700: #5D4A0F;
+            --brown-900: #3D2F0A;
+            --sage-500: #7A8471;
+            --sage-600: #6B7562;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-copper: #B87333;
+        }
+
+        body {
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--charcoal);
+            background: linear-gradient(to bottom right, var(--beige-50), var(--beige-100), var(--beige-200));
+            min-height: 100vh;
+        }
+
+        /* Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B6914' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 105, 20, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2rem;
+            color: var(--brown-600);
+            margin: 0;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--brown-500);
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--brown-600);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.2s;
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Instructions Banner */
+        .instructions {
+            background: linear-gradient(to right, var(--sage-500), var(--sage-600));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .instructions-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .instructions button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .instructions button:hover {
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(139, 105, 20, 0.1);
+            border: 1px solid rgba(139, 105, 20, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .input-header h2 {
+            font-size: 1.25rem;
+            color: var(--brown-600);
+            margin: 0;
+        }
+
+        .input-header p {
+            font-size: 0.9rem;
+            color: var(--brown-500);
+            margin: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--beige-50);
+            border: 1px solid var(--beige-300);
+            border-radius: 0.75rem;
+            resize: none;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .anonymous-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--brown-500);
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .post-count {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--brown-600);
+            font-size: 0.9rem;
+        }
+
+        .filter-btn {
+            background: white;
+            color: var(--brown-600);
+            border: 1px solid var(--beige-300);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: var(--brown-600);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Posts Grid */
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(139, 105, 20, 0.1);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(139, 105, 20, 0.15);
+        }
+
+        .post-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 3rem;
+            color: rgba(212, 175, 55, 0.2);
+            font-family: 'Crimson Text', serif;
+        }
+
+        .post-text {
+            color: var(--brown-700);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: var(--brown-500);
+        }
+
+        .like-btn {
+            background: var(--beige-100);
+            color: var(--brown-600);
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.2s;
+        }
+
+        .like-btn:hover {
+            background: var(--beige-200);
+        }
+
+        .like-btn.liked {
+            background: #FFE4E1;
+            color: #E91E63;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--brown-600);
+        }
+
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+            font-size: 2rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error-message {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            color: #DC2626;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* Support Message */
+        .support-message {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .support-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            color: var(--brown-600);
+            font-weight: 500;
+        }
+
+        /* Animations */
+        @keyframes glow {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            50% { box-shadow: 0 0 20px 10px rgba(212, 175, 55, 0.2); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+
+        .glow {
+            animation: glow 2s ease-in-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                display: none;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .input-section {
+                padding: 1.5rem;
+            }
+
+            .posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>Wall of the Unseen</h1>
+                <p>Anonymous voices, shared struggles, collective strength</p>
+            </div>
+            <button class="close-btn" onclick="window.location.href='index.html'">✕</button>
+        </div>
+    </header>
+
+    <!-- Instructions Banner -->
+    <div class="instructions" id="instructions">
+        <div class="instructions-content">
+            <span>🛡️</span>
+            <span>Your identity is completely anonymous. Share freely, support others.</span>
+        </div>
+        <button onclick="document.getElementById('instructions').style.display='none'">✕</button>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-header">
+                <div class="icon-circle">👁️</div>
+                <div>
+                    <h2>No one knows I struggle with...</h2>
+                    <p>Your words matter. Your struggles are valid. You're not alone.</p>
+                </div>
+            </div>
+
+            <textarea 
+                id="postInput" 
+                placeholder="Type your struggle here... (max 100 characters)"
+                maxlength="100"
+                rows="3"
+            ></textarea>
+            <div style="text-align: right; font-size: 0.8rem; color: var(--brown-400); margin-top: 0.5rem;">
+                <span id="charCount">0</span>/100
+            </div>
+
+            <div class="input-footer">
+                <div class="anonymous-badge">
+                    <span>🛡️</span>
+                    <span>100% Anonymous</span>
+                </div>
+                <button class="submit-btn" id="submitBtn" onclick="submitPost()">
+                    <span id="submitText">Share</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="post-count">
+                <span>✨</span>
+                <span id="postCount">0 shared struggles</span>
+            </div>
+            <button class="filter-btn" id="filterBtn" onclick="toggleFilter()">
+                <span>❤️</span>
+                <span id="filterText">Recent First</span>
+            </button>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-grid" id="postsGrid">
+            <div class="loading">
+                <div class="loading-spinner">⟳</div>
+                <p>Loading struggles...</p>
+            </div>
+        </div>
+
+        <!-- Support Message -->
+        <div class="support-message">
+            <div class="support-badge">
+                <span>⚠️</span>
+                <span>Need immediate support? Call 988 or text HOME to 741741</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Load Firebase Config (this file is not committed to git) -->
+    <script src="firebase-config.js"></script>
+    
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js';
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            onSnapshot, 
+            query, 
+            orderBy, 
+            updateDoc, 
+            doc, 
+            serverTimestamp 
+        } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js';
+
+        // Check if config exists
+        if (typeof window.FIREBASE_CONFIG === 'undefined') {
+            document.getElementById('postsGrid').innerHTML = `
+                <div class="error-message" style="grid-column: 1/-1;">
+                    <h3>Configuration Error</h3>
+                    <p>Firebase configuration not found. Please create firebase-config.js with your Firebase credentials.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">See firebase-config.example.js for the template.</p>
+                </div>
+            `;
+            throw new Error('Firebase config not found');
+        }
+
+        // Initialize Firebase with the loaded config
+        const app = initializeApp(window.FIREBASE_CONFIG);
+        const db = getFirestore(app);
+
+        // Global variables
+        let posts = [];
+        let filterActive = false;
+        let likedPosts = new Set(JSON.parse(localStorage.getItem('wallOfUnseenLikedPosts') || '[]'));
+
+        // Character counter
+        const postInput = document.getElementById('postInput');
+        const charCount = document.getElementById('charCount');
+        
+        postInput.addEventListener('input', (e) => {
+            charCount.textContent = e.target.value.length;
+        });
+
+        // Submit post
+        window.submitPost = async function() {
+            const text = postInput.value.trim();
+            if (!text || text.length > 100) return;
+
+            const submitBtn = document.getElementById('submitBtn');
+            const submitText = document.getElementById('submitText');
+            
+            submitBtn.disabled = true;
+            submitText.textContent = 'Posting...';
+
+            try {
+                await addDoc(collection(db, 'struggles'), {
+                    text: text,
+                    likes: 0,
+                    createdAt: serverTimestamp()
+                });
+
+                postInput.value = '';
+                charCount.textContent = '0';
+            } catch (error) {
+                console.error('Error adding post:', error);
+                alert('Failed to share. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitText.textContent = 'Share';
+            }
+        };
+
+        // Toggle filter
+        window.toggleFilter = function() {
+            filterActive = !filterActive;
+            const filterBtn = document.getElementById('filterBtn');
+            const filterText = document.getElementById('filterText');
+            
+            filterBtn.classList.toggle('active');
+            filterText.textContent = filterActive ? 'Most Supported' : 'Recent First';
+            
+            renderPosts();
+        };
+
+        // Like post
+        window.likePost = async function(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (!post) return;
+
+            const isLiked = likedPosts.has(postId);
+            
+            if (isLiked) {
+                likedPosts.delete(postId);
+            } else {
+                likedPosts.add(postId);
+            }
+            
+            localStorage.setItem('wallOfUnseenLikedPosts', JSON.stringify([...likedPosts]));
+
+            try {
+                await updateDoc(doc(db, 'struggles', postId), {
+                    likes: post.likes + (isLiked ? -1 : 1)
+                });
+            } catch (error) {
+                console.error('Error updating likes:', error);
+                // Revert on error
+                if (isLiked) {
+                    likedPosts.add(postId);
+                } else {
+                    likedPosts.delete(postId);
+                }
+                localStorage.setItem('wallOfUnseenLikedPosts', JSON.stringify([...likedPosts]));
+            }
+        };
+
+        // Time ago function
+        function getTimeAgo(timestamp) {
+            const seconds = Math.floor((Date.now() - timestamp) / 1000);
+            if (seconds < 60) return 'just now';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            const days = Math.floor(hours / 24);
+            return `${days}d ago`;
+        }
+
+        // Render posts
+        function renderPosts() {
+            const postsGrid = document.getElementById('postsGrid');
+            const postCount = document.getElementById('postCount');
+            
+            postCount.textContent = `${posts.length} shared struggles`;
+
+            const sortedPosts = filterActive 
+                ? [...posts].sort((a, b) => b.likes - a.likes)
+                : posts;
+
+            if (sortedPosts.length === 0) {
+                postsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                        <p style="color: var(--brown-600); font-size: 1.1rem; margin-bottom: 0.5rem;">
+                            Be the first to share your struggle.
+                        </p>
+                        <p style="color: var(--brown-500);">
+                            Your voice matters. Start the conversation.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            postsGrid.innerHTML = sortedPosts.map(post => `
+                <div class="post-card" id="post-${post.id}">
+                    <p class="post-text">No one knows I struggle with ${post.text}</p>
+                    <div class="post-footer">
+                        <span class="post-time">${getTimeAgo(post.timestamp)}</span>
+                        <button class="like-btn ${likedPosts.has(post.id) ? 'liked' : ''}" 
+                                onclick="likePost('${post.id}')">
+                            <span>${likedPosts.has(post.id) ? '❤️' : '🤍'}</span>
+                            <span>${post.likes}</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Listen to posts
+        const postsQuery = query(
+            collection(db, 'struggles'), 
+            orderBy('createdAt', 'desc')
+        );
+
+        onSnapshot(postsQuery, (snapshot) => {
+            posts = [];
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                posts.push({
+                    id: doc.id,
+                    ...data,
+                    timestamp: data.createdAt?.toMillis() || Date.now()
+                });
+            });
+            renderPosts();
+        }, (error) => {
+            console.error('Error listening to posts:', error);
+            document.getElementById('postsGrid').innerHTML = `
+                <div class="error-message" style="grid-column: 1/-1;">
+                    <h3>Connection Error</h3>
+                    <p>Unable to connect to the database. Please check your internet connection and try again.</p>
+                </div>
+            `;
+        });
+
+        // Enter key to submit
+        postInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                submitPost();
+            }
+        });
+    </script>
+</body>
+</html>
