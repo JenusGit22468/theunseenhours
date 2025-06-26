@@ -510,7 +510,7 @@
     </main>
 
     <!-- Load Firebase Config (this file is not committed to git) -->
-    <script src="firebase-config.js"></script>
+    <script src="firebase.js"></script>
     
     <!-- Firebase Scripts -->
     <script type="module">
@@ -532,8 +532,8 @@
             document.getElementById('postsGrid').innerHTML = `
                 <div class="error-message" style="grid-column: 1/-1;">
                     <h3>Configuration Error</h3>
-                    <p>Firebase configuration not found. Please create firebase-config.js with your Firebase credentials.</p>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">See firebase-config.example.js for the template.</p>
+                    <p>Firebase configuration not found. Please create firebase.js with your Firebase credentials.</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">See firebase.js for the template.</p>
                 </div>
             `;
             throw new Error('Firebase config not found');
