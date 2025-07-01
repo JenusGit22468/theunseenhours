@@ -616,22 +616,26 @@
             backdrop-filter: blur(20px);
             opacity: 0;
             transition: opacity 0.4s ease;
+            overflow-y: auto; /* Allow modal to scroll */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         }
 
         .modal--active {
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Change from center to flex-start */
             justify-content: center;
             opacity: 1;
+            padding: var(--space-lg) 0; /* Add padding for scrolling */
         }
 
         .modal__content {
             background: var(--color-neutral-50);
             max-width: 1200px;
             width: 95%;
-            max-height: 95vh;
+            max-height: none; /* Remove height restriction */
+            margin: auto 0; /* Center vertically when content is smaller */
             border-radius: var(--radius-xl);
-            overflow: hidden;
+            overflow: visible; /* Allow content to be visible */
             position: relative;
             animation: modalSlideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             box-shadow: 
@@ -639,7 +643,7 @@
                 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
             display: grid;
             grid-template-columns: 400px 1fr;
-            min-height: 600px;
+            min-height: auto;
         }
 
         @keyframes modalSlideIn {
@@ -722,10 +726,10 @@
 
         .modal__body {
             padding: var(--space-2xl);
-            overflow-y: auto;
+            overflow-y: visible; /* Remove scroll from body */
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Align content to top */
             background: var(--color-neutral-50);
             position: relative;
         }
@@ -909,6 +913,17 @@
         }
 
         @media (max-width: 768px) {
+            .modal {
+                padding: 0;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .modal--active {
+                align-items: flex-start;
+                padding-top: var(--space-md);
+                padding-bottom: var(--space-md);
+            }
             .nav__mobile-toggle {
                 display: flex;
             }
@@ -941,22 +956,31 @@
 
             .modal__content {
                 width: 95%;
-                margin: var(--space-sm);
+                margin: var(--space-sm) auto;
                 grid-template-columns: 1fr;
                 min-height: auto;
+                max-height: none; /* Remove height restriction */
+                overflow: visible; /* Allow content to be visible */
+                display: flex;
+                flex-direction: column;
             }
 
             .modal__header {
                 padding: var(--space-md);
+                flex-shrink: 0; /* Prevent header from shrinking */
             }
 
             .modal__image {
-                max-width: 250px;
-                max-height: 300px;
+                max-width: 200px;
+                max-height: 250px;
             }
 
             .modal__body {
                 padding: var(--space-lg);
+                overflow-y: visible;
+                flex: 1;
+                min-height: auto;
+                justify-content: flex-start;
             }
 
             .footer__links {
@@ -978,8 +1002,39 @@
                 padding: 80px var(--space-sm);
             }
 
+            .modal__content {
+                width: 90%;
+                margin: var(--space-sm) auto;
+                max-height: none;
+                overflow: visible;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .modal__header {
+                padding: var(--space-sm);
+                flex-shrink: 0;
+            }
+
+            .modal__image {
+                max-width: 180px;
+                max-height: 200px;
+            }
+
             .modal__body {
                 padding: var(--space-md);
+                overflow-y: visible;
+                flex: 1;
+                min-height: auto;
+                justify-content: flex-start;
+            }
+
+            .modal__name {
+                font-size: 1.8rem;
+            }
+
+            .modal--active {
+                padding: var(--space-sm) 0;
             }
         }
 
@@ -1258,6 +1313,7 @@
             // Show modal with accessibility improvements
             modal.classList.add('modal--active');
             document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none'; // Prevent iOS bounce scrolling
             
             // Focus management for accessibility
             modal.focus();
@@ -1267,6 +1323,7 @@
             const modal = document.getElementById('memberModal');
             modal.classList.remove('modal--active');
             document.body.style.overflow = 'auto';
+            document.body.style.touchAction = 'auto'; // Restore normal touch behavior
         }
 
         // Enhanced event delegation for better performance
