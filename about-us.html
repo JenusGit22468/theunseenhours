@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The Unseen Hours</title>
+    <meta name="description" content="Meet the team behind The Unseen Hours - a mental health support community founded at Michigan State University.">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.theunseenhours.org">
+    <link rel="preconnect" href="https://images.squarespace-cdn.com">
+    
+    <!-- Fonts with display=swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           CSS Custom Properties (Design Tokens)
+           ========================================================================== */
+        :root {
+            /* Colors */
+            --color-neutral-50: #FEFCF7;
+            --color-neutral-100: #F7F3E9;
+            --color-neutral-200: #F0E6D2;
+            --color-neutral-300: #E8D5B7;
+            --color-brown-600: #7A5A0F;
+            --color-brown-700: #5D4A0F;
+            --color-sage-600: #6B7562;
+            --color-sage-700: #4A5D41;
+            --color-sage-900: #2D3A28;
+            --color-charcoal: #1A1A1A;
+            --color-charcoal-light: #2A2A2A;
+            --color-accent-copper: #B87333;
+            
+            /* Glass Effects */
+            --glass-background: rgba(254, 252, 247, 0.85);
+            --glass-border: rgba(139, 105, 20, 0.15);
+            
+            /* Shadows */
+            --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.04);
+            --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.08);
+            --shadow-strong: 0 16px 64px rgba(0, 0, 0, 0.12);
+            
+            /* Typography */
+            --font-primary: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: 'Crimson Text', serif;
+            
+            /* Spacing Scale */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 1.5rem;
+            --space-lg: 2rem;
+            --space-xl: 3rem;
+            --space-2xl: 4rem;
+            --space-3xl: 6rem;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-full: 9999px;
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.3s ease;
+            --transition-slow: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            
+            /* Layout */
+            --container-max-width: 1400px;
+            --content-max-width: 1200px;
+        }
+
+        /* ==========================================================================
+           Base Styles
+           ========================================================================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            color: var(--color-charcoal);
+            background: var(--color-neutral-50);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ==========================================================================
+           Navigation Component
+           ========================================================================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav__container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav__logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-brown-700);
+            text-decoration: none;
+            transition: var(--transition-base);
+        }
+
+        .nav__logo:hover {
+            color: var(--color-accent-copper);
+            transform: translateY(-1px);
+        }
+
+        .nav__links {
+            display: flex;
+            gap: var(--space-xl);
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav__link {
+            color: var(--color-charcoal);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition-slow);
+        }
+
+        .nav__link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-brown-600), var(--color-accent-copper));
+            transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav__link:hover::after {
+            width: 100%;
+        }
+
+        .nav__cta {
+            background: linear-gradient(135deg, var(--color-brown-600), var(--color-brown-700));
+            color: var(--color-neutral-50);
+            padding: var(--space-xs) var(--space-lg);
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-slow);
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav__cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            background: linear-gradient(135deg, var(--color-brown-700), var(--color-sage-700));
+        }
+
+        /* Mobile Navigation */
+        .nav__mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: var(--space-xs);
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav__mobile-toggle span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: var(--color-charcoal);
+            transition: var(--transition-base);
+            border-radius: 1px;
+        }
+
+        /* ==========================================================================
+           Hero Section
+           ========================================================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(139, 105, 20, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(74, 93, 65, 0.03) 0%, transparent 50%),
+                var(--color-neutral-50);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.015"/></svg>');
+            z-index: 1;
+        }
+
+        .hero__container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--color-brown-600);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--shadow-soft);
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+        }
+
+        .hero__title {
+            font-family: var(--font-serif);
+            font-size: clamp(3.5rem, 8vw, 6.5rem);
+            font-weight: 600;
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-lg);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+        }
+
+        .hero__subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+            color: var(--color-charcoal-light);
+            max-width: 800px;
+            margin: 0 auto var(--space-xl);
+            line-height: 1.7;
+            font-weight: 400;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================================================
+           Team Section
+           ========================================================================== */
+        .team {
+            padding: 120px var(--space-lg);
+            background: linear-gradient(180deg, var(--color-neutral-50) 0%, var(--color-neutral-100) 100%);
+            position: relative;
+        }
+
+        .team__container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+        }
+
+        .team__header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .team__title {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-md);
+            font-weight: 600;
+        }
+
+        .team__subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--color-charcoal-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .team__highlight {
+            font-family: var(--font-serif);
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            color: var(--color-brown-600);
+            font-weight: 500;
+            font-style: italic;
+            margin: var(--space-lg) 0;
+            display: block;
+        }
+
+        /* ==========================================================================
+           Faculty Card Component
+           ========================================================================== */
+        .faculty {
+            margin-bottom: var(--space-3xl);
+        }
+
+        .faculty__card {
+            background: var(--glass-background);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            max-width: 1000px;
+            margin: 0 auto;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition-slow);
+            position: relative;
+        }
+
+        .faculty__card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(139, 105, 20, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .faculty__card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .faculty__card:hover::before {
+            opacity: 1;
+        }
+
+        .faculty__content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            align-items: center;
+            gap: var(--space-2xl);
+            padding: var(--space-xl);
+        }
+
+        .faculty__image-container {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            background: var(--color-sage-900);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .faculty__image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center center;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            background: var(--color-neutral-100);
+        }
+
+        .faculty__card:hover .faculty__image {
+            transform: scale(1.05);
+        }
+
+        .faculty__info {
+            position: relative;
+            z-index: 1;
+        }
+
+        .faculty__badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-sage-600), var(--color-sage-700));
+            color: var(--color-neutral-50);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-md);
+        }
+
+        .faculty__name {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-xs);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .faculty__affiliation {
+            font-size: 1rem;
+            color: var(--color-charcoal-light);
+            font-style: italic;
+            margin-bottom: var(--space-lg);
+            line-height: 1.6;
+        }
+
+        .faculty__bio {
+            color: var(--color-charcoal-light);
+            line-height: 1.8;
+            font-size: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .faculty__link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--color-brown-600);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: var(--space-md);
+            cursor: pointer;
+            transition: var(--transition-base);
+            text-decoration: none;
+        }
+
+        .faculty__link:hover {
+            gap: var(--space-sm);
+            color: var(--color-accent-copper);
+        }
+
+        .faculty__link::after {
+            content: '→';
+            transition: transform var(--transition-base);
+        }
+
+        .faculty__link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* ==========================================================================
+           Leadership Grid Component
+           ========================================================================== */
+        .leadership__title {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-charcoal);
+            text-align: center;
+            margin-bottom: var(--space-xl);
+            font-weight: 600;
+        }
+
+        .leadership__grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        .member-card {
+            background: var(--glass-background);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            overflow: hidden;
+            transition: var(--transition-slow);
+            cursor: pointer;
+            position: relative;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(139, 105, 20, 0.03));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .member-card:hover {
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-strong);
+        }
+
+        .member-card:hover::before {
+            opacity: 1;
+        }
+
+        .member-card__image-container {
+            position: relative;
+            height: 420px;
+            overflow: hidden;
+            background: var(--color-sage-900);
+        }
+
+        .member-card__image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center center;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            background: var(--color-neutral-100);
+        }
+
+        .member-card__image--aiden {
+            object-position: center center;
+        }
+
+        .member-card:hover .member-card__image {
+            transform: scale(1.08);
+        }
+
+        .member-card__info {
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .member-card__role {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-brown-600), var(--color-brown-700));
+            color: var(--color-neutral-50);
+            padding: 0.4rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .member-card__name {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .member-card__bio {
+            color: var(--color-charcoal-light);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: var(--space-md);
+        }
+
+        /* ==========================================================================
+           Modal Component
+           ========================================================================== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal--active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+        }
+
+        .modal__content {
+            background: var(--color-neutral-50);
+            max-width: 1200px;
+            width: 95%;
+            max-height: 95vh;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+            animation: modalSlideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 
+                0 32px 80px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            min-height: 600px;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(30px);
+                filter: blur(4px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        .modal__header {
+            position: relative;
+            background: linear-gradient(145deg, var(--color-sage-700), var(--color-sage-900));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-lg);
+            overflow: hidden;
+        }
+
+        .modal__header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .modal__image {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            border: 3px solid rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            position: relative;
+            z-index: 2;
+            background: var(--color-neutral-50);
+        }
+
+        .modal__image--aiden {
+            object-position: center center;
+        }
+
+        .modal__close {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 10;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-charcoal);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal__close:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: rotate(90deg) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal__body {
+            padding: var(--space-2xl);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--color-neutral-50);
+            position: relative;
+        }
+
+        .modal__body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--color-brown-600), var(--color-sage-600));
+            border-radius: 0 2px 2px 0;
+        }
+
+        .modal__name {
+            font-family: var(--font-serif);
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            color: var(--color-charcoal);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .modal__role {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-brown-600), var(--color-brown-700));
+            color: var(--color-neutral-50);
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: var(--space-xl);
+            box-shadow: 0 2px 8px rgba(122, 90, 15, 0.3);
+        }
+
+        .modal__bio {
+            color: var(--color-charcoal-light);
+            line-height: 1.75;
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        .modal__bio p {
+            margin-bottom: var(--space-lg);
+        }
+
+        .modal__bio p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ==========================================================================
+           CTA Section
+           ========================================================================== */
+        .cta {
+            padding: 120px var(--space-lg);
+            background: linear-gradient(135deg, var(--color-sage-700) 0%, var(--color-sage-900) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.04"/></svg>');
+        }
+
+        .cta__container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta__title {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--color-neutral-50);
+            margin-bottom: var(--space-lg);
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .cta__text {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: var(--color-neutral-200);
+            margin-bottom: var(--space-lg);
+            line-height: 1.7;
+        }
+
+        .cta__button {
+            display: inline-block;
+            background: var(--color-neutral-50);
+            color: var(--color-sage-700);
+            padding: 1.2rem 3rem;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition-slow);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .cta__button:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+            background: var(--color-neutral-200);
+        }
+
+        /* ==========================================================================
+           Footer Component
+           ========================================================================== */
+        .footer {
+            background: var(--color-charcoal);
+            color: var(--color-neutral-200);
+            padding: var(--space-2xl) var(--space-lg);
+            text-align: center;
+        }
+
+        .footer__container {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+        }
+
+        .footer__logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: var(--space-md);
+            color: var(--color-neutral-100);
+            font-weight: 600;
+        }
+
+        .footer__links {
+            display: flex;
+            gap: var(--space-xl);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--space-lg);
+            list-style: none;
+        }
+
+        .footer__link {
+            color: var(--color-neutral-300);
+            text-decoration: none;
+            transition: var(--transition-base);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .footer__link:hover {
+            color: var(--color-neutral-50);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           Responsive Design
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .faculty__content {
+                grid-template-columns: 1fr;
+                gap: var(--space-xl);
+                text-align: center;
+            }
+
+            .faculty__image-container {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .leadership__grid {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+                gap: var(--space-xl);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav__mobile-toggle {
+                display: flex;
+            }
+
+            .nav__links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: var(--color-neutral-50);
+                flex-direction: column;
+                justify-content: center;
+                gap: var(--space-lg);
+                transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                z-index: 999;
+            }
+
+            .nav__links--active {
+                left: 0;
+            }
+
+            .nav__link {
+                font-size: 1.5rem;
+            }
+
+            .member-card__image-container {
+                height: 350px;
+            }
+
+            .modal__content {
+                width: 95%;
+                margin: var(--space-sm);
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .modal__header {
+                padding: var(--space-md);
+            }
+
+            .modal__image {
+                max-width: 250px;
+                max-height: 300px;
+            }
+
+            .modal__body {
+                padding: var(--space-lg);
+            }
+
+            .footer__links {
+                flex-direction: column;
+                gap: var(--space-md);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                padding: 0 var(--space-sm);
+            }
+
+            .team {
+                padding: 80px var(--space-sm);
+            }
+
+            .cta {
+                padding: 80px var(--space-sm);
+            }
+
+            .modal__body {
+                padding: var(--space-md);
+            }
+        }
+
+        /* ==========================================================================
+           Utility Classes for Animation and Interaction
+           ========================================================================== */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .scroll-reveal--visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+        <div class="nav__container">
+            <a href="https://theunseenhours.org" class="nav__logo" aria-label="The Unseen Hours homepage">The Unseen Hours</a>
+            <ul class="nav__links" id="navLinks">
+                <li><a href="https://theunseenhours.org" class="nav__link">Home</a></li>
+                <li><a href="#" class="nav__cta" onclick="showApplicationClosed(event)">Join Our Team</a></li>
+            </ul>
+            <button class="nav__mobile-toggle" id="mobileNavToggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero__container">
+            <div class="hero__badge" role="img" aria-label="Location badge">
+                <span>📍</span>
+                Michigan State University
+            </div>
+            <h1 class="hero__title">About Us</h1>
+            <p class="hero__subtitle">
+                Founded as a registered student organization at Michigan State University, we believe that some of the most powerful moments in life happen where no one is looking.
+            </p>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <main class="team" role="main">
+        <div class="team__container">
+            <header class="team__header">
+                <h2 class="team__title">Meet the Team</h2>
+                <span class="team__highlight">Here, your story matters. You matter.</span>
+                <p class="team__subtitle">
+                    Meet the people behind this idea and join a community built to honor every story.
+                </p>
+            </header>
+
+            <!-- Faculty Advisor -->
+            <section class="faculty" aria-labelledby="faculty-heading">
+                <div class="faculty__card scroll-reveal">
+                    <div class="faculty__content">
+                        <div class="faculty__image-container">
+                            <img src="https://cdn.theunseenhours.org/itziar.jpg" 
+                                 alt="Dr. Itziar Familiar, Faculty Advisor" 
+                                 class="faculty__image"
+                                 loading="lazy">
+                        </div>
+                        <div class="faculty__info">
+                            <div class="faculty__badge">Faculty Advisor</div>
+                            <h3 class="faculty__name" id="faculty-heading">Itziar Familiar, MD, MPH, PhD</h3>
+                            <p class="faculty__affiliation">
+                                Associate Professor, Department of Psychiatry<br>
+                                Michigan State University
+                            </p>
+                            <p class="faculty__bio">
+                                Dr. Familiar is a Medical Doctor from Mexico City with a Master's in Public Health and a PhD in Mental Health from Johns Hopkins. Her research focuses on global mental health issues, specifically in assessing depression and anxiety in conflict-affected settings and HIV-affected women.
+                            </p>
+                            <span class="faculty__link" onclick="openModal('familiar')" aria-label="View Dr. Familiar's full biography">
+                                View full bio
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leadership Team -->
+            <section class="leadership" aria-labelledby="leadership-heading">
+                <h3 class="leadership__title" id="leadership-heading">Leadership Team</h3>
+                <div class="leadership__grid">
+                    <article class="member-card scroll-reveal" onclick="openModal('jenus')" role="button" tabindex="0" aria-label="View Jenus Shrestha's biography">
+                        <div class="member-card__image-container">
+                            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/37793838-d891-43e6-b74b-4fcffbc4ca5e/Professional+Headshot.jpg?format=2500w" 
+                                 alt="Jenus Shrestha, Founder & President" 
+                                 class="member-card__image"
+                                 loading="lazy">
+                        </div>
+                        <div class="member-card__info">
+                            <div class="member-card__role">Founder & President</div>
+                            <h4 class="member-card__name">Jenus Shrestha</h4>
+                            <p class="member-card__bio">
+                                Founded The Unseen Hours with the belief that the work people do when no one is watching matters just as much as what the world celebrates.
+                            </p>
+                            <span class="faculty__link">View full bio</span>
+                        </div>
+                    </article>
+
+                    <article class="member-card scroll-reveal" onclick="openModal('aiden')" role="button" tabindex="0" aria-label="View Aiden Kochanowski's biography">
+                        <div class="member-card__image-container">
+                            <img src="https://cdn.theunseenhours.org/aiden1.jpeg" 
+                                 alt="Aiden Kochanowski, VP of Communications" 
+                                 class="member-card__image member-card__image--aiden"
+                                 loading="lazy">
+                        </div>
+                        <div class="member-card__info">
+                            <div class="member-card__role">VP of Communications</div>
+                            <h4 class="member-card__name">Aiden Kochanowski</h4>
+                            <p class="member-card__bio">
+                                A Pre-Physician Assistant student whose journey exemplifies the heart of The Unseen Hours through community service and healthcare.
+                            </p>
+                            <span class="faculty__link">View full bio</span>
+                        </div>
+                    </article>
+
+                    <article class="member-card scroll-reveal" onclick="openModal('carolynn')" role="button" tabindex="0" aria-label="View Carolynn Calin's biography">
+                        <div class="member-card__image-container">
+                            <img src="https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/b5b9c05d-f532-4bfa-9153-c75d7caa26e9/Photo.png?format=2500w" 
+                                 alt="Carolynn Calin, VP of Operations" 
+                                 class="member-card__image"
+                                 loading="lazy">
+                        </div>
+                        <div class="member-card__info">
+                            <div class="member-card__role">VP of Operations</div>
+                            <h4 class="member-card__name">Carolynn Calin</h4>
+                            <p class="member-card__bio">
+                                A senior in Biochemistry who serves as a phlebotomist and mentor, finding purpose in caring for patients and empowering students.
+                            </p>
+                            <span class="faculty__link">View full bio</span>
+                        </div>
+                    </article>
+
+                    <article class="member-card scroll-reveal" onclick="openModal('rafael')" role="button" tabindex="0" aria-label="View Rafael DeLeon's biography">
+                        <div class="member-card__image-container">
+                            <img src="https://cdn.theunseenhours.org/raf1.jpeg" 
+                                 alt="Rafael DeLeon, Treasurer" 
+                                 class="member-card__image"
+                                 loading="lazy">
+                        </div>
+                        <div class="member-card__info">
+                            <div class="member-card__role">Treasurer</div>
+                            <h4 class="member-card__name">Rafael DeLeon</h4>
+                            <p class="member-card__bio">
+                                A Pre-Med student who ensures finances are thoughtfully managed to support the community's vision of amplifying unseen efforts.
+                            </p>
+                            <span class="faculty__link">View full bio</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta" role="complementary">
+        <div class="cta__container">
+            <h2 class="cta__title">Join Our E-Board</h2>
+            <p class="cta__text">
+                Ready to make a difference in the lives of those fighting silent battles? We're always looking for passionate individuals who believe in the power of unseen moments and quiet triumphs.
+            </p>
+            <p class="cta__text">
+                If you're driven to create spaces where every story matters and every struggle is honored, we'd love to hear from you.
+            </p>
+            <a href="#" class="cta__button" onclick="showApplicationClosed(event)">Apply for E-Board</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="footer__container">
+            <div class="footer__logo">The Unseen Hours</div>
+            <ul class="footer__links">
+                <li><a href="#" class="footer__link" onclick="scrollToTop()">Back to Top</a></li>
+                <li><a href="#" class="footer__link" onclick="showApplicationClosed(event)">Join Us</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+        <div class="modal__content">
+            <div class="modal__header">
+                <img id="modalImage" src="" alt="" class="modal__image">
+                <button class="modal__close" onclick="closeModal()" aria-label="Close modal">✕</button>
+            </div>
+            <div class="modal__body">
+                <h2 id="modalName" class="modal__name"></h2>
+                <div id="modalRole" class="modal__role"></div>
+                <div id="modalBio" class="modal__bio"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Performance optimization: Use modern JavaScript features
+        const teamMembers = new Map([
+            ['familiar', {
+                name: "Dr. Itziar Familiar",
+                role: "Faculty Advisor",
+                image: "https://cdn.theunseenhours.org/itziar.jpg",
+                bio: `
+                    <p>Dr. Familiar is a Medical Doctor from Mexico City with a Master's in Public Health (National School of Public Health, Spain), and a PhD in Mental Health (Johns Hopkins Bloomberg School of Public Health, USA).</p>
+                    <p>Dr. Familiar's research focuses on global mental health issues, specifically in assessing depression and anxiety among adults in conflict-affected settings and in HIV-affected women, monitoring and evaluation of mental health interventions, and assessment of child neurodevelopment. She has conducted research in a wide range of countries (Uganda, Malawi, DR Congo, South Africa, Mexico, Nicaragua) ranging from qualitative studies to randomized clinical trials testing interventions.</p>
+                    <p>Dr. Familiar publishes extensively on mental health in international contexts including psychological distress, maternal mental health, and mental health issues in people living with HIV in top journals and regularly attends meetings to disseminate results. Her current projects focus on evaluating long-term impacts in mental health of a parenting skills program in DR Congo, and in testing interventions that support the psychological well-being of children and women affected by HIV in Sub-Saharan Africa.</p>
+                `
+            }],
+            ['jenus', {
+                name: "Jenus Shrestha",
+                role: "Founder & President",
+                image: "https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/37793838-d891-43e6-b74b-4fcffbc4ca5e/Professional+Headshot.jpg?format=2500w",
+                bio: `
+                    <p>Jenus founded The Unseen Hours with the fundamental belief that the work people do when no one is watching matters just as much as what the world celebrates. This philosophy was shaped by Jenus's experiences witnessing friends, family members, and patients struggle through difficult moments without recognition, revealing how often society overlooks the quiet, behind-the-scenes efforts that define resilience.</p>
+                    <p>As a Pre-Med student at Michigan State University's Lyman Briggs College, Jenus combines scientific training with a deep sense of empathy. His academic background and personal observations in both clinical and everyday settings inform a unique perspective on healing, growth, and the emotional strength built during life's most invisible challenges.</p>
+                    <p>Through this platform, Jenus hopes to build a community that honors resilience in all its forms and reminds people that every step taken in silence carries power, meaning, and hope.</p>
+                `
+            }],
+            ['aiden', {
+                name: "Aiden Kochanowski",
+                role: "VP of Communications",
+                image: "https://cdn.theunseenhours.org/aiden1.jpeg",
+                bio: `
+                    <p>Aiden is a Pre-Physician Assistant student at Michigan State University whose journey exemplifies the heart of The Unseen Hours. Driven by a deep-seated passion for healthcare and a commitment to community service, Aiden understands the importance of uplifting and empowering individuals navigating their own quiet battles. Through hands-on experiences working in healthcare and community center settings, he has witnessed firsthand the strength and resilience required in moments that often go unseen.</p>
+                    <p>By highlighting stories of resilience and advocating for those whose struggles occur behind closed doors, Aiden cares for the essence of The Unseen Hours—celebrating every silent victory.</p>
+                `,
+                imageClass: "aiden"
+            }],
+            ['carolynn', {
+                name: "Carolynn Calin",
+                role: "VP of Operations",
+                image: "https://images.squarespace-cdn.com/content/v1/680d0ed16db21763dbd51a25/b5b9c05d-f532-4bfa-9153-c75d7caa26e9/Photo.png?format=2500w",
+                bio: `
+                    <p>Carolynn is a rising senior majoring in Biochemistry at Michigan State University's Lyman Briggs College. With a deep-rooted passion for community engagement and healthcare, Carolynn serves as a phlebotomist, where she finds purpose in directly caring for patients and connecting with individuals during vulnerable moments.</p>
+                    <p>Her love for mentorship is equally central to her identity. As an Undergraduate Learning Assistant (ULA), Carolynn guides students not only through academic challenges but also empowers them with lessons that extend beyond the classroom—lessons in perseverance, resilience, and self-belief. She strives to cultivate confidence in those around her, recognizing that the most meaningful support often comes in quiet, everyday moments of encouragement.</p>
+                    <p>Carolynn plans to attend medical school after graduation, where she hopes to continue serving others with empathy, compassion, and a deep appreciation for the quiet strength that defines many untold stories. Through her work with The Unseen Hours, she is committed to uplifting stories of resilience that unfold away from the spotlight, ensuring that no silent struggle or small victory goes unnoticed.</p>
+                `
+            }],
+            ['rafael', {
+                name: "Rafael DeLeon",
+                role: "Treasurer",
+                image: "https://cdn.theunseenhours.org/raf1.jpeg",
+                bio: `
+                    <p>Rafael is a Pre-Med student at Michigan State University with a strong interest in volunteer service, as well as financial systems and the role they play in building sustainable, mission-driven organizations. As the Treasurer of The Unseen Hours, Rafael ensures that all finances are thoughtfully managed to support the community's vision of amplifying the unseen efforts, quiet victories, and deeply personal journeys that define the heart of the club.</p>
+                    <p>Rooted in a deep sense of emotional awareness, Rafael approaches finances not just as a logistical task but as a form of service. He believes that the behind-the-scenes work is often where the most meaningful progress takes place. Through his role, Rafael hopes to contribute to a foundation of transparency, trust, and growth, helping The Unseen Hours continue to honor stories that are too often overlooked.</p>
+                `
+            }]
+        ]);
+
+        // Modal functionality with improved performance and accessibility
+        function openModal(memberId) {
+            const member = teamMembers.get(memberId);
+            if (!member) return;
+
+            const modal = document.getElementById('memberModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            // Update modal content
+            modalImage.src = member.image;
+            modalImage.alt = member.name;
+            modalImage.className = 'modal__image' + (member.imageClass ? ` modal__image--${member.imageClass}` : '');
+            
+            document.getElementById('modalName').textContent = member.name;
+            document.getElementById('modalRole').textContent = member.role;
+            document.getElementById('modalBio').innerHTML = member.bio;
+            
+            // Show modal with accessibility improvements
+            modal.classList.add('modal--active');
+            document.body.style.overflow = 'hidden';
+            
+            // Focus management for accessibility
+            modal.focus();
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('memberModal');
+            modal.classList.remove('modal--active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Enhanced event delegation for better performance
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('memberModal');
+            
+            // Close modal on background click
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard navigation for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Mobile navigation with improved UX
+        const mobileNavToggle = document.getElementById('mobileNavToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileNavToggle?.addEventListener('click', () => {
+            const isActive = navLinks.classList.toggle('nav__links--active');
+            mobileNavToggle.setAttribute('aria-expanded', isActive.toString());
+        });
+
+        // Close mobile nav when clicking a link
+        navLinks?.addEventListener('click', (e) => {
+            if (e.target.classList.contains('nav__link')) {
+                navLinks.classList.remove('nav__links--active');
+                mobileNavToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Enhanced scroll effects with Intersection Observer for better performance
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scroll-reveal--visible');
+                }
+            });
+        }, observerOptions);
+
+        // Navigation scroll effect with throttling
+        let isScrolling = false;
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
+                requestAnimationFrame(() => {
+                    const nav = document.querySelector('.nav');
+                    const currentScroll = window.pageYOffset;
+                    
+                    if (currentScroll > 100) {
+                        nav.style.background = 'rgba(254, 252, 247, 0.95)';
+                        nav.style.boxShadow = '0 4px 32px rgba(0, 0, 0, 0.08)';
+                    } else {
+                        nav.style.background = 'var(--glass-background)';
+                        nav.style.boxShadow = 'none';
+                    }
+                    
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        });
+
+        // Application closed modal with improved UX
+        function showApplicationClosed(e) {
+            e.preventDefault();
+            
+            const alertModal = document.createElement('div');
+            alertModal.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 3000;
+                    backdrop-filter: blur(10px);
+                    animation: fadeIn 0.3s ease;
+                ">
+                    <div style="
+                        background: var(--color-neutral-50);
+                        padding: var(--space-xl);
+                        border-radius: var(--radius-lg);
+                        text-align: center;
+                        max-width: 500px;
+                        margin: var(--space-lg);
+                        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.3);
+                        animation: slideInScale 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                    ">
+                        <h3 style="
+                            font-family: var(--font-serif);
+                            font-size: 2rem;
+                            color: var(--color-charcoal);
+                            margin-bottom: var(--space-sm);
+                        ">Applications Currently Closed</h3>
+                        <p style="
+                            color: var(--color-charcoal-light);
+                            margin-bottom: var(--space-lg);
+                            line-height: 1.6;
+                        ">Follow our socials to get notified when applications open!</p>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: var(--color-brown-600);
+                            color: var(--color-neutral-50);
+                            border: none;
+                            padding: var(--space-xs) var(--space-lg);
+                            border-radius: var(--radius-full);
+                            cursor: pointer;
+                            font-weight: 600;
+                            transition: var(--transition-base);
+                        " onmouseover="this.style.background='var(--color-brown-700)'" onmouseout="this.style.background='var(--color-brown-600)'">Got it</button>
+                    </div>
+                </div>
+                <style>
+                    @keyframes fadeIn {
+                        from { opacity: 0; }
+                        to { opacity: 1; }
+                    }
+                    @keyframes slideInScale {
+                        from { 
+                            opacity: 0; 
+                            transform: scale(0.9) translateY(20px); 
+                        }
+                        to { 
+                            opacity: 1; 
+                            transform: scale(1) translateY(0); 
+                        }
+                    }
+                </style>
+            `;
+            document.body.appendChild(alertModal);
+        }
+
+        // Initialize scroll reveal animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            revealElements.forEach(el => scrollObserver.observe(el));
+        });
+
+        // Add keyboard navigation for member cards
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const target = e.target;
+                if (target.classList.contains('member-card')) {
+                    e.preventDefault();
+                    target.click();
+                }
+            }
+        });
+
+        // Smooth scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
