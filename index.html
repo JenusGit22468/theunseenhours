@@ -77,149 +77,6 @@
         }
 
         /* Welcome Screen */
-        .welcome-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--sage-700) 0%, var(--sage-900) 100%);
-            z-index: 10002; /* Higher than awareness popup */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .welcome-overlay::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.03"/></svg>');
-        }
-
-        .welcome-overlay.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .welcome-content {
-            text-align: center;
-            max-width: 700px;
-            padding: 3rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .welcome-content::before {
-            content: '';
-            position: absolute;
-            inset: -2rem;
-            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.1), transparent);
-            border-radius: 2rem;
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes welcomeFadeUp {
-            0% { 
-                opacity: 0; 
-                transform: translateY(60px) scale(0.95);
-                filter: blur(10px);
-            }
-            50% {
-                opacity: 0.7;
-                transform: translateY(20px) scale(0.98);
-                filter: blur(2px);
-            }
-            100% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1);
-                filter: blur(0px);
-            }
-        }
-
-        @keyframes welcomeGlow {
-            0%, 100% { 
-                text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-            }
-            50% { 
-                text-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 60px rgba(212, 175, 55, 0.4);
-            }
-        }
-
-        @keyframes shimmer {
-            0% { 
-                opacity: 0; 
-                transform: translateX(-200%) skewX(-20deg); 
-            }
-            50% { 
-                opacity: 1; 
-                transform: translateX(0%) skewX(-20deg); 
-            }
-            100% { 
-                opacity: 0; 
-                transform: translateX(200%) skewX(-20deg); 
-            }
-        }
-
-        .welcome-content h1 {
-            font-family: 'Crimson Text', serif;
-            font-size: clamp(3rem, 6vw, 5rem);
-            font-weight: 600;
-            color: var(--beige-50);
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-            opacity: 0;
-            transform: translateY(60px) scale(0.95);
-            animation: welcomeFadeUp 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards,
-                       welcomeGlow 3s ease-in-out 1.5s infinite;
-        }
-
-        .welcome-content p {
-            font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-            color: rgba(254, 252, 247, 0.85);
-            margin-bottom: 3rem;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            animation: welcomeFadeUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.7s forwards;
-        }
-
-        .welcome-btn {
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
-            color: var(--brown-900);
-            border: none;
-            padding: 1.25rem 3rem;
-            border-radius: 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            transform: translateY(40px) scale(0.9);
-            animation: welcomeFadeUp 1.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.1s forwards;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .welcome-btn:hover::before {
-            transform: translateX(100%);
-        }
-
-        .welcome-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
-        }
 
 
         /* Header - Bottom Navigation */
@@ -228,8 +85,8 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            max-width: 1200px;
+            width: 75%;
+            max-width: 1000px;
             background: rgba(254, 252, 247, 0.85);
             backdrop-filter: blur(30px);
             border: 1px solid rgba(139, 105, 20, 0.15);
@@ -277,14 +134,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            max-width: 1600px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1.5rem 2.5rem;
+            padding: 1rem 2rem;
             position: relative;
         }
 
         .header.sticky .nav {
-            padding: 1.2rem 2rem;
+            padding: 0.8rem 1.5rem;
         }
 
         .logo {
@@ -315,7 +172,7 @@
         .nav-menu {
             display: flex;
             list-style: none;
-            gap: 0.5rem;
+            gap: 0.15rem;
             align-items: center;
         }
 
@@ -327,10 +184,10 @@
             color: var(--charcoal);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             position: relative;
             transition: all 0.3s ease;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 1.5rem;
             background: transparent;
         }
@@ -340,20 +197,27 @@
             color: var(--brown-600);
         }
 
-        /* Special Blogs Button Styling */
-        .blogs-btn {
+        /* Login Button Styling */
+        .login-item {
+            margin-left: 0.5rem;
+        }
+
+        .login-btn {
             background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
             color: var(--brown-900) !important;
             font-weight: 600;
+            padding: 0.45rem 1.2rem !important;
+            border-radius: 25px;
             transform: scale(1);
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(212, 175, 55, 0.25);
             position: relative;
             overflow: hidden;
             z-index: 1;
+            font-size: 0.9rem;
         }
 
-        .blogs-btn::before {
+        .login-btn::before {
             content: '';
             position: absolute;
             top: 0;
@@ -366,18 +230,18 @@
             z-index: -1;
         }
 
-        .blogs-btn:hover {
+        .login-btn:hover {
             background: linear-gradient(135deg, var(--brown-600), var(--brown-700)) !important;
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(139, 105, 20, 0.3);
             color: var(--beige-50) !important;
         }
 
-        .blogs-btn:hover::before {
+        .login-btn:hover::before {
             opacity: 1;
         }
 
-        .blogs-btn:active {
+        .login-btn:active {
             transform: translateY(0);
             transition: transform 0.1s ease;
         }
@@ -467,6 +331,33 @@
         .dropdown-links a:hover::before {
             opacity: 1;
             left: 0;
+        }
+
+        /* About TUH dropdown specific styling - smaller size */
+        .dropdown-about {
+            min-width: 250px !important;
+            padding: 1.5rem !important;
+        }
+
+        .dropdown-about .dropdown-content {
+            display: block !important;
+            grid-template-columns: none !important;
+            gap: 0 !important;
+        }
+
+        .nav-item-about .dropdown {
+            min-width: 250px !important;
+            padding: 1.5rem !important;
+        }
+
+        .nav-item:nth-child(5) .dropdown {
+            min-width: 250px !important;
+            padding: 1.5rem !important;
+        }
+
+        .nav-item:nth-child(5) .dropdown-content {
+            display: block !important;
+            grid-template-columns: none !important;
         }
 
         /* Enhanced Navigation Transitions */
@@ -605,6 +496,90 @@
             color: var(--brown-600);
         }
 
+        .mobile-login-btn {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
+            color: var(--brown-900) !important;
+            text-align: center;
+            font-weight: 600;
+            margin: 1rem 0;
+            padding: 0.75rem 1.5rem !important;
+            border-radius: 25px;
+            border: none !important;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-login-btn:hover {
+            background: linear-gradient(135deg, var(--brown-600), var(--brown-700));
+            color: var(--beige-50) !important;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile dropdown styles */
+        .mobile-dropdown-toggle {
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            transition: color 0.3s ease;
+        }
+
+        .dropdown-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-dropdown-content {
+            margin-top: 0.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .mobile-dropdown-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-dropdown-links li {
+            padding: 0.5rem 0;
+        }
+
+        .mobile-dropdown .mobile-nav-link {
+            color: var(--charcoal-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 400;
+            padding: 0.75rem 0;
+            border-bottom: none;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-dropdown-links .mobile-nav-link:hover {
+            color: var(--brown-600);
+        }
+        
+        .mobile-dropdown-toggle:hover {
+            color: var(--brown-600);
+        }
+        
+        /* Ensure consistent font for all top-level mobile nav items */
+        .mobile-nav-links > .mobile-nav-item > .mobile-nav-link,
+        .mobile-nav-links > .mobile-nav-item > .mobile-dropdown-toggle {
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
         .mobile-tools-section {
             background: rgba(139, 105, 20, 0.05);
             border-radius: 1rem;
@@ -687,6 +662,8 @@
             transform: translate(-50%, -50%);
             z-index: 1;
             object-fit: cover;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            will-change: transform, opacity;
         }
 
         .hero-overlay {
@@ -699,6 +676,8 @@
                 rgba(26, 26, 26, 0.4) 100%
             );
             z-index: 2;
+            transition: opacity 0.3s ease-out;
+            will-change: opacity;
         }
 
         .hero-content {
@@ -711,6 +690,8 @@
             grid-template-columns: 1fr;
             text-align: center;
             color: var(--beige-50);
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            will-change: transform, opacity;
         }
 
         .hero-text {
@@ -1271,7 +1252,7 @@
 
         /* Partners Section */
         .partners {
-            background: var(--beige-50);
+            background: linear-gradient(135deg, var(--beige-200) 0%, var(--beige-300) 100%);
             padding: 6rem 0;
             position: relative;
         }
@@ -1520,6 +1501,61 @@
             position: relative;
         }
 
+        .section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background-color: var(--glass-border);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .mission::after {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(244, 240, 234, 0.3) 30%,
+                var(--beige-100) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .highlights::after {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(254, 252, 247, 0.3) 30%,
+                var(--beige-50) 100%);
+        }
+
+        .photo-gallery::after {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(244, 240, 234, 0.3) 30%,
+                var(--beige-200) 100%);
+        }
+
+        .resources::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(52, 52, 52, 0.2);
+            pointer-events: none;
+        }
+
+        /* Hero section gradient to partners */
+        .hero::after {
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(26, 26, 26, 0.3) 20%,
+                rgba(244, 240, 234, 0.5) 60%,
+                #f0ebe2 100%);
+        }
+
         .section-container {
             max-width: 1600px;
             margin: 0 auto;
@@ -1550,7 +1586,7 @@
 
         /* Mission Section */
         .mission {
-            background: linear-gradient(135deg, var(--beige-100) 0%, var(--beige-200) 100%);
+            background: var(--beige-50);
             position: relative;
         }
 
@@ -1754,7 +1790,7 @@
 
         /* Highlights Section */
         .highlights {
-            background: var(--beige-50);
+            background: linear-gradient(135deg, var(--beige-100) 0%, var(--beige-200) 100%);
             position: relative;
         }
 
@@ -1762,8 +1798,8 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 80% 20%, rgba(122, 132, 113, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 20% 80%, rgba(139, 105, 20, 0.05) 0%, transparent 50%);
+            background: radial-gradient(circle at 80% 20%, rgba(122, 132, 113, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(139, 105, 20, 0.08) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -1771,7 +1807,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 2.5rem;
+            gap: 1.5rem;
             position: relative;
             z-index: 2;
         }
@@ -1786,7 +1822,7 @@
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border-radius: 2rem;
-            padding: 3rem;
+            padding: 2rem;
             text-decoration: none;
             color: inherit;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1820,25 +1856,26 @@
         }
 
         .highlight-icon {
-            font-size: 3.5rem;
-            margin-bottom: 2rem;
+            font-size: 2.8rem;
+            margin-bottom: 1.2rem;
             display: block;
         }
 
         .highlight-card h3 {
             font-family: 'Crimson Text', serif;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--charcoal);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             letter-spacing: -0.01em;
         }
 
         .highlight-card p {
             color: var(--charcoal-light);
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            line-height: 1.5;
+            margin-bottom: 1.2rem;
             font-weight: 300;
+            font-size: 0.95rem;
         }
 
         .highlight-arrow {
@@ -1922,13 +1959,13 @@
             font-size: 1.1rem;
         }
 
-        /* Get Involved Section */
-        .get-involved {
+        /* Photo Gallery Section */
+        .photo-gallery {
             background: var(--beige-50);
             position: relative;
         }
 
-        .get-involved::before {
+        .photo-gallery::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -1936,87 +1973,73 @@
             pointer-events: none;
         }
 
-        .involvement-grid {
+        .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
             position: relative;
             z-index: 2;
         }
 
-        .involvement-card {
+        .gallery-item {
+            aspect-ratio: 4/3;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border-radius: 2rem;
-            padding: 3rem;
-            text-align: center;
-            border: 1px solid var(--glass-border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .involvement-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .involvement-card:hover::before {
-            opacity: 0.05;
-        }
-
-        .involvement-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-heavy);
-        }
-
-        .involvement-card * {
-            position: relative;
-            z-index: 2;
-        }
-
-        .involvement-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper));
-            color: var(--brown-900);
-            border-radius: 50%;
+            border: 2px dashed var(--glass-border);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0 auto 2rem;
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
         }
 
-        .involvement-card h3 {
-            font-family: 'Crimson Text', serif;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--charcoal);
-            font-weight: 600;
+        .gallery-item:hover .gallery-placeholder {
+            background: rgba(254, 252, 247, 0.8);
+            border-color: var(--brown-600);
+            transform: scale(0.98);
         }
 
-        .involvement-card p {
+        .gallery-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .gallery-placeholder p {
             color: var(--charcoal-light);
-            line-height: 1.6;
-            font-weight: 300;
+            font-weight: 500;
+            margin: 0;
+            font-size: 1rem;
         }
 
-        /* Resources & Events Sections */
-        .resources,
-        .events {
+        .gallery-item:hover .gallery-placeholder p {
+            color: var(--brown-600);
+        }
+
+        /* Resources Section */
+        .resources {
             background: linear-gradient(135deg, var(--beige-200) 0%, var(--beige-300) 100%);
             position: relative;
         }
 
-        .resources::before,
-        .events::before {
+        .resources::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -2251,6 +2274,26 @@
             }
         }
 
+        @media (max-width: 850px) {
+            .nav-link {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .login-btn {
+                padding: 0.4rem 1rem !important;
+                font-size: 0.85rem;
+            }
+            
+            .nav {
+                padding: 1rem 1rem;
+            }
+            
+            .header.sticky .nav {
+                padding: 0.8rem 1rem;
+            }
+        }
+
         @media (max-width: 768px) {
             /* Normal top navigation on mobile */
             .header {
@@ -2313,8 +2356,9 @@
                 margin: 0;
             }
 
-            .involvement-grid {
-                grid-template-columns: 1fr;
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
             }
 
             .footer-main {
@@ -2752,14 +2796,6 @@
     </style>
 </head>
 <body>
-    <!-- Welcome Screen -->
-    <div class="welcome-overlay" id="welcomeOverlay">
-        <div class="welcome-content">
-            <h1>Welcome to The Unseen Hours</h1>
-            <p>We are so glad to have you. Your experiences matter. You matter.</p>
-            <button class="welcome-btn" onclick="enterSite()">Continue</button>
-        </div>
-    </div>
 
     <!-- Header -->
     <header class="header" id="header" role="banner">
@@ -2795,12 +2831,22 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item"><a href="https://forums.theunseenhours.org" class="nav-link">Forums</a></li>
-                <li class="nav-item"><a href="https://www.theunseenhours.org/chapters" class="nav-link">Chapters</a></li>
                 <li class="nav-item"><a href="#resources" class="nav-link">Resources</a></li>
-                <li class="nav-item"><a href="https://www.theunseenhours.org/contact" class="nav-link">Contact</a></li>
-                <li class="nav-item"><a href="https://www.theunseenhours.org/about-us" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="https://www.theunseenhours.org/blogs" class="nav-link blogs-btn">Blogs</a></li>
+                <li class="nav-item"><a href="https://www.theunseenhours.org/events" class="nav-link">Events</a></li>
+                <li class="nav-item"><a href="https://www.theunseenhours.org/blogs" class="nav-link">Blogs</a></li>
+                <li class="nav-item nav-item-about">
+                    <a href="#" class="nav-link">About TUH</a>
+                    <div class="dropdown dropdown-about">
+                        <div class="dropdown-content">
+                            <ul class="dropdown-links">
+                                <li><a href="#mission">Our Mission</a></li>
+                                <li><a href="https://www.theunseenhours.org/about-us">About Us</a></li>
+                                <li><a href="https://www.theunseenhours.org/contact">Contact Us</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item login-item"><a href="#" class="nav-link login-btn">Login</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Toggle navigation menu">☰</button>
         </nav>
@@ -2823,19 +2869,28 @@
                 <a href="#mission" class="mobile-nav-link">Mission</a>
             </li>
             <li class="mobile-nav-item">
-                <a href="https://forums.theunseenhours.org" class="mobile-nav-link">Forums</a>
-            </li>
-            <li class="mobile-nav-item">
-                <a href="https://www.theunseenhours.org/chapters" class="mobile-nav-link">Chapters</a>
-            </li>
-            <li class="mobile-nav-item">
                 <a href="#resources" class="mobile-nav-link">Resources</a>
             </li>
             <li class="mobile-nav-item">
-                <a href="https://www.theunseenhours.org/contact" class="mobile-nav-link">Contact</a>
+                <a href="https://www.theunseenhours.org/events" class="mobile-nav-link">Events</a>
             </li>
             <li class="mobile-nav-item">
-                <a href="https://www.theunseenhours.org/about-us" class="mobile-nav-link">About</a>
+                <a href="https://www.theunseenhours.org/blogs" class="mobile-nav-link">Blogs</a>
+            </li>
+            <li class="mobile-nav-item mobile-dropdown">
+                <button class="mobile-dropdown-toggle" onclick="event.stopPropagation(); toggleMobileAbout();">
+                    About TUH <span id="aboutToggleIcon" class="dropdown-icon">+</span>
+                </button>
+                <div class="mobile-dropdown-content" id="mobileAboutContent" style="display: none;">
+                    <ul class="mobile-dropdown-links">
+                        <li><a href="#mission" class="mobile-nav-link">Our Mission</a></li>
+                        <li><a href="https://www.theunseenhours.org/about-us" class="mobile-nav-link">About Us</a></li>
+                        <li><a href="https://www.theunseenhours.org/contact" class="mobile-nav-link">Contact Us</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="mobile-nav-item">
+                <a href="#" class="mobile-nav-link mobile-login-btn">Login</a>
             </li>
         </ul>
         
@@ -2916,10 +2971,8 @@
         <div class="scroll-nav-item" data-section="partners" data-label="Partners"></div>
         <div class="scroll-nav-item" data-section="mission" data-label="Mission"></div>
         <div class="scroll-nav-item" data-section="highlights" data-label="Tools"></div>
-        <div class="scroll-nav-item" data-section="stories" data-label="Stories"></div>
-        <div class="scroll-nav-item" data-section="get-involved" data-label="Get Involved"></div>
+        <div class="scroll-nav-item" data-section="photo-gallery" data-label="Photos"></div>
         <div class="scroll-nav-item" data-section="resources" data-label="Resources"></div>
-        <div class="scroll-nav-item" data-section="events" data-label="Events"></div>
     </nav>
 
     <!-- Partners Section -->
@@ -2958,60 +3011,24 @@
         </div>
     </section>
 
-    <!-- C.S. Lewis Quote Section -->
-    <section class="quote-section" id="quote">
-        <div class="quote-container">
-            <div class="quote-content fade-in-up">
-                <div class="quote-decoration-left">
-                    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3">
-                        <path d="M25 40 Q 15 30, 20 20 Q 25 10, 35 15 Q 45 20, 40 30 Q 35 40, 25 40" />
-                        <path d="M65 40 Q 55 30, 60 20 Q 65 10, 75 15 Q 85 20, 80 30 Q 75 40, 65 40" />
-                    </svg>
-                </div>
-                <blockquote class="lewis-quote">
-                    <p class="quote-text">It is easier to say<br><span class="quote-highlight">"My tooth is aching"</span><br>than to say<br><span class="quote-highlight">"My heart is broken."</span></p>
-                    <footer class="quote-author">— C.S. Lewis</footer>
-                </blockquote>
-                <div class="quote-decoration-right">
-                    <svg width="60" height="60" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3">
-                        <path d="M75 60 Q 85 70, 80 80 Q 75 90, 65 85 Q 55 80, 60 70 Q 65 60, 75 60" />
-                        <path d="M35 60 Q 45 70, 40 80 Q 35 90, 25 85 Q 15 80, 20 70 Q 25 60, 35 60" />
-                    </svg>
-                </div>
-            </div>
-            <div class="quote-reflection fade-in-up">
-                <p>In a world that recognizes physical pain but often overlooks emotional wounds, we create space for both.</p>
-            </div>
-        </div>
-    </section>
 
     <!-- Mission Section -->
     <section class="section mission" id="mission">
         <div class="section-container">
             <div class="section-header">
                 <h2>Our Mission</h2>
-                <p class="section-desc">We exist for the moments when the world feels too heavy, when no one seems to understand, and when hope feels distant. The Unseen Hours is more than a platform—it's a lifeline for those navigating life's invisible battles.</p>
+                <p class="section-desc">At Michigan State University, we're building a community where mental health matters and every student has the support they need to thrive.</p>
             </div>
             
             <div class="mission-content">
                 <div>
                     <p class="mission-text">
-                        Every day, millions of people face struggles that remain invisible to the outside world. Mental health challenges, family difficulties, academic pressures, and personal battles that often go unrecognized and unsupported.
+                        The Unseen Hours at MSU is dedicated to supporting and fostering mental health and overall well-being across our campus community. We work to break down the stigma around mental health by promoting awareness, creating connections, and building genuine support networks.
                     </p>
                     <p class="mission-text">
-                        Our community creates safe spaces where these experiences are not just acknowledged, but embraced with compassion and understanding. We believe that healing happens in connection, and that no one should face their darkest moments alone.
+                        Through social events, partnerships with local organizations, and authentic peer support, we're creating spaces where students can find community, resources, and understanding. Because mental health isn't just about crisis intervention—it's about building a campus culture where wellbeing is prioritized every day.
                     </p>
                     
-                    <div class="mission-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">2+</span>
-                            <span class="stat-label">Active Chapters</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">2+</span>
-                            <span class="stat-label">Countries</span>
-                        </div>
-                    </div>
                     
                     <div style="text-align: center; margin-top: 3rem;">
                         <a href="https://www.theunseenhours.org/mission" class="btn btn-primary">Learn More About Our Mission</a>
@@ -3020,8 +3037,6 @@
                 
                 <div class="map-container">
                     <div class="map-controls">
-                        <button class="map-btn" id="filter-btn">🇺🇸 US Only</button>
-                        <button class="map-btn" id="reset-view-btn">🎯 Reset</button>
                         <button class="map-btn" id="fullscreen-btn">⛶ Fullscreen</button>
                     </div>
                     <div class="map-wrapper">
@@ -3079,57 +3094,21 @@
         </div>
     </section>
 
-    <!-- Stories Section -->
-    <section class="section stories" id="stories">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Stories from Our Community</h2>
-                <p class="section-desc">Real experiences from real people who have found hope, healing, and connection through The Unseen Hours.</p>
-            </div>
-            
-            <div class="testimonial fade-in-up">
-                <blockquote>
-                    "For the first time in years, I found people who understood without judgment. The Unseen Hours gave me hope when I had none left."
-                </blockquote>
-                <div class="testimonial-author">— Anonymous Community Member</div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="https://forums.theunseenhours.org" class="btn btn-primary">Share Your Story</a>
-            </div>
-        </div>
-    </section>
 
-    <!-- Get Involved Section -->
-    <section class="section get-involved" id="get-involved">
+    <!-- Photo Gallery Section -->
+    <section class="section photo-gallery" id="photo-gallery">
         <div class="section-container">
             <div class="section-header">
-                <h2>Get Involved</h2>
-                <p class="section-desc">Join our mission to create supportive communities and make mental health resources accessible to everyone who needs them.</p>
+                <h2>Our Community in Action</h2>
+                <p class="section-desc">See moments from our events, activities, and community gatherings at Michigan State University.</p>
             </div>
             
-            <div class="involvement-grid">
-                <div class="involvement-card stagger-item">
-                    <div class="involvement-number">1</div>
-                    <h3>Create A Chapter</h3>
-                    <p>Start a new community in your area and become a beacon of hope for others facing similar struggles.</p>
-                </div>
-                
-                <div class="involvement-card stagger-item">
-                    <div class="involvement-number">2</div>
-                    <h3>Join A Chapter</h3>
-                    <p>Connect with your local community and find the support and understanding you've been seeking.</p>
-                </div>
-                
-                <div class="involvement-card stagger-item">
-                    <div class="involvement-number">3</div>
-                    <h3>Make an Impact</h3>
-                    <p>Use your experiences to help others heal and grow, creating ripples of positive change in your community.</p>
-                </div>
+            <div style="text-align: center; padding: 3rem; color: var(--charcoal-light); font-style: italic;">
+                <p>Event Photos Coming Soon</p>
             </div>
             
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="#" class="btn btn-primary">Explore Opportunities</a>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="https://www.theunseenhours.org/events" class="btn btn-primary">View All Events</a>
             </div>
         </div>
     </section>
@@ -3148,19 +3127,6 @@
         </div>
     </section>
 
-    <!-- Events Section -->
-    <section class="section events" id="events">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Upcoming Events</h2>
-                <p class="section-desc">Join us for workshops, support groups, and community events designed to foster connection and personal growth.</p>
-            </div>
-            
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="https://theunseenhours.org/events" class="btn btn-primary">View All Events</a>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -3170,7 +3136,7 @@
                 <div class="emergency-links">
                     <a href="tel:911" class="emergency-link">🚨 Emergency: 911</a>
                     <a href="tel:988" class="emergency-link">📞 Crisis Line: 988</a>
-                    <a href="sms:741741" class="emergency-link">💬 Text Crisis: 741741</a>
+                    <a href="sms:741741?body=HOME" class="emergency-link">💬 Text HOME to 741741</a>
                 </div>
             </div>
             
@@ -3179,12 +3145,7 @@
                     <h3>The Unseen Hours</h3>
                     <p>Supporting each other through life's invisible moments. A student-led initiative dedicated to mental health awareness and community support.</p>
                     <div class="footer-social">
-                        <a href="https://www.youtube.com/@theunseenhoursYT" class="social-link">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                            </svg>
-                        </a>
-                        <a href="https://instagram.com/theunseenhoursx" class="social-link">
+                        <a href="https://instagram.com/theunseenhoursmsu" class="social-link">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                             </svg>
@@ -3202,16 +3163,13 @@
                     <ul>
                         <li><a href="#mission">Our Mission</a></li>
                         <li><a href="#highlights">Tools</a></li>
-                        <li><a href="#stories">Stories</a></li>
-                        <li><a href="#get-involved">Get Involved</a></li>
+                        <li><a href="#photo-gallery">Photos</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-links">
                     <h4>Community</h4>
                     <ul>
-                        <li><a href="https://forums.theunseenhours.org">Forums</a></li>
-                        <li><a href="https://www.theunseenhours.org/chapters">Chapters</a></li>
                         <li><a href="#resources">Resources</a></li>
                         <li><a href="https://status.theunseenhours.org">Status</a></li>
                     </ul>
@@ -3221,7 +3179,6 @@
                     <h4>Contact</h4>
                     <ul>
                         <li><a href="mailto:contact@theunseenhours.org">Email Us</a></li>
-                        <li><a href="tel:+18105693159">Call Us</a></li>
                         <li><a href="https://www.theunseenhours.org/about-us">About Us</a></li>
                         <li><a href="https://www.theunseenhours.org/contact">Contact</a></li>
                     </ul>
@@ -3263,18 +3220,11 @@
 
         const CHAPTER_DATA = [
             {
-                lat: 42.3314,
-                lng: -84.5553,
+                lat: 42.7325,
+                lng: -84.4857,
                 name: "Michigan State University",
-                description: "University chapter exploring consciousness and hidden experiences",
+                description: "🟢 GO GREEN! <br>🤍 GO WHITE! <br>Home of the Spartans! 💪",
                 country: "us"
-            },
-            {
-                lat: 45.4870,
-                lng: 15.5420,
-                name: "Karlovac, Croatia", 
-                description: "European chapter bringing international perspectives",
-                country: "croatia"
             }
         ];
 
@@ -3335,32 +3285,10 @@
             }
         }
 
-        // Check if welcome screen should be shown
-        function shouldShowWelcomeScreen() {
-            const lastWelcomeTime = localStorage.getItem('lastWelcomeTime');
-            const currentTime = new Date().getTime();
-            const fifteenMinutes = 15 * 60 * 1000; // 15 minutes in milliseconds
-            
-            if (!lastWelcomeTime) {
-                // First time visiting, show welcome screen
-                return true;
-            }
-            
-            const timeDiff = currentTime - parseInt(lastWelcomeTime);
-            return timeDiff >= fifteenMinutes;
-        }
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if we should show welcome screen
-            if (!shouldShowWelcomeScreen()) {
-                // Hide welcome screen immediately
-                const welcomeOverlay = document.getElementById('welcomeOverlay');
-                if (welcomeOverlay) {
-                    welcomeOverlay.style.display = 'none';
-                }
-                updateVideoControlVisibility();
-            }
+            updateVideoControlVisibility();
             
             setRotatingMessage();
             initializeAnimations();
@@ -3374,19 +3302,6 @@
         });
 
         // Welcome screen functionality
-        function enterSite() {
-            const welcomeOverlay = document.getElementById('welcomeOverlay');
-            welcomeOverlay.classList.add('fade-out');
-            
-            // Record the current time to prevent showing welcome screen for 15 minutes
-            const currentTime = new Date().getTime();
-            localStorage.setItem('lastWelcomeTime', currentTime.toString());
-            
-            setTimeout(() => {
-                welcomeOverlay.style.display = 'none';
-                updateVideoControlVisibility();
-            }, 1000);
-        }
 
 
         // Header scroll effect
@@ -3405,25 +3320,74 @@
                 header.style.setProperty('--mouse-y', `${y}%`);
             });
             
-            window.addEventListener('scroll', () => {
+            // Throttle function for performance
+            function throttle(func, delay) {
+                let timeoutId;
+                let lastExecTime = 0;
+                return function (...args) {
+                    const currentTime = Date.now();
+                    if (currentTime - lastExecTime > delay) {
+                        func.apply(this, args);
+                        lastExecTime = currentTime;
+                    } else {
+                        clearTimeout(timeoutId);
+                        timeoutId = setTimeout(() => {
+                            func.apply(this, args);
+                            lastExecTime = Date.now();
+                        }, delay - (currentTime - lastExecTime));
+                    }
+                };
+            }
+
+            // Video scroll effects
+            const heroVideo = document.getElementById('heroVideo');
+            const heroOverlay = document.querySelector('.hero-overlay');
+            const heroContent = document.querySelector('.hero-content');
+            const heroSection = document.querySelector('.hero');
+
+            const handleScroll = throttle(() => {
                 const currentScrollY = window.scrollY;
+                const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
+                const scrollProgress = Math.min(currentScrollY / heroHeight, 1);
                 
-                // Add sticky class when scrolled past threshold
+                // Parallax effect for video (moves slower than scroll)
+                if (heroVideo) {
+                    const videoTransform = scrollProgress * 30; // Adjust for desired parallax intensity
+                    const videoScale = 1 + (scrollProgress * 0.1); // Slight zoom effect
+                    const videoOpacity = Math.max(1 - (scrollProgress * 0.8), 0.2); // Fade to 20% opacity
+                    
+                    heroVideo.style.transform = `translate(-50%, calc(-50% + ${videoTransform}px)) scale(${videoScale})`;
+                    heroVideo.style.opacity = videoOpacity;
+                }
+                
+                // Enhance overlay opacity on scroll
+                if (heroOverlay) {
+                    const overlayOpacity = Math.min(0.4 + (scrollProgress * 0.4), 0.8);
+                    heroOverlay.style.opacity = overlayOpacity;
+                }
+                
+                // Parallax and fade for hero content
+                if (heroContent) {
+                    const contentTransform = scrollProgress * -50; // Moves up faster than scroll
+                    const contentOpacity = Math.max(1 - (scrollProgress * 1.5), 0);
+                    
+                    heroContent.style.transform = `translateY(${contentTransform}px)`;
+                    heroContent.style.opacity = contentOpacity;
+                }
+                
+                // Original header sticky functionality
                 if (currentScrollY > scrollThreshold) {
                     header.classList.add('sticky');
-                    // Move banner below sticky header
                     if (banner) {
                         banner.classList.add('below-header');
                     }
                 } else {
                     header.classList.remove('sticky');
-                    // Move banner back to top
                     if (banner) {
                         banner.classList.remove('below-header');
                     }
                 }
                 
-                // Add scrolled class for additional styling
                 if (currentScrollY > 100) {
                     header.classList.add('scrolled');
                 } else {
@@ -3431,7 +3395,9 @@
                 }
                 
                 lastScrollY = currentScrollY;
-            });
+            }, 16); // ~60fps
+
+            window.addEventListener('scroll', handleScroll);
         }
 
         // Mobile menu functionality
@@ -3454,12 +3420,15 @@
                     document.body.style.overflow = '';
                 });
 
-                // Close menu when clicking on nav links
+                // Close menu when clicking on nav links (but not dropdown toggles)
                 const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
                 mobileNavLinks.forEach(link => {
-                    link.addEventListener('click', () => {
-                        mobileMenu.classList.remove('active');
-                        document.body.style.overflow = '';
+                    link.addEventListener('click', (e) => {
+                        // Don't close if it's a dropdown toggle
+                        if (!e.target.classList.contains('mobile-dropdown-toggle')) {
+                            mobileMenu.classList.remove('active');
+                            document.body.style.overflow = '';
+                        }
                     });
                 });
             }
@@ -3467,8 +3436,20 @@
             if (mobileToolsToggle && mobileToolsContent && toolsToggleIcon) {
                 mobileToolsToggle.addEventListener('click', () => {
                     mobileToolsContent.classList.toggle('active');
-                    toolsToggleIcon.textContent = mobileToolsContent.classList.contains('active') ? '−' : '+';
+                    toolsToggleIcon.textContent = mobileToolsContent.classList.contains('active') ? '-' : '+';
                 });
+            }
+        }
+
+        // Toggle mobile About TUH dropdown
+        function toggleMobileAbout() {
+            const aboutContent = document.getElementById('mobileAboutContent');
+            const aboutToggleIcon = document.getElementById('aboutToggleIcon');
+            if (aboutContent && aboutToggleIcon) {
+                const isActive = aboutContent.style.display === 'block';
+                aboutContent.style.display = isActive ? 'none' : 'block';
+                aboutToggleIcon.textContent = isActive ? '+' : '-';
+                aboutToggleIcon.style.transform = 'rotate(0deg)';
             }
         }
 
@@ -3567,10 +3548,9 @@
 
             mapboxgl.accessToken = 'pk.eyJ1IjoiamVudXNtYXBib3giLCJhIjoiY21iZDViZW8yMjJrMjJycTBqZHp1OWo2ayJ9.rkaMdJQBhhtKix6Xv1YV7g';
 
-            // Check if device is mobile
-            const isMobile = window.innerWidth <= 768;
-            const mapCenter = isMobile ? [-98.5795, 39.8283] : [-30.0, 30.0]; // US center for mobile, world view for desktop
-            const mapZoom = isMobile ? 3 : 1.5;
+            // Center on Michigan State University in East Lansing
+            const mapCenter = [-84.4857, 42.7325]; // Michigan State University, East Lansing coordinates
+            const mapZoom = 6; // Show Michigan and surrounding states
 
             try {
                 mapInstance = new mapboxgl.Map({
@@ -3578,13 +3558,15 @@
                     style: 'mapbox://styles/mapbox/light-v10',
                     center: mapCenter,
                     zoom: mapZoom,
+                    minZoom: 3,
+                    maxZoom: 12,
                     scrollZoom: true,
                     doubleClickZoom: true,
                     dragPan: true,
                     trackResize: true,
                     refreshExpiredTiles: false,
                     renderWorldCopies: false,
-                    maxBounds: [[-180, -85], [180, 85]],
+                    maxBounds: [[-130, 20], [-60, 50]], // US continental bounds
                     fadeDuration: 0,
                     antialias: true,
                     preserveDrawingBuffer: true
@@ -3667,20 +3649,6 @@
                                 <span style="color: var(--brown-600); font-size: 1.2rem;">📍</span>
                                 <span style="font-weight: 500; color: var(--charcoal);">Michigan State University</span>
                             </div>
-                            <div style="
-                                background: var(--glass-bg);
-                                backdrop-filter: blur(10px);
-                                padding: 1rem 2rem;
-                                border-radius: 2rem;
-                                border: 1px solid var(--glass-border);
-                                display: flex;
-                                align-items: center;
-                                gap: 0.75rem;
-                                box-shadow: var(--shadow-glass);
-                            ">
-                                <span style="color: var(--brown-600); font-size: 1.2rem;">📍</span>
-                                <span style="font-weight: 500; color: var(--charcoal);">Karlovac, Croatia</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -3709,9 +3677,29 @@
                     closeOnClick: false,
                     maxWidth: '300px'
                 }).setHTML(`
-                    <div style="color: var(--charcoal); text-align: center; padding: 15px; background: var(--beige-50); border-radius: 12px; border: 1px solid var(--beige-300); min-width: 200px;">
-                        <h3 style="margin: 0 0 10px 0; color: var(--brown-600); font-size: 1.2rem; font-weight: 600;">${chapter.name}</h3>
-                        <p style="margin: 0; color: var(--charcoal-light); font-size: 1rem; line-height: 1.4;">${chapter.description}</p>
+                    <div style="
+                        background: #fff;
+                        border-radius: 16px;
+                        padding: 20px;
+                        min-width: 250px;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                        border: 2px solid #18453B;
+                    ">
+                        <h3 style="
+                            margin: 0 0 12px 0;
+                            color: #18453B;
+                            font-size: 1.3rem;
+                            font-weight: 600;
+                            font-family: 'Crimson Text', serif;
+                        ">${chapter.name}</h3>
+                        
+                        <p style="
+                            margin: 0;
+                            color: #18453B;
+                            font-size: 1.1rem;
+                            font-weight: 500;
+                            line-height: 1.4;
+                        ">${chapter.description}</p>
                     </div>
                 `);
 
