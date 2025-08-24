@@ -123,6 +123,17 @@
             border-right: none;
             background: rgba(254, 252, 247, 0.95);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Position header below banner when banner is visible and not minimized */
+        body.banner-visible .header.sticky {
+            top: 4rem;
+        }
+        
+        /* Keep header at top when banner is minimized */
+        body:has(.notification-banner.minimized) .header.sticky {
+            top: 0;
         }
 
         .header.scrolled {
@@ -2793,9 +2804,206 @@
                 padding: 2.5rem 1.5rem;
             }
         }
+        /* Notification Banner */
+        .notification-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, var(--sage-700), var(--sage-900));
+            color: var(--beige-50);
+            text-align: center;
+            padding: 1rem 2rem;
+            z-index: 1001;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .notification-banner.show {
+            transform: translateY(0);
+        }
+        
+        .notification-banner .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .notification-banner .banner-text {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        /* Show full text by default, hide mini text */
+        .notification-banner .full-text {
+            display: inline;
+        }
+        
+        .notification-banner .mini-text {
+            display: none;
+        }
+        
+        .notification-banner .banner-cta {
+            background: var(--accent-gold);
+            color: var(--charcoal);
+            padding: 0.5rem 1.5rem;
+            border-radius: 1.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .notification-banner .banner-cta:hover {
+            background: var(--beige-50);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification-banner .banner-close {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--beige-200);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+        
+        .notification-banner .banner-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--beige-50);
+        }
+        
+        /* Minimized banner state */
+        .notification-banner.minimized {
+            top: 1rem;
+            right: 1rem;
+            left: auto;
+            width: 280px;
+            padding: 0.75rem 1rem;
+            border-radius: 1.5rem;
+            transform: translateY(0) scale(0.9);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification-banner.minimized .banner-content {
+            gap: 0.75rem;
+        }
+        
+        .notification-banner.minimized .banner-text {
+            font-size: 0.85rem;
+        }
+        
+        /* Hide full text and show mini text when minimized */
+        .notification-banner.minimized .full-text {
+            display: none;
+        }
+        
+        .notification-banner.minimized .mini-text {
+            display: inline;
+        }
+        
+        .notification-banner.minimized .banner-cta {
+            display: none;
+        }
+        
+        .notification-banner.minimized .banner-close {
+            display: none;
+        }
+        
+        .notification-banner.minimized {
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .notification-banner.minimized:hover {
+            transform: translateY(0) scale(0.95);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+        
+        @media (max-width: 768px) {
+            .notification-banner {
+                padding: 0.75rem 1rem;
+            }
+            
+            .notification-banner .banner-content {
+                gap: 1rem;
+            }
+            
+            .notification-banner .banner-text {
+                font-size: 0.9rem;
+            }
+            
+            .notification-banner .banner-cta {
+                font-size: 0.85rem;
+                padding: 0.4rem 1.2rem;
+            }
+            
+            .notification-banner.minimized {
+                width: 260px;
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            .notification-banner.minimized .mini-text {
+                font-size: 0.8rem;
+            }
+            
+            .notification-banner.minimized .banner-cta {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+        
+        /* Remove all body padding - banner is positioned absolutely */
+        body.banner-visible {
+            padding-top: 0;
+        }
+        
+        @media (max-width: 768px) {
+            /* Remove mobile body padding too */
+            body.banner-visible {
+                padding-top: 0;
+            }
+            
+            /* Position mobile header below banner when banner is visible */
+            body.banner-visible .header.sticky {
+                top: 3.5rem;
+            }
+            
+            /* Keep mobile header at top when banner is minimized */
+            body:has(.notification-banner.minimized) .header.sticky {
+                top: 0;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <!-- Notification Banner -->
+    <div class="notification-banner" id="notificationBanner" onclick="handleBannerClick(event)">
+        <div class="banner-content">
+            <span class="banner-text">
+                <span class="full-text">🎓 Welcome back, Spartans! Join our club for exciting events and volunteer opportunities!</span>
+                <span class="mini-text">🎓 Welcome back Spartans. Join Us!</span>
+            </span>
+            <a href="https://msu.theunseenhours.org/blogs.html?post=welcome-back-spartans-2025" class="banner-cta">Read our latest blog</a>
+        </div>
+        <button class="banner-close" onclick="closeBanner(); event.stopPropagation();" aria-label="Close notification">×</button>
+    </div>
 
     <!-- Header -->
     <header class="header" id="header" role="banner">
@@ -3178,7 +3386,7 @@
                 <div class="footer-links">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:RSO.TheUnseenHours@msu.edu">Email Us</a></li>
+                        <li><a href="mailto:contact@theunseenhours.org">Email Us</a></li>
                         <li><a href="https://www.theunseenhours.org/about-us">About Us</a></li>
                         <li><a href="https://www.theunseenhours.org/contact">Contact</a></li>
                     </ul>
@@ -3286,6 +3494,78 @@
         }
 
 
+        // Notification Banner Functions
+        function showBanner() {
+            const banner = document.getElementById('notificationBanner');
+            const body = document.body;
+            
+            // Always show the full banner first
+            setTimeout(() => {
+                banner.classList.add('show');
+                body.classList.add('banner-visible');
+            }, 1000); // Show after 1 second
+        }
+        
+        function closeBanner() {
+            const banner = document.getElementById('notificationBanner');
+            const body = document.body;
+            
+            // Only allow closing from full banner state (not minimized)
+            if (!banner.classList.contains('minimized')) {
+                // Close - minimize instead of hiding completely
+                banner.classList.add('minimized');
+                body.classList.remove('banner-visible');
+                
+                // Remember that user closed the banner
+                localStorage.setItem('bannerClosed', 'true');
+                localStorage.setItem('bannerMinimized', 'true');
+            }
+        }
+        
+        function expandBanner() {
+            const banner = document.getElementById('notificationBanner');
+            const body = document.body;
+            
+            // Remove minimized state and add banner-visible
+            banner.classList.remove('minimized');
+            body.classList.add('banner-visible');
+            
+            // Update localStorage
+            localStorage.setItem('bannerClosed', 'false');
+            localStorage.setItem('bannerMinimized', 'false');
+        }
+        
+        function handleBannerClick(event) {
+            const banner = document.getElementById('notificationBanner');
+            
+            // Don't expand if clicking on the close button or CTA link
+            if (event.target.classList.contains('banner-close') || event.target.classList.contains('banner-cta')) {
+                return;
+            }
+            
+            // If minimized, expand on click
+            if (banner.classList.contains('minimized')) {
+                expandBanner();
+            }
+        }
+
+        // Trigger Mailchimp popup
+        function triggerMailchimpPopup() {
+            // Wait for Mailchimp script to load and try to open popup
+            if (typeof window.dojoRequire !== 'undefined') {
+                try {
+                    window.dojoRequire(["mojo/signup-forms/Loader"], function(L) { L.start({"baseUrl":"mc.us11.list-manage.com","uuid":"bc1c5dec9903e06a841c42ec3","lid":"718abdbcf26b5a2c58d86203a"}) });
+                } catch (e) {
+                    console.log('Mailchimp popup failed to load:', e);
+                    // Fallback to direct signup page
+                    window.open('https://theunseenhours.us11.list-manage.com/subscribe?u=bc1c5dec9903e06a841c42ec3&id=718abdbcf26b5a2c58d86203a', '_blank');
+                }
+            } else {
+                // Fallback if Mailchimp script hasn't loaded yet
+                setTimeout(triggerMailchimpPopup, 500);
+            }
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             updateVideoControlVisibility();
@@ -3297,6 +3577,7 @@
             setupMobileMenu();
             setupVideoControl();
             setupScrollNavigation();
+            showBanner(); // Show the notification banner
             // initializeMentalHealthBanner(); // Disabled - can re-enable for future campaigns
             setupPartnersScroll();
         });
