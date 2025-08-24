@@ -3144,7 +3144,7 @@
     <!-- Hero Section -->
     <main class="hero" id="hero" role="main">
         <video class="hero-video" id="heroVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" aria-label="Background video showing supportive community" title="Community support video">
-            <source src="https://cdn.theunseenhours.org/msuvideo.mp4.mp4" type="video/mp4">
+            <source src="" type="video/mp4" id="videoSource">
             Your browser does not support the video tag.
         </video>
         <div class="hero-overlay"></div>
@@ -3575,8 +3575,37 @@
             }
         }
 
+        // Video randomization functionality
+        function initializeRandomVideo() {
+            const videos = [
+                'https://cdn.theunseenhours.org/msuvideo.mp4.mp4',
+                'https://cdn.theunseenhours.org/msu2-video.mp4'
+            ];
+            
+            // Get random video
+            const randomIndex = Math.floor(Math.random() * videos.length);
+            const selectedVideo = videos[randomIndex];
+            
+            // Set the video source
+            const videoSource = document.getElementById('videoSource');
+            const heroVideo = document.getElementById('heroVideo');
+            
+            if (videoSource && heroVideo) {
+                videoSource.src = selectedVideo;
+                heroVideo.load(); // Reload the video element with new source
+                
+                // Ensure video plays after loading
+                heroVideo.addEventListener('canplaythrough', function() {
+                    heroVideo.play().catch(e => {
+                        console.log('Video autoplay failed:', e);
+                    });
+                }, { once: true });
+            }
+        }
+
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            initializeRandomVideo(); // Initialize random video first
             updateVideoControlVisibility();
             
             setRotatingMessage();
