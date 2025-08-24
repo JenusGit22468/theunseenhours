@@ -58,7 +58,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow-glass);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nav {
@@ -232,7 +232,7 @@
         
         .blog-controls.sticky {
             position: fixed;
-            top: 0;
+            top: 80px;
             left: 0;
             right: 0;
             margin: 0;
@@ -240,9 +240,17 @@
             background: rgba(254, 252, 247, 0.95);
             backdrop-filter: blur(25px);
             box-shadow: 0 2px 20px rgba(139, 105, 20, 0.1);
-            z-index: 999;
+            z-index: 998;
             max-width: 100%;
             padding: 1.5rem 2rem;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .blog-controls.sticky.show {
+            transform: translateY(0);
+            opacity: 1;
         }
         
         .blog-controls-placeholder {
@@ -509,6 +517,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
+        }
+        
+        .blog-card-footer .blog-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .blog-card-tags {
@@ -766,9 +781,7 @@
         <!-- Hero Section -->
         <section class="blog-hero">
             <div class="blog-hero-content">
-                <span class="blog-hero-badge">Insights & Stories</span>
-                <h1>The Unseen Hours Blog</h1>
-                <p>Stories of healing, practical mental health insights, and authentic experiences from our community. Every voice matters, every story has power.</p>
+                <h1>The Unseen Hours at Michigan State University <br>Blog</h1>
             </div>
         </section>
 
@@ -798,13 +811,47 @@
 
             <!-- Blog Posts Grid -->
             <div class="blog-grid">
+                <!-- Welcome Back Spartans Post -->
+                <a href="#welcome-back-spartans-2025" class="blog-card" data-post="welcome-back">
+                    <div class="blog-card-image">
+                        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='spartanGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%234a5d41'/><stop offset='50%' style='stop-color:%236B7562'/><stop offset='100%' style='stop-color:%238fa685'/></linearGradient><pattern id='campus' width='120' height='120' patternUnits='userSpaceOnUse'><path d='M60 10 L60 110 M30 40 L90 40 M40 80 L80 80' stroke='rgba(254,252,247,0.1)' stroke-width='2' fill='none'/><circle cx='60' cy='60' r='25' fill='none' stroke='rgba(212,175,55,0.3)' stroke-width='1'/></pattern></defs><rect width='800' height='500' fill='url(%23spartanGrad)'/><rect width='800' height='500' fill='url(%23campus)'/><path d='M200 250 Q400 150 600 250 Q400 350 200 250' fill='rgba(212,175,55,0.2)'/><circle cx='400' cy='250' r='120' fill='none' stroke='rgba(184,115,51,0.6)' stroke-width='3'/><circle cx='400' cy='250' r='80' fill='none' stroke='rgba(184,115,51,0.4)' stroke-width='2'/><text x='400' y='380' text-anchor='middle' fill='rgba(254,252,247,0.9)' font-family='serif' font-size='32' font-weight='700'>WELCOME BACK</text><text x='400' y='415' text-anchor='middle' fill='rgba(254,252,247,0.8)' font-family='sans-serif' font-size='20' font-weight='500'>SPARTANS</text><text x='400' y='445' text-anchor='middle' fill='rgba(254,252,247,0.6)' font-family='sans-serif' font-size='14' font-weight='400'>August 2025</text></svg>" alt="Welcome Back Spartans">
+                        <div class="image-badges">
+                            <span class="image-badge">🔥 Featured</span>
+                            <span class="image-badge">Trending</span>
+                        </div>
+                        <div class="blog-card-overlay"></div>
+                    </div>
+                    <div class="blog-card-content">
+                        <div class="blog-card-meta">
+                            <span class="blog-card-date">August 25, 2025</span>
+                            <span class="blog-card-category">Mental Health</span>
+                            <span class="blog-card-reading-time">5 min read</span>
+                        </div>
+                        <h3>Welcome Back, Spartans: Let's Make This Year Different</h3>
+                        <p class="blog-card-excerpt">The start of the academic year at MSU is always special. Campus comes alive again, but transitions can be heavy. This year, we want to challenge the idea that we have to hide our struggles. What if success wasn't just about grades, but also about balance, mental health, and meaningful connection?</p>
+                        <div class="blog-card-author">
+                            <div class="author-avatar">TUH</div>
+                            <div class="author-info">
+                                <div class="author-name">The Unseen Hours Team</div>
+                                <div class="author-role">Student Mental Health</div>
+                            </div>
+                        </div>
+                        <div class="blog-card-footer">
+                            <div class="blog-card-tags">
+                                <span class="blog-tag">New Semester</span>
+                                <span class="blog-tag">Mental Health</span>
+                                <span class="blog-tag">Community</span>
+                            </div>
+                            <span class="blog-card-arrow">Read Full Article</span>
+                        </div>
+                    </div>
+                </a>
+
                 <!-- Men's Mental Health Awareness Month Post -->
                 <a href="#the-silent-struggle-mens-mental-health-2025" class="blog-card" data-post="mental-health">
                     <div class="blog-card-image">
                         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><defs><linearGradient id='mensHealthGrad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%234a5d41'/><stop offset='50%' style='stop-color:%237a8471'/><stop offset='100%' style='stop-color:%238fa685'/></linearGradient><pattern id='grid' width='40' height='40' patternUnits='userSpaceOnUse'><path d='M 40 0 L 0 0 0 40' fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'/></pattern></defs><rect width='800' height='500' fill='url(%23mensHealthGrad)'/><rect width='800' height='500' fill='url(%23grid)'/><circle cx='400' cy='250' r='120' fill='none' stroke='rgba(212,175,55,0.8)' stroke-width='3'/><circle cx='400' cy='250' r='100' fill='none' stroke='rgba(212,175,55,0.6)' stroke-width='2'/><circle cx='400' cy='250' r='80' fill='none' stroke='rgba(212,175,55,0.4)' stroke-width='1'/><path d='M320 250 Q400 200 480 250 Q400 300 320 250' fill='rgba(212,175,55,0.3)'/><text x='400' y='420' text-anchor='middle' fill='rgba(254,252,247,0.9)' font-family='serif' font-size='28' font-weight='700' letter-spacing='2'>BREAKING THE SILENCE</text><text x='400' y='450' text-anchor='middle' fill='rgba(254,252,247,0.7)' font-family='sans-serif' font-size='16' font-weight='400'>June 2025</text></svg>" alt="Men's Mental Health Awareness">
                         <div class="image-badges">
-                            <span class="image-badge">🔥 Featured</span>
-                            <span class="image-badge">Trending</span>
                         </div>
                         <div class="blog-card-overlay"></div>
                     </div>
@@ -1373,6 +1420,82 @@
                     <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 3rem 0 0 0;">Take care of yourself. You matter more than any exam.</p>
                 </article>
             </div>
+            
+            <!-- Welcome Back Spartans Full Post -->
+            <div id="welcome-back-post" class="post-content" style="display: none;">
+                <nav style="margin-bottom: 3rem; color: var(--charcoal-light);">
+                    <a href="/" style="color: var(--brown-600); text-decoration: none;">Home</a> / 
+                    <a href="/blog" style="color: var(--brown-600); text-decoration: none;">Blog</a> / 
+                    Welcome Back, Spartans
+                </nav>
+
+                <header style="text-align: center; margin-bottom: 4rem;">
+                    <h1 style="font-family: 'Crimson Text', serif; font-size: clamp(2.5rem, 5vw, 4rem); color: var(--charcoal); margin-bottom: 2rem; font-weight: 600; line-height: 1.2;">Welcome Back, Spartans: Let's Make This Year Different</h1>
+                    
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; color: var(--charcoal-light); font-size: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-gold), var(--accent-copper)); display: flex; align-items: center; justify-content: center; color: var(--brown-900); font-weight: 600; font-size: 1.2rem;">TUH</div>
+                            <div>
+                                <div style="font-weight: 500; color: var(--charcoal); margin-bottom: 0.25rem;">The Unseen Hours Team</div>
+                                <div style="font-size: 0.9rem;">Student Mental Health</div>
+                            </div>
+                        </div>
+                        <span style="background: rgba(139, 105, 20, 0.1); color: var(--brown-600); padding: 0.5rem 1.5rem; border-radius: 2rem; font-weight: 500;">August 25, 2025</span>
+                        <span style="color: var(--sage-600);">5 min read</span>
+                    </div>
+                </header>
+
+                <article style="max-width: 750px; margin: 0 auto; font-size: 1.1rem; color: var(--charcoal-light); line-height: 1.8;">
+                    <p style="margin-bottom: 1.5rem;">The start of the academic year at MSU is always a special time. Campus comes alive again—the sidewalks fill with familiar chatter, the libraries hum with energy, and the air feels charged with new possibilities. For some of you, this is the very first time stepping onto campus as a Spartan. For others, this is another chapter in a journey you've already been writing here. Either way, welcome. You belong here.</p>
+
+                    <p style="margin-bottom: 1.5rem;">Transitions are exciting, but they can also be heavy. Syllabi pile up quickly, schedules fill with classes and jobs, and the pressure to keep up can feel constant. It's easy to think you have to do everything on your own, or that struggling means you're somehow "behind." But the truth is—everyone carries unseen hours. The quiet stress, the late-night doubts, and the moments of isolation that nobody else sees.</p>
+
+                    <p style="margin-bottom: 1.5rem;">This year, we want to challenge the idea that we have to hide those struggles. What if success wasn't just about grades or internships, but also about balance, mental health, and meaningful connections? What if we gave ourselves permission to rest, to ask for help, and to celebrate the small victories?</p>
+
+                    <p style="margin-bottom: 1.5rem;">At The Unseen Hours at Michigan State University, that's exactly what we're here for. We exist to remind you that those hidden moments matter just as much as the visible ones, and that you don't have to carry them by yourself.</p>
+
+                    <div style="background: linear-gradient(135deg, rgba(139, 105, 20, 0.05), rgba(74, 93, 65, 0.05)); border-left: 4px solid var(--brown-600); padding: 2rem; margin: 2rem 0; border-radius: 0.5rem;">
+                        <h3 style="color: var(--brown-600); margin-bottom: 1rem; font-size: 1.3rem;">🌱 Resources to Keep in Mind</h3>
+                        <p style="margin-bottom: 1rem;">MSU has a range of support systems that are here for you—whether you're a first-year student still figuring things out, or a senior preparing for what comes next:</p>
+                        <ul style="list-style-type: none; padding-left: 0;">
+                            <li style="margin-bottom: 0.8rem;"><strong>Counseling & Psychiatric Services (CAPS):</strong> Free counseling, group therapy, crisis services, and mental health support. Visit caps.msu.edu</li>
+                            <li style="margin-bottom: 0.8rem;"><strong>Olin Health Center:</strong> Medical care, wellness services, and support for your physical health.</li>
+                            <li style="margin-bottom: 0.8rem;"><strong>MSU Safe Place:</strong> Confidential support and shelter for anyone experiencing relationship violence or stalking.</li>
+                            <li style="margin-bottom: 0.8rem;"><strong>Neighborhood Engagement Centers:</strong> Each campus neighborhood has spaces with tutoring, health, and student success services.</li>
+                        </ul>
+                        <p>Using these resources isn't a sign of weakness—it's a way of taking care of yourself. And every Spartan deserves that.</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(74, 93, 65, 0.05), rgba(139, 105, 20, 0.05)); border-left: 4px solid var(--sage-600); padding: 2rem; margin: 2rem 0; border-radius: 0.5rem;">
+                        <h3 style="color: var(--sage-700); margin-bottom: 1rem; font-size: 1.3rem;">💬 A Community That Sees You</h3>
+                        <p style="margin-bottom: 1rem;">Beyond official resources, sometimes what helps the most is knowing you're not alone. That's where we come in. We're a student-led community that believes in support, connections and community service. We host events and create space for conversations that don't always happen in classrooms—but that are just as important for our growth.</p>
+                        <p>This year, you'll see us around campus and we'd love for you to be part of it. Join us for events and volunteer opportunities to make a difference!</p>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(184, 115, 51, 0.1)); border-left: 4px solid var(--accent-gold); padding: 2rem; margin: 2rem 0; border-radius: 0.5rem;">
+                        <h3 style="color: var(--brown-700); margin-bottom: 1rem; font-size: 1.3rem;">✨ A Different Kind of Year</h3>
+                        <p style="margin-bottom: 1rem;">So as you step into this semester—whether it's your first or your last,remember this: You don't have to have everything figured out. You don't have to do everything perfectly. What matters is showing up, taking care of yourself, and leaning on the community around you.</p>
+                        <p>Welcome back, Spartans. Let's make this year more successful by supporting each other better. Together, we can create a campus where no struggle goes unseen, and where we thrive not just in what we achieve, but in how we care for one another. Go Green!</p>
+                    </div>
+
+                    <div style="margin-top: 4rem; padding: 3rem; background: var(--beige-100); border-radius: 1rem; text-align: center;">
+                        <h3 style="color: var(--charcoal); margin-bottom: 1rem;">Join Our Community</h3>
+                        <p style="margin-bottom: 2rem;">Connect with The Unseen Hours at Michigan State University.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                            <a href="/join" style="background: linear-gradient(135deg, var(--brown-600), var(--brown-700)); color: var(--beige-50); padding: 0.8rem 2rem; border-radius: 2rem; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Get Involved</a>
+                            <a href="/events" style="background: transparent; color: var(--brown-600); padding: 0.8rem 2rem; border-radius: 2rem; text-decoration: none; font-weight: 600; border: 2px solid var(--brown-600); transition: all 0.3s ease;">View Events</a>
+                            <a href="https://instagram.com/theunseenhoursmsu" target="_blank" rel="noopener noreferrer" style="background: transparent; color: var(--brown-600); padding: 0.8rem 2rem; border-radius: 2rem; text-decoration: none; font-weight: 600; border: 2px solid var(--brown-600); transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                                Follow Us
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; font-style: italic; color: var(--charcoal-light); margin: 3rem 0 0 0;">Welcome back, Spartans. Here's to a year of growth, connection, and thriving together.</p>
+                </article>
+            </div>
         </div>
     </div>
 
@@ -1403,19 +1526,13 @@
                     const heroBottom = heroSection.getBoundingClientRect().bottom;
                     
                     if (heroBottom <= 0) {
-                        // Hide original header when hero is out of view
-                        originalHeader.style.opacity = '0';
-                        originalHeader.style.pointerEvents = 'none';
-                        
-                        // Make blog controls sticky
+                        // Make blog controls sticky and show them
                         blogControls.classList.add('sticky');
+                        setTimeout(() => blogControls.classList.add('show'), 100);
                     } else {
-                        // Show original header
-                        originalHeader.style.opacity = '1';
-                        originalHeader.style.pointerEvents = 'auto';
-                        
-                        // Remove sticky from blog controls
-                        blogControls.classList.remove('sticky');
+                        // Hide and remove sticky from blog controls
+                        blogControls.classList.remove('show');
+                        setTimeout(() => blogControls.classList.remove('sticky'), 300);
                     }
                 });
             }
@@ -1535,6 +1652,12 @@
                 breadcrumb: 'Surviving Finals Season',
                 url: 'surviving-finals-season-burnout-is-real',
                 fullTitle: 'Surviving Finals Season: Burnout Is Real, and You\'re Not Alone'
+            },
+            'welcome-back': {
+                title: 'Welcome Back, Spartans',
+                breadcrumb: 'Welcome Back, Spartans',
+                url: 'welcome-back-spartans-2025',
+                fullTitle: 'Welcome Back, Spartans: Let\'s Make This Year Different'
             }
         };
 
