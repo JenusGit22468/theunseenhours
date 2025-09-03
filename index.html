@@ -1308,12 +1308,17 @@
             border-radius: 2px;
         }
 
+        .partners-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 0 60px; /* Space for nav buttons on desktop */
+        }
+
         .partners-grid {
             display: flex;
-            justify-content: center;
             align-items: stretch;
             gap: 3rem;
-            flex-wrap: wrap;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .partner-item {
@@ -1411,7 +1416,7 @@
 
         /* Partner navigation buttons */
         .partner-nav {
-            display: none;
+            display: flex;
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -1452,6 +1457,19 @@
         .partner-nav svg {
             width: 24px;
             height: 24px;
+        }
+
+        /* Desktop styles - show 2 partners at once */
+        @media (min-width: 769px) {
+            .partners-wrapper {
+                max-width: 720px; /* Width for 2 partners (300px each) + gap + nav buttons */
+                margin: 0 auto;
+            }
+
+            .partner-item {
+                flex-shrink: 0;
+                /* Keep original width of 300px */
+            }
         }
 
         @media (max-width: 768px) {
@@ -3203,6 +3221,16 @@
                     </svg>
                 </button>
                 <div class="partners-grid">
+                    <a href="https://hopeineverystepwalk.com" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
+                        <img src="https://cdn.theunseenhours.org/WFOS.png" alt="Hope In Every Step MSU Logo" class="partner-logo">
+                        <div class="partner-name">Hope In Every Step MSU</div>
+                        <div class="partner-description">Annual mental health awareness walk at MSU, breaking stigma and building community</div>
+                    </a>
+                    <a href="https://www.instagram.com/msupsna?igsh=d2czaTF2Y3JhazN0" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
+                        <img src="https://cdn.theunseenhours.org/MSUPSNA-removebg-preview.png" alt="MSU Parkinson's Support Network Association Logo" class="partner-logo">
+                        <div class="partner-name">MSU Parkinson's Support Network Association</div>
+                        <div class="partner-description">Supporting the Parkinson's community through education, advocacy, and connection</div>
+                    </a>
                     <a href="https://brainbrewai.com" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
                         <img src="https://cdn.theunseenhours.org/BrainBrewAILogo-removebg-preview.png" alt="BrainBrew AI Logo" class="partner-logo">
                         <div class="partner-name">BrainBrew AI</div>
@@ -3212,11 +3240,6 @@
                         <img src="https://cdn.theunseenhours.org/CZSTransparentOne.png" alt="Ctrl+Z Stroke Logo" class="partner-logo">
                         <div class="partner-name">Ctrl+Z Stroke</div>
                         <div class="partner-description">Innovative stroke recovery solutions using cutting&#x2011;edge technology and personalized care</div>
-                    </a>
-                    <a href="https://www.instagram.com/msupsna?igsh=d2czaTF2Y3JhazN0" target="_blank" rel="noopener noreferrer" class="partner-item fade-in-up">
-                        <img src="https://cdn.theunseenhours.org/MSUPSNA-removebg-preview.png" alt="MSU Parkinson's Support Network Association Logo" class="partner-logo">
-                        <div class="partner-name">MSU Parkinson's Support Network Association</div>
-                        <div class="partner-description">Supporting the Parkinson's community through education, advocacy, and connection</div>
                     </a>
                 </div>
                 <button class="partner-nav partner-nav-next" aria-label="Next partner">
@@ -4353,66 +4376,152 @@
 
         // Partners carousel functionality
         function setupPartnersCarousel() {
+            const partnersWrapper = document.querySelector('.partners-wrapper');
             const partnersGrid = document.querySelector('.partners-grid');
             const prevBtn = document.querySelector('.partner-nav-prev');
             const nextBtn = document.querySelector('.partner-nav-next');
             
             if (partnersGrid && prevBtn && nextBtn) {
-                const partners = partnersGrid.querySelectorAll('.partner-item');
+                const partners = Array.from(partnersGrid.querySelectorAll('.partner-item'));
                 let currentIndex = 0;
+                let isDesktop = window.innerWidth > 768;
                 
-                // Update button states
-                function updateButtonStates() {
-                    prevBtn.disabled = currentIndex === 0;
-                    nextBtn.disabled = currentIndex === partners.length - 1;
+                // Clone partners for infinite scroll
+                function setupInfiniteScroll() {
+                    // Clear existing clones
+                    partnersGrid.querySelectorAll('.partner-clone').forEach(clone => clone.remove());
+                    
+                    if (isDesktop && partners.length > 0) {
+                        // Clone all partners and append them for infinite scroll
+                        partners.forEach(partner => {
+                            const clone = partner.cloneNode(true);
+                            clone.classList.add('partner-clone');
+                            partnersGrid.appendChild(clone);
+                        });
+                        
+                        // Clone first few partners and prepend them
+                        const firstClones = partners.slice(0, 2).map(partner => {
+                            const clone = partner.cloneNode(true);
+                            clone.classList.add('partner-clone');
+                            return clone;
+                        });
+                        firstClones.reverse().forEach(clone => partnersGrid.prepend(clone));
+                    }
                 }
                 
-                // Show partner using active class
-                function showPartner(index) {
-                    if (index >= 0 && index < partners.length) {
-                        // Remove active class from all partners
-                        partners.forEach(partner => partner.classList.remove('active'));
-                        // Add active class to current partner
-                        partners[index].classList.add('active');
-                        currentIndex = index;
-                        updateButtonStates();
+                // Calculate transform for desktop (2 partners at a time)
+                function getDesktopTransform(index) {
+                    const partnerWidth = 300; // Partner width
+                    const gap = 48; // 3rem gap
+                    const totalWidth = partnerWidth + gap;
+                    const offset = isDesktop ? totalWidth * 2 : 0; // Account for prepended clones
+                    return -index * totalWidth + offset;
+                }
+                
+                // Show partners for desktop
+                function showDesktopPartners(index, smooth = true) {
+                    if (!isDesktop) return;
+                    
+                    partnersGrid.style.transition = smooth ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+                    partnersGrid.style.transform = `translateX(${getDesktopTransform(index)}px)`;
+                    
+                    // Handle infinite scroll wrap-around
+                    if (smooth) {
+                        setTimeout(() => {
+                            if (index >= partners.length) {
+                                // Wrap to beginning
+                                currentIndex = 0;
+                                showDesktopPartners(0, false);
+                            } else if (index < 0) {
+                                // Wrap to end
+                                currentIndex = partners.length - 2;
+                                showDesktopPartners(currentIndex, false);
+                            }
+                        }, 500);
                     }
+                }
+                
+                // Show partner for mobile with infinite scroll
+                function showMobilePartner(index) {
+                    if (isDesktop) return;
+                    
+                    // Handle wrap-around for infinite scroll
+                    if (index >= partners.length) {
+                        currentIndex = 0;
+                        index = 0;
+                    } else if (index < 0) {
+                        currentIndex = partners.length - 1;
+                        index = partners.length - 1;
+                    }
+                    
+                    partners.forEach(partner => partner.classList.remove('active'));
+                    if (partners[index]) {
+                        partners[index].classList.add('active');
+                    }
+                    
+                    // Remove button disabled states for infinite scroll
+                    prevBtn.disabled = false;
+                    nextBtn.disabled = false;
                 }
                 
                 // Button click handlers
                 prevBtn.addEventListener('click', () => {
-                    if (currentIndex > 0) {
-                        showPartner(currentIndex - 1);
+                    if (isDesktop) {
+                        currentIndex -= 2; // Move 2 partners at a time
+                        showDesktopPartners(currentIndex);
+                    } else {
+                        currentIndex--;
+                        showMobilePartner(currentIndex);
                     }
                 });
                 
                 nextBtn.addEventListener('click', () => {
-                    if (currentIndex < partners.length - 1) {
-                        showPartner(currentIndex + 1);
+                    if (isDesktop) {
+                        currentIndex += 2; // Move 2 partners at a time
+                        showDesktopPartners(currentIndex);
+                    } else {
+                        currentIndex++;
+                        showMobilePartner(currentIndex);
                     }
                 });
                 
                 // Initialize
                 function initializeCarousel() {
-                    if (window.innerWidth <= 768) {
-                        // Mobile view
-                        prevBtn.style.display = 'flex';
-                        nextBtn.style.display = 'flex';
-                        showPartner(0); // Show first partner
-                    } else {
-                        // Desktop view
-                        prevBtn.style.display = 'none';
-                        nextBtn.style.display = 'none';
-                        // Remove active class for desktop
+                    isDesktop = window.innerWidth > 768;
+                    
+                    if (isDesktop) {
+                        // Desktop view with infinite scroll
+                        setupInfiniteScroll();
+                        currentIndex = 0;
+                        showDesktopPartners(0, false);
+                        
+                        // Reset mobile styles
                         partners.forEach(partner => {
                             partner.classList.remove('active');
-                            partner.style.display = ''; // Reset display for desktop
+                            partner.style.display = '';
                         });
+                    } else {
+                        // Mobile view
+                        partnersGrid.style.transform = '';
+                        partnersGrid.style.transition = '';
+                        
+                        // Remove clones for mobile
+                        partnersGrid.querySelectorAll('.partner-clone').forEach(clone => clone.remove());
+                        
+                        currentIndex = 0;
+                        showMobilePartner(0);
                     }
                 }
                 
                 // Handle resize
-                window.addEventListener('resize', initializeCarousel);
+                let resizeTimer;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(() => {
+                        initializeCarousel();
+                    }, 250);
+                });
+                
                 initializeCarousel();
             }
         }
