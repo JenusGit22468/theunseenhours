@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unseen Hours — On Hiatus</title>
+    <meta name="description" content="The Unseen Hours is currently on hiatus. Stay tuned for updates.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --beige-50: #FEFCF7;
+            --beige-100: #F7F3E9;
+            --beige-200: #F0E6D2;
+            --beige-300: #E8D5B7;
+            --brown-400: #A67C52;
+            --brown-500: #8B6914;
+            --brown-600: #7A5A0F;
+            --brown-700: #5D4A0F;
+            --brown-900: #3D2F0A;
+            --sage-500: #7A8471;
+            --sage-600: #6B7562;
+            --sage-700: #4A5D41;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-copper: #B87333;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--beige-50);
+            color: var(--charcoal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Atmospheric background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 70% at 80% 80%, rgba(74, 93, 65, 0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(183, 115, 51, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Subtle grain overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        /* Decorative top line */
+        .top-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-copper), var(--sage-600), var(--accent-gold));
+            background-size: 200% 100%;
+            animation: shimmer 4s linear infinite;
+            z-index: 100;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Main wrapper */
+        .page {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0;
+        }
+
+        /* Logo / org name */
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brown-600);
+            letter-spacing: 0.01em;
+            opacity: 0;
+            animation: fadeUp 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+            margin-bottom: 3.5rem;
+        }
+
+        /* Central card */
+        .card {
+            background: rgba(254, 252, 247, 0.75);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 2.5rem;
+            padding: 3.5rem 3rem;
+            width: 100%;
+            box-shadow:
+                0 2px 4px rgba(139, 105, 20, 0.04),
+                0 8px 24px rgba(139, 105, 20, 0.08),
+                0 32px 64px rgba(139, 105, 20, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+
+        /* Pause icon */
+        .pause-mark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pause-bar {
+            width: 10px;
+            height: 44px;
+            border-radius: 5px;
+            background: linear-gradient(180deg, var(--accent-gold), var(--accent-copper));
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        .pause-bar:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scaleY(1); opacity: 1; }
+            50% { transform: scaleY(0.7); opacity: 0.7; }
+        }
+
+        /* Headline */
+        .headline {
+            font-family: 'Crimson Text', serif;
+            font-size: clamp(2.2rem, 5vw, 3rem);
+            font-weight: 600;
+            color: var(--charcoal);
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.25rem;
+        }
+
+        .headline em {
+            font-style: italic;
+            color: var(--brown-600);
+        }
+
+        /* Divider line */
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-copper));
+            border-radius: 2px;
+            margin: 0 auto 1.5rem;
+        }
+
+        /* Body copy */
+        .body-text {
+            font-size: 1.05rem;
+            color: var(--charcoal-light);
+            line-height: 1.75;
+            font-weight: 300;
+            max-width: 480px;
+            margin: 0 auto 2rem;
+        }
+
+        .body-text strong {
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        /* Footer note */
+        .footer-note {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: rgba(74, 93, 65, 0.5);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.9s forwards;
+        }
+
+        /* Keyframe */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating decorative orb */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            opacity: 0.35;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3), transparent 70%);
+            top: -80px;
+            right: -80px;
+            animation-duration: 12s;
+        }
+
+        .orb-2 {
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(74, 93, 65, 0.25), transparent 70%);
+            bottom: -60px;
+            left: -60px;
+            animation-duration: 15s;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            33% { transform: translate(20px, -15px); }
+            66% { transform: translate(-10px, 10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 540px) {
+            .page {
+                padding: 3rem 1.25rem;
+            }
+
+            .card {
+                padding: 2.5rem 1.75rem;
+                border-radius: 2rem;
+            }
+
+            .pause-bar {
+                width: 8px;
+                height: 36px;
+            }
+
+            .headline {
+                font-size: 2rem;
+            }
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-line"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <main class="page">
+
+        <div class="logo">The Unseen Hours</div>
+
+        <div class="card">
+
+            <div class="pause-mark">
+                <div class="pause-bar"></div>
+                <div class="pause-bar"></div>
+            </div>
+
+            <h1 class="headline">We're taking<br><em>a brief pause.</em></h1>
+
+            <div class="divider"></div>
+
+            <p class="body-text">
+                The Unseen Hours is currently on hiatus. We're stepping back to rest, regroup, and come back stronger than ever for our community.
+                <br><br>
+                <strong>Stay tuned — more updates are coming soon.</strong>
+            </p>
+
+
+
+        </div>
+
+        <p class="footer-note">© 2026 The Unseen Hours &nbsp;·&nbsp; A student-led volunteer initiative at Michigan State University</p>
+
+    </main>
+
+</body>
+</html>
